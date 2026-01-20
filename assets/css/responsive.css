@@ -1,0 +1,211 @@
+/* ===============================
+   RESPONSIVE STYLES
+================================ */
+
+/* ---------- <= 1024px ---------- */
+@media (max-width: 1024px) {
+  section {
+    padding: 64px 0;
+  }
+
+  .hero {
+    padding: 100px 0;
+  }
+
+  .services__grid {
+    gap: 20px;
+  }
+}
+
+/* ---------- <= 768px (TABLET / MOBILE) ---------- */
+@media (max-width: 768px) {
+
+  /* Typography */
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+
+  /* Header */
+  .header__inner {
+    min-height: 72px;
+  }
+
+  .logo img {
+    height: 44px; /* менше, але ще солідно */
+  }
+
+  /* Hero */
+  .hero {
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .hero p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  /* Services */
+  .services__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Portfolio */
+  .portfolio__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Contact */
+  .contact__form {
+    width: 100%;
+  }
+}
+
+/* ---------- <= 480px (SMALL PHONES) ---------- */
+@media (max-width: 480px) {
+
+  section {
+    padding: 56px 0;
+  }
+
+  .hero {
+    padding: 64px 0;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  /* Portfolio */
+  .portfolio__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  /* Mobile menu spacing */
+  .nav--mobile ul {
+    gap: 20px;
+  }
+
+  .nav--mobile a {
+    font-size: 18px;
+  }
+}
+
+
+/* ===============================
+   PORTFOLIO RESPONSIVE
+================================ */
+
+/* tablets */
+@media (max-width: 1024px) {
+  .portfolio__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* phones */
+@media (max-width: 600px) {
+  .portfolio__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio__item {
+    border-radius: 14px;
+  }
+}
+
+
+@media (hover: none) {
+  .portfolio__overlay {
+    opacity: 1;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .faq {
+    padding: 120px 0;
+  }
+
+  .faq__subtitle {
+    margin-bottom: 64px;
+  }
+
+  .faq__question {
+    padding: 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__content::before {
+    inset: -20px -20px -30px -20px;
+  }
+}
+
+/* ===============================
+   ERROR - 404
+================================ */
+
+@media (max-width: 768px) {
+  .error-404 {
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .error-404__inner {
+    margin-top: -40px;
+  }
+}
+@media (max-width: 768px) {
+  .error-404__inner img {
+    display: block;
+    margin: 0 auto 20px;
+  }
+}
+@media (max-width: 768px) {
+  .error-404__actions {
+    width: 100%;
+  }
+
+  .error-404__actions .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+@media (max-width: 768px) {
+  .error-404 {
+    min-height: 100svh;
+  }
+}
+

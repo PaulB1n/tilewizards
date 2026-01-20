@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- HOME -->
+  <url>
+    <loc>https://tilewizards.ca/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- MAIN PAGES -->
+  <url>
+    <loc>https://tilewizards.ca/services.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://tilewizards.ca/portfolio.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- SECTIONS  -->
+  <url>
+    <loc>https://tilewizards.ca/#contact</loc>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://tilewizards.ca/#faq</loc>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

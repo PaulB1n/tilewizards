@@ -1,0 +1,113 @@
+[
+  {
+    "id": "house",
+    "title": "Residential House Projects",
+    "cover": "assets/images/portfolio/house-1.jpg",
+    "stats": [
+    "Full house tile installation",
+    "Bathrooms, kitchens & floors",
+    "Precision leveling & clean cuts"
+  ],
+    "images": [
+      "assets/images/portfolio/house-1.jpg",
+      "assets/images/portfolio/house-2.jpg",
+      "assets/images/portfolio/house-3.jpg",
+      "assets/images/portfolio/house-4.jpg",
+      "assets/images/portfolio/house-5.jpg",
+      "assets/images/portfolio/house-6.jpg",
+      "assets/images/portfolio/house-7.jpg",
+      "assets/images/portfolio/house-8.jpg",
+      "assets/images/portfolio/house-9.jpg",
+      "assets/images/portfolio/house-10.jpg"
+    ]
+  },
+
+  {
+    "id": "mosaic",
+    "title": "Custom Mosaic Tile Work",
+    "cover": "assets/images/portfolio/mosaic-1.jpg",
+    "stats": [
+  "Custom mosaic tile installation",
+  "Showers, floors & accent walls",
+  "Detailed layouts & premium finish"
+],
+    "images": [
+      "assets/images/portfolio/mosaic-1.jpg",
+      "assets/images/portfolio/mosaic-2.jpg",
+      "assets/images/portfolio/mosaic-3.jpg",
+      "assets/images/portfolio/mosaic-4.jpg",
+      "assets/images/portfolio/mosaic-5.jpg"
+    ]
+  },
+
+  {
+    "id": "pool",
+    "title": "Pool Tile Installation",
+    "cover": "assets/images/portfolio/pool-1.jpg",
+    "stats": [
+  "Swimming pool tile installation",
+  "Waterproof & frost-resistant systems",
+  "Outdoor porcelain & pool-rated tile"
+],
+    "images": [
+      "assets/images/portfolio/pool-1.jpg",
+      "assets/images/portfolio/pool-2.jpg",
+      "assets/images/portfolio/pool-3.jpg"
+    ]
+  },
+
+  {
+    "id": "slabs",
+    "title": "Large Format Slabs",
+    "cover": "assets/images/portfolio/slabs-1.jpg",
+    "stats": [
+  "Large format porcelain slabs",
+  "Perfect alignment & minimal joints",
+  "Modern high-end interiors"
+],
+    "images": [
+      "assets/images/portfolio/slabs-1.jpg",
+      "assets/images/portfolio/slabs-2.jpg",
+      "assets/images/portfolio/slabs-3.jpg",
+      "assets/images/portfolio/slabs-4.jpg",
+      "assets/images/portfolio/slabs-5.jpg",
+      "assets/images/portfolio/slabs-6.jpg",
+      "assets/images/portfolio/slabs-7.jpg",
+      "assets/images/portfolio/slabs-8.jpg"
+    ]
+  },
+  {
+    "id": "facade",
+    "title": "Facade Tile Installation",
+    "cover": "assets/images/portfolio/facade-1.jpg",
+    "stats": [
+  "Exterior facade tile installation",
+  "Weather-resistant porcelain tile",
+  "Modern residential exteriors"
+],
+    "images": [
+      "assets/images/portfolio/facade-1.jpg"
+    ]
+  },
+
+  {
+    "id": "steps",
+    "title": "Steps & Staircase Tile",
+    "cover": "assets/images/portfolio/steps-1.jpg",
+    "stats": [
+  "Indoor & outdoor staircase tile",
+  "Anti-slip tile solutions",
+  "Clean edges & long-term durability"
+],
+    "images": [
+      "assets/images/portfolio/steps-1.jpg",
+      "assets/images/portfolio/steps-2.jpg",
+      "assets/images/portfolio/steps-3.jpg",
+      "assets/images/portfolio/steps-4.jpg",
+      "assets/images/portfolio/steps-5.jpg",
+      "assets/images/portfolio/steps-6.jpg",
+      "assets/images/portfolio/steps-7.jpg",
+      "assets/images/portfolio/steps-8.jpg"
+    ]
+  }
+]
