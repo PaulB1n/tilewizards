@@ -38,12 +38,28 @@ document.dispatchEvent(new Event("partialsLoaded"));
     document.body.classList.toggle("menu-open");
   });
 
-  document.querySelectorAll(".nav--mobile a").forEach(link => {
-    link.addEventListener("click", () => {
-      mobileMenu.classList.remove("active");
-      document.body.classList.remove("menu-open");
-    });
+  // Close mobile menu ONLY on navigation click
+// 1. Навигационные пункты (карточки)
+document.querySelectorAll(".nav--mobile .menu-card").forEach(link => {
+  link.addEventListener("click", () => {
+    closeMobileMenu();
   });
+});
+
+// 2. CTA → форма (ТОЖЕ закрываем)
+const cta = document.querySelector(".nav--mobile .menu-cta");
+if (cta) {
+  cta.addEventListener("click", () => {
+    closeMobileMenu();
+  });
+}
+
+// Универсальная функция закрытия
+function closeMobileMenu() {
+  mobileMenu.classList.remove("active");
+  document.body.classList.remove("menu-open");
+}
+
 
   const menuClose = document.getElementById("menuClose");
 
@@ -181,3 +197,26 @@ document.addEventListener("partialsLoaded", () => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const video = document.querySelector(".hero__video");
+  if (!video) return;
+
+  const isMobile =
+    window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+  // 2. Respect reduced motion
+  const prefersReducedMotion =
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (isMobile || prefersReducedMotion) {
+    return;
+  }
+
+  const source = document.createElement("source");
+  source.src = "assets/video/hero.mp4";
+  source.type = "video/mp4";
+
+  video.appendChild(source);
+
+  video.load();
+});

@@ -153,19 +153,84 @@
 
 
 @media (max-width: 768px) {
+
   .faq {
-    padding: 120px 0;
+    padding-top: 96px;
+    padding-bottom: 120px;
+  }
+
+  .faq__title {
+    font-size: 28px;
   }
 
   .faq__subtitle {
-    margin-bottom: 64px;
+    font-size: 15px;
+    margin-bottom: 56px;
+    padding: 0 12px;
+  }
+
+  .faq__list {
+    gap: 16px;
+    padding: 0 6px;
+  }
+
+  .faq__item {
+    border-radius: 16px;
   }
 
   .faq__question {
-    padding: 20px;
+    padding: 18px 52px 18px 18px;
     font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .faq__icon {
+    right: 18px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .faq__answer p {
+    padding: 0 18px 18px;
+    font-size: 14px;
   }
 }
+@media (max-width: 420px) {
+
+  .faq__title {
+    font-size: 24px;
+  }
+
+  .faq__question {
+    font-size: 14.5px;
+  }
+
+  .faq__answer p {
+    font-size: 13.5px;
+  }
+}
+@media (max-width: 768px) {
+  .faq__item--featured::after {
+    display: none;
+  }
+}
+@media (hover: none) {
+
+  .faq__item:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .faq__question:active {
+    background: rgba(255,255,255,0.06);
+  }
+}
+@media (hover: none) {
+  .faq__question:active {
+    background: rgba(255,255,255,0.05);
+  }
+}
+
 
 @media (max-width: 768px) {
   .hero__content::before {
@@ -208,4 +273,83 @@
     min-height: 100svh;
   }
 }
+@media (max-width: 768px) {
+
+  .hero__video {
+    display: none;
+  }
+
+  .hero {
+    background: url("../images/hero-poster.jpg") center / cover no-repeat;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(8px) brightness(0.9);
+    transform: scale(1.1);
+    z-index: 0;
+  }
+
+  .hero__overlay {
+    z-index: 1;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+  }
+}
+/* === DISABLE HERO VIDEO ON MOBILE (PORTRAIT + LANDSCAPE) === */
+/* === HERO MOBILE FALLBACK (ALL TOUCH DEVICES) === */
+@media (hover: none) and (pointer: coarse) {
+
+  .hero__video {
+    display: none;
+  }
+
+  .hero {
+    background: url("../images/hero-poster.jpg") center / cover no-repeat;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(4px) ;
+    transform: scale(1.0);
+    z-index: 0;
+  }
+
+  .hero__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.78)
+  );
+}
+.hero h1 {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+ .seo-text 
+
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .seo-text {
+    margin-top: 80px;
+    padding: 0 16px;
+    font-size: 11px;
+    opacity: 0.22;
+  }
+}
+
+
 

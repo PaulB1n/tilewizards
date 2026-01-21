@@ -9,96 +9,118 @@ document.addEventListener("partialsLoaded", () => {
     .then(res => res.json())
     .then(items => {
       items.slice(0, LIMIT).forEach(item => {
-        const div = document.createElement("div");
-div.className = "portfolio__item";
-div.dataset.images = JSON.stringify(item.images);
+        const card = document.createElement("div");
+        card.className = "portfolio__item portfolio__item--card";
 
-div.className = "portfolio__item portfolio__item--card";
-div.dataset.images = JSON.stringify(item.images);
+        card.dataset.images = JSON.stringify(item.images);
 
-div.innerHTML = `
-  <div class="portfolio__media">
-    <img src="${item.cover}" alt="${item.title}" loading="lazy">
-  </div>
+        const altText =
+          `${item.title} – professional tile installation in Toronto GTA`;
 
-  <div class="portfolio__content">
-    <h3 class="portfolio__title">${item.title}</h3>
-    <p class="portfolio__location">${item.location || "Toronto, ON"}</p>
+        card.innerHTML = `
+          <div class="portfolio__media">
+            <img
+              src="${item.cover}"
+              alt="${altText}"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
 
-    <ul class="portfolio__stats">
-  ${
-    item.stats
-      ? item.stats.map(stat => `<li>${stat}</li>`).join("")
-      : `
-        <li>Professional tile installation</li>
-        <li>Porcelain & ceramic tile</li>
-        <li>Residential project</li>
-      `
-  }
-</ul>
+          <div class="portfolio__content">
+            <h3 class="portfolio__title">${item.title}</h3>
+            <p class="portfolio__location">${item.location || "Toronto, ON"}</p>
 
-  </div>
-`;
+            <ul class="portfolio__stats">
+              ${
+                item.stats
+                  ? item.stats.map(s => `<li>${s}</li>`).join("")
+                  : `
+                    <li>Professional tile installation</li>
+                    <li>Porcelain & ceramic tile</li>
+                    <li>Residential project</li>
+                  `
+              }
+            </ul>
+          </div>
+        `;
 
-
-
-        grid.appendChild(div);
+        grid.appendChild(card);
       });
     })
     .catch(err => console.error("Portfolio load error:", err));
 });
 
 
+// ================= LIGHTBOX =================
+
 let currentImages = [];
 let currentIndex = 0;
 
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = lightbox.querySelector("img");
+const counter = document.querySelector(".lightbox__counter");
+
 
 document.addEventListener("click", e => {
-  const item = e.target.closest(".portfolio__item");
-  if (!item) return;
+  const img = e.target.closest(".portfolio__media img");
+  if (!img) return;
 
-  if (!item.dataset.images) return;
+  const item = img.closest(".portfolio__item");
+  if (!item || !item.dataset.images) return;
 
-  const images = JSON.parse(item.dataset.images);
-  if (!images.length) return;
-
-  currentImages = images;
+  currentImages = JSON.parse(item.dataset.images);
   currentIndex = 0;
 
-  lightboxImg.src = images[0];
-updateCounter();
-lightbox.classList.add("active");
-preloadImage(1);
-document.body.style.overflow = "hidden";
+  lightboxImg.src = currentImages[currentIndex];
+  lightboxImg.alt = img.alt;
 
-});
+  updateCounter();
+  preloadImage(1);
 
-
-
-/* close lightbox */
-document.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
-
-
-/* close on background click */
-document.getElementById("lightbox").addEventListener("click", e => {
-  if (e.target.id === "lightbox") {
-    closeLightbox();
-  }
-});
-
-function openLightbox() {
   lightbox.classList.add("active");
   document.body.style.overflow = "hidden";
+});
+
+
+// ================= CONTROLS =================
+
+document.querySelector(".lightbox__close").onclick = closeLightbox;
+
+lightbox.addEventListener("click", e => {
+  if (e.target.id === "lightbox") closeLightbox();
+});
+
+document.querySelector(".lightbox__next").onclick = () => changeSlide(1);
+document.querySelector(".lightbox__prev").onclick = () => changeSlide(-1);
+
+document.addEventListener("keydown", e => {
+  if (!lightbox.classList.contains("active")) return;
+
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") changeSlide(1);
+  if (e.key === "ArrowLeft") changeSlide(-1);
+});
+
+
+// ================= FUNCTIONS =================
+
+function changeSlide(direction) {
+  if (!currentImages.length) return;
+
+  currentIndex =
+    (currentIndex + direction + currentImages.length) %
+    currentImages.length;
+
+  lightboxImg.src = currentImages[currentIndex];
+  updateCounter();
+  preloadImage(currentIndex + direction);
 }
 
 function closeLightbox() {
   lightbox.classList.remove("active");
   document.body.style.overflow = "";
 }
-
-const counter = document.querySelector(".lightbox__counter");
 
 function updateCounter() {
   if (!counter) return;
@@ -112,35 +134,6 @@ function updateCounter() {
   counter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
 }
 
-
-document.querySelector(".lightbox__next").onclick = () => {
-  if (!currentImages.length) return;
-
-  currentIndex = (currentIndex + 1) % currentImages.length;
-  lightboxImg.src = currentImages[currentIndex];
-  updateCounter();
-  preloadImage((currentIndex + 1) % currentImages.length);
-};
-
-document.querySelector(".lightbox__prev").onclick = () => {
-  if (!currentImages.length) return;
-
-  currentIndex =
-    (currentIndex - 1 + currentImages.length) % currentImages.length;
-  lightboxImg.src = currentImages[currentIndex];
-  updateCounter();
-  preloadImage(
-    (currentIndex - 1 + currentImages.length) % currentImages.length
-  );
-};
-
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && lightbox.classList.contains("active")) {
-    closeLightbox();
-  }
-});
-
 function preloadImage(index) {
   if (!currentImages[index]) return;
 
@@ -149,28 +142,19 @@ function preloadImage(index) {
 }
 
 
-let touchStartX = 0;
-let touchEndX = 0;
+// ================= SWIPE (MOBILE) =================
+
+let startX = 0;
 
 lightbox.addEventListener("touchstart", e => {
-  touchStartX = e.changedTouches[0].screenX;
+  startX = e.changedTouches[0].screenX;
 });
 
 lightbox.addEventListener("touchend", e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
+  const diff = e.changedTouches[0].screenX - startX;
+  const threshold = 50;
+
+  if (diff < -threshold) changeSlide(1);
+  if (diff > threshold) changeSlide(-1);
 });
-
-function handleSwipe() {
-  const threshold = 50; 
-
-  if (touchEndX < touchStartX - threshold) {
-    // swipe left → next
-    document.querySelector(".lightbox__next").click();
-  }
-
-  if (touchEndX > touchStartX + threshold) {
-    // swipe right → prev
-    document.querySelector(".lightbox__prev").click();
-  }
-}
+  
