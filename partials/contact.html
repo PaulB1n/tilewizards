@@ -56,31 +56,44 @@
 
     <!-- RIGHT: FORM -->
     <form class="contact__form contact__form--ads">
-      <h2>Get a Free Tile Installation Estimate</h2>
-      <p class="contact__form-subtitle">
-        Free on-site estimate • No hidden fees • Fast response</p>
+  <h2>Get a Free Tile Installation Estimate</h2>
 
-      <input type="text" placeholder="Your Name *" required>
-<input type="tel" placeholder="Phone Number *" required>
+  <p class="contact__form-subtitle">
+    Free on-site estimate • No hidden fees • Fast response
+  </p>
 
-<select required>
-  <option value="" disabled selected>Type of Project *</option>
-  <option>Bathroom</option>
-  <option>Kitchen</option>
-  <option>Flooring</option>
-  <option>Backsplash</option>
-  <option>Other</option>
-</select>
+  <div class="form__group">
+    <input type="text" placeholder="Your Name *" required>
+    <input type="tel" placeholder="Phone Number *" required>
+  </div>
 
-<textarea placeholder="Project details (optional)"></textarea>
+<div class="form__group">
+  <select required>
+    <option value="" disabled hidden>
+      Type of Project *
+    </option>
+    <option value="bathroom">Bathroom</option>
+    <option value="kitchen">Kitchen</option>
+    <option value="flooring">Flooring</option>
+    <option value="backsplash">Backsplash</option>
+    <option value="other">Other</option>
+  </select>
+</div>
 
 
-      <button type="submit" class="btn btn--primary btn--lg">Send Request</button>
-      <p class="contact__note">
-  We usually respond within 24 hours. No spam.
-</p>
+  <div class="form__group">
+    <textarea placeholder="Project details (optional)"></textarea>
+  </div>
 
-    </form>
+  <button type="submit" class="btn btn--primary btn--lg">
+    Send Request
+  </button>
+
+  <p class="contact__note">
+    We usually respond within 24 hours. No spam.
+  </p>
+</form>
+
     
   </div>
 </section>
