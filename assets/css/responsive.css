@@ -4,16 +4,9 @@
 
 /* ---------- <= 1024px ---------- */
 @media (max-width: 1024px) {
-  section {
-    padding: 64px 0;
-  }
-
+ 
   .hero {
     padding: 100px 0;
-  }
-
-  .services__grid {
-    gap: 20px;
   }
 }
 
@@ -84,9 +77,7 @@
 /* ---------- <= 480px (SMALL PHONES) ---------- */
 @media (max-width: 480px) {
 
-  section {
-    padding: 56px 0;
-  }
+  
 
   .hero {
     padding: 64px 0;
@@ -153,11 +144,6 @@
 
 
 @media (max-width: 768px) {
-
-  .faq {
-    padding-top: 96px;
-    padding-bottom: 120px;
-  }
 
   .faq__title {
     font-size: 28px;

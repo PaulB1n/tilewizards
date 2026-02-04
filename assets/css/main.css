@@ -59,6 +59,26 @@ body {
     "Segoe UI", Roboto, Inter, Arial, sans-serif;
   line-height: 1.6;
 }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(212,175,55,0.06),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      #0b0b0b 0%,
+      #0e0e0e 40%,
+      #0b0b0b 100%
+    );
+}
+
 
 /* ===============================
    LAYOUT
@@ -71,10 +91,25 @@ body {
 }
 
 
-
-section {
+/* ===============================
+   SECTION (CONTENT ONLY)
+================================ */
+.section {
   padding: var(--section-padding-desktop) 0;
 }
+
+@media (max-width: 900px) {
+  .section {
+    padding: var(--section-padding-tablet) 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: var(--section-padding-mobile) 0;
+  }
+}
+
 /* ===============================
    TYPOGRAPHY
 ================================ */
@@ -160,7 +195,7 @@ p {
   z-index: 1000;
 
   background: rgba(0,0,0,0.92);
-  backdrop-filter: blur(8px);
+
   border-bottom: 1px solid rgba(255,255,255,0.06);
 
   transition:
@@ -335,7 +370,30 @@ p {
 .hero {
   position: relative;
   padding: 0;
+  background: none;
 }
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 220px; 
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.25) 35%,
+    rgba(0,0,0,0.55) 65%,
+    var(--bg-main) 100%
+  );
+
+  z-index: 2;
+  pointer-events: none;
+}
+
+
 
 .hero--video { 
   position: relative; 
@@ -390,17 +448,7 @@ p {
 }
 
 
-.hero__content::before {
-  background: radial-gradient(
-    circle at 15% 40%,
-    rgba(0,0,0,0.60),
-    rgba(0,0,0,0.35) 40%,
-    rgba(0,0,0,0.15) 65%,
-    rgba(0,0,0,0.05) 80%,
-    transparent 100%
-  );
-  inset: -60px -120px -80px -20px;
-}
+
 
 
 
@@ -565,10 +613,6 @@ p {
    SERVICES
 ================================ */
 
-.services {
-  background: transparent;
-}
-
 .services .container {
   display: grid;
   gap: 40px;
@@ -579,10 +623,29 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
-  margin-bottom: 80px;
+  margin-bottom: 0px;
   align-items: stretch;
 }
 
+.services.section {
+  position: relative;
+}
+
+.services.section::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212,175,55,0.35),
+    transparent
+  );
+}
 
 
 /* CARD */
@@ -632,7 +695,7 @@ p {
 
 /* HOVER EFFECT */
 .services article:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   border-color: rgba(212,175,55,0.35);
   box-shadow: 0 18px 40px rgba(0,0,0,0.55);
 }
@@ -728,12 +791,9 @@ p {
 
 
 /* ===============================
-   FOOTER — FINAL
+   FOOTER 
 ================================ */
 
-/* ===============================
-   FOOTER — FINAL (ROOT BASED)
-================================ */
 
 .footer {
   padding: 80px 0 48px;
@@ -742,18 +802,6 @@ p {
   font-size: 14px;
   line-height: 1.65;
   color: var(--text-secondary);
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,0),
-      rgba(0,0,0,0.75) 80%
-    ),
-    radial-gradient(
-      circle at top,
-      rgba(212,175,55,0.08),
-      transparent 60%
-    );
 
   border-top: 1px solid rgba(255,255,255,0.06);
 }
@@ -781,6 +829,7 @@ p {
   font-size: 14px;
   line-height: 1.7;
   color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 /* CONTACT */
@@ -789,6 +838,7 @@ p {
   flex-direction: column;
   gap: 12px;
   font-size: 14px;
+  font-style: normal;
 }
 
 .footer__contact::before {
@@ -811,15 +861,37 @@ p {
 
   transition:
     color 0.25s ease,
-    transform 0.25s ease,
-    opacity 0.25s ease;
+    opacity 0.25s ease,
+    text-shadow 0.25s ease;
 }
 
 .footer__contact a:hover {
   color: var(--accent-main);
   opacity: 1;
-  transform: translateX(4px);
+  text-shadow: 0 0 8px rgba(255, 200, 60, 0.35);
 }
+
+.footer__contact a {
+  line-height: 1.4;
+}
+.footer__contact a span,
+.footer__contact a strong {
+  color: var(--text-main);
+}
+
+.footer__contact a::first-letter {
+  filter: drop-shadow(0 0 6px rgba(255, 200, 60, 0.6));
+}
+
+.footer__contact .icon {
+  display: inline-flex;
+  transition: transform 0.25s ease;
+}
+
+.footer__contact a:hover .icon {
+  transform: scale(1.15);
+}
+
 
 /* PHONE — stronger */
 .footer__phone {
@@ -914,6 +986,7 @@ p {
 
   .footer__brand p {
     max-width: none;
+  
   }
 
   .footer__seo {
@@ -929,6 +1002,45 @@ p {
     rgba(0,0,0,0.9) 60%
   );
 }
+
+.section.cta {
+  padding-top: calc(var(--section-padding-desktop) + 60px);
+  padding-bottom: calc(var(--section-padding-desktop) + 60px);
+  position: relative;
+  background: none;
+}
+
+.section.cta::before {
+  content: "";
+  position: absolute;
+  inset: -40px 0;
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 30% 50%,
+      rgba(212,175,55,0.10),
+      rgba(212,175,55,0.04) 35%,
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+/* щоб контент CTA завжди був поверх */
+.section.cta > * {
+  position: relative;
+  z-index: 1;
+}
+.section.cta .btn {
+  box-shadow: 0 12px 30px rgba(212,175,55,0.35);
+}
+
+.section.cta .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(212,175,55,0.45);
+}
+
 
 
 .cta__inner {
@@ -1312,13 +1424,7 @@ body.menu-open {
    CONTACT SECTION
 ================================ */
 
-.contact {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.55),
-    rgba(0, 0, 0, 0.9)
-  );
-}
+
 
 /* ===============================
    LAYOUT
@@ -1604,12 +1710,12 @@ body.menu-open {
 
 .reviews {
   position: relative;
+  padding-top: calc(var(--section-padding-desktop) + 40px);
+  padding-bottom: calc(var(--section-padding-desktop) + 40px);
+}
 
-  background: radial-gradient(
-    circle  at 40% 55%,
-    rgba(212,175,55,0.07),
-  rgba(0,0,0,0.95) 65%
-  );
+.reviews::before {
+  inset: 20px 0; 
 }
 
 
@@ -1621,20 +1727,7 @@ body.menu-open {
   margin-bottom: 64px;
 }
 
-.reviews::before {
-  content: "";
-  position: absolute;
-  top: -120px;
-  left: 0;
-  width: 100%;
-  height: 120px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0),
-    rgba(0,0,0,0.85)
-  );
-  pointer-events: none;
-} 
+
 
 .reviews__badge {
   display: inline-flex;
@@ -1732,10 +1825,6 @@ body.menu-open {
 }
 
 @media (max-width: 600px) {
-  .reviews {
-    padding: 70px 0;
-  }
-
   .reviews__title {
     font-size: 28px;
   }
@@ -1798,14 +1887,7 @@ body.menu-open {
    FAQ
 ================================ */
 
-.faq {
 
-  background: linear-gradient(
-    180deg,
-    rgba(0,0,0,0.85),
-    rgba(0,0,0,0.95)
-  );
-}
 
 .faq__title {
   text-align: center;

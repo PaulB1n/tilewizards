@@ -1,248 +1,104 @@
-# Tile Installation Website — Toronto & GTA
+# Tile Wizards — High-Conversion Business Website
 
-Professional tile installation website optimized for **Google Ads**, **mobile conversions** and real project showcasing.
+Modern, SEO-optimized website built for a professional tile installation company in Toronto & GTA.  
+The project focuses on performance, clean UI, and lead generation without using heavy frameworks.
 
-Static website with modular structure, dynamic portfolio, lightbox gallery and call-first UX.
+This website was designed and developed as a **custom solution**, not a template.
+
+---
+
+## 🎯 Project Goals
+
+- Generate qualified leads
+- Rank for local SEO (Toronto & GTA)
+- Showcase real portfolio projects
+- Deliver a premium, trustworthy brand feel
+- Perform fast on mobile devices
+
+---
+
+## 🧰 Tech Stack
+
+- **HTML5** — semantic, accessible markup
+- **CSS3** — Grid, Flexbox, CSS variables
+- **JavaScript (ES6+)** — vanilla JS only
+- **JSON** — dynamic content loading
+
+No frameworks. No build tools. No dependencies.
+
+---
+
+## 🧠 Key Solutions Implemented
+
+- **Reusable HTML partials**
+  - Header, footer, and sections loaded dynamically
+- **Hero section with background video**
+  - Smart fallback for mobile & reduced-motion devices
+- **Dynamic portfolio**
+  - Projects loaded from JSON
+  - Custom lightbox with keyboard & swipe support
+- **Custom mobile navigation**
+  - Scroll lock, smooth transitions
+- **FAQ accordion**
+- **Scroll reveal animations**
+- **Fully responsive layout**
+- **SEO-ready structure**
+  - Meta tags
+  - FAQ Schema (JSON-LD)
+  - Local keywords
+
+---
+
+## 📱 Performance & UX
+
+- Mobile-first responsive design
+- Lazy-loaded images
+- Touch-friendly interactions
+- Reduced motion support
+- Optimized CSS animations
+- No external JS libraries
 
 ---
 
 ## 📁 Project Structure
 
-/
-├── index.html # Home page (main landing page)
-├── portfolio.html # Portfolio page
-├── services.html # Services page
-├── contact.html # Contact & quote page
-├── faq.html # FAQ page
-├── 404.html # Custom 404 error page
-│
-├── partials/
-│ ├── header.html # Header & navigation (desktop + mobile)
-│ ├── footer.html # Footer
-│ ├── portfolio.html # Portfolio section markup
-│ ├── services.html # Services sections
-│ └── faq.html # FAQ section
-│
-├── assets/
-│ ├── css/
-│ │ ├── main.css # Global styles & layout
-│ │ ├── portfolio.css # Portfolio grid & lightbox styles
-│ │ └── responsive.css # Responsive overrides
-│ │
-│ ├── js/
-│ │ ├── main.js # Core UI logic & interactions
-│ │ └── gallery.js # Portfolio grid & lightbox logic
-│ │
-│ ├── data/
-│ │ └── portfolio.json # Portfolio categories & images
-│ │
-│ └── images/
-│ └── portfolio/ # Portfolio images by category
-
-markdown
-Копировать код
+assets/
+├── css/ → modular styles (main / portfolio / responsive)
+├── js/ → UI logic & gallery
+├── data/ → JSON-based portfolio
+├── images/
+└── video/
+partials/ → reusable HTML sections
 
 ---
 
-## 🏠 index.html — Home Page
+## 💼 Use Case
 
-Main landing page designed for paid traffic and conversions.
-
-### Purpose
-- Entry point for Google Ads
-- Converts visitors into calls and quote requests
-
-### Key Sections
-- Hero with video background and primary CTAs
-- Services & specialty services
-- Portfolio preview (limited to 3 items)
-- Reviews & trust signals
-- FAQ
-- Contact / Quote form
-
-⚠️ Do not remove section IDs:
-`#services`, `#portfolio`, `#faq`, `#contact`
+This project represents my approach to:
+- Small business websites
+- Service-based landing pages
+- SEO-focused frontend development
+- Clean, maintainable codebases
 
 ---
 
-## 🧭 header.html — Header & Navigation
+## 🚀 Live Use
 
-Contains desktop and mobile navigation.
-
-### Desktop Navigation
-- Services
-- Portfolio
-- FAQ
-- Get Quote (primary CTA)
-
-### Mobile Navigation
-- Call-first UX with clickable phone number
-- Fullscreen mobile menu
-- Primary CTA button: **Request a Free Quote**
-
-### Notes
-- Mobile menu behavior is controlled by `main.js`
-- CTA button uses `.mobile-cta`
-- Phone number should match Google Ads call extensions
-
-⚠️ Do not rename IDs or classes used in JavaScript
+Deployed as a production website for a real client.  
+Designed to work on any static hosting.
 
 ---
 
-## 🎨 main.css — Global Styles
+## 👨‍💻 Author
 
-Main stylesheet containing:
-- Color system and typography
-- Layout and grid styles
-- Header, hero and buttons
-- Services, CTA, Reviews, FAQ
-- Mobile menu styles
-- 404 page styles
+**Frontend Developer**  
+Specialized in:
+- High-conversion landing pages
+- Business websites
+- SEO-friendly frontend
+- Clean UI & performance
 
-### Important
-- Mobile menu styles rely on `.nav--mobile`
-- CTA button styles use `.mobile-cta`
-- Body scroll is locked with `body.menu-open`
+Available for freelance projects.
 
-⚠️ Renaming classes may break JS behavior
-
----
-
-## 🖼 portfolio.css — Portfolio & Lightbox
-
-Styles for portfolio cards and fullscreen lightbox.
-
-### Features
-- Responsive grid layout
-- Featured first project on portfolio page
-- Hover overlays and CTA hints
-- Fullscreen lightbox with:
-  - Next / Prev buttons
-  - Swipe support
-  - Image counter
-
-### Key Classes
-- `.portfolio__grid`
-- `.portfolio__item`
-- `.portfolio__item--card`
-- `#lightbox`
-
-⚠️ Layout depends on `.page-portfolio` body class
-
----
-
-## 📱 responsive.css — Responsive Overrides
-
-Breakpoint-specific overrides for mobile and tablet.
-
-### Breakpoints
-- ≤1024px — tablets
-- ≤768px — mobile
-- ≤480px — small phones
-
-### Adjusts
-- Typography scaling
-- Hero layout
-- Services & portfolio grids
-- Mobile menu spacing
-- FAQ spacing
-- 404 page layout
-
-ℹ️ Contains overrides only — base styles live in `main.css`
-
----
-
-## 📊 portfolio.json — Portfolio Data
-
-Single source of truth for portfolio content.
-
-### Structure
-Each object represents **one category** of work.
-
-```json
-{
-  "id": "house",
-  "title": "Residential House Projects",
-  "cover": "assets/images/portfolio/house-1.jpg",
-  "stats": [
-    "Full house tile installation",
-    "Bathrooms, kitchens & floors",
-    "Precision leveling & clean cuts"
-  ],
-  "images": []
-}
-Usage
-Loaded dynamically by gallery.js
-
-Same data used on Home and Portfolio pages
-
-⚠️ Images must exist in /assets/images/portfolio/
-
-🖼 gallery.js — Portfolio Grid & Lightbox Logic
-Handles:
-
-Loading portfolio items from portfolio.json
-
-Rendering portfolio cards
-
-Opening and closing the lightbox
-
-Image navigation (buttons, keyboard, swipe)
-
-Image counter
-
-Lazy image preloading
-
-Behavior
-On homepage: shows first 3 items
-
-On portfolio page: shows all items
-
-Uses partialsLoaded event
-
-🧠 main.js — Core JavaScript
-Main interaction logic for the site.
-
-Responsibilities
-Load HTML partials (data-include)
-
-Dispatch partialsLoaded event
-
-Sticky header on scroll
-
-Mobile menu open / close
-
-Smooth scrolling for anchors
-
-Scroll reveal animations
-
-FAQ accordion logic
-
-Important IDs
-burger
-
-mobileMenu
-
-menuClose
-
-⚠️ Do not change these without updating JS
-
-🚀 Running Locally
-This is a static website.
-
-Options:
-
-Open index.html directly
-
-Use Live Server (VS Code)
-
-Use any local static server
-
-⚠️ Notes
-Do not rename CSS classes used in JS
-
-Portfolio images must be added manually
-
-Form is frontend-only (no backend handler)
-
-Analytics & Google Ads tracking added separately
+## Live Demo
+🌐 https://paulb1n.github.io/tilewizards/
