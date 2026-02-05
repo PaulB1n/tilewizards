@@ -1,4 +1,4 @@
-document.addEventListener("partialsLoaded", () => {
+﻿document.addEventListener("partialsLoaded", () => {
   const grid = document.getElementById("portfolioGrid");
   if (!grid) return;
 
@@ -15,7 +15,7 @@ document.addEventListener("partialsLoaded", () => {
         card.dataset.images = JSON.stringify(item.images);
 
         const altText =
-          `${item.title} – professional tile installation in Toronto GTA`;
+          `${item.title} - professional tile installation in Toronto GTA`;
 
         card.innerHTML = `
           <div class="portfolio__media">
@@ -28,10 +28,14 @@ document.addEventListener("partialsLoaded", () => {
           </div>
 
           <div class="portfolio__content">
-            <h3 class="portfolio__title">${item.title}</h3>
-            <p class="portfolio__location">${item.location || "Toronto, ON"}</p>
+            <div class="portfolio__case-head">
+              <span class="portfolio__badge">Case Study</span>
+              <p class="portfolio__location">${item.location || "Toronto, ON"}</p>
+            </div>
 
-            <ul class="portfolio__stats">
+            <h3 class="portfolio__title">${item.title}</h3>
+
+            <ul class="portfolio__stats portfolio__case-list">
               ${
                 item.stats
                   ? item.stats.map(s => `<li>${s}</li>`).join("")

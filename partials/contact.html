@@ -63,14 +63,14 @@
   </p>
 
   <div class="form__group">
-    <input type="text" placeholder="Your Name *" required>
-    <input type="tel" placeholder="Phone Number *" required>
+    <input type="text" name="name" autocomplete="name" placeholder="Your Name *" required>
+    <input type="tel" name="phone" autocomplete="tel" placeholder="Phone Number *" required>
   </div>
 
 <div class="form__group">
-  <select required>
-    <option value="" disabled hidden>
-      Type of Project *
+  <select name="project_type" autocomplete="off" required>
+    <option value="" selected disabled>
+      Choose Project Type *
     </option>
     <option value="bathroom">Bathroom</option>
     <option value="kitchen">Kitchen</option>
@@ -82,7 +82,7 @@
 
 
   <div class="form__group">
-    <textarea placeholder="Project details (optional)"></textarea>
+    <textarea name="project_details" autocomplete="off" placeholder="Project details (optional)"></textarea>
   </div>
 
   <button type="submit" class="btn btn--primary btn--lg">
