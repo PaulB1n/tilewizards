@@ -5,7 +5,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   for (const el of includes) {
   const file = el.getAttribute("data-include");
-  const response = await fetch(file);
+  const response = await fetch(file, { cache: "no-store" });
+  if (!response.ok) {
+    console.error(`Failed to load partial: ${file} (${response.status})`);
+    continue;
+  }
   el.innerHTML = await response.text();
 }
 
@@ -71,6 +75,101 @@ menuClose.addEventListener("click", () => {
 
   console.log("Mobile menu initialized");
 });
+
+let trackingInitialized = false;
+
+function sendTrackingEvent(eventName, params = {}) {
+  const payload = {
+    event: eventName,
+    page_path: window.location.pathname,
+    ...params
+  };
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, payload);
+  }
+
+  if (Array.isArray(window.dataLayer)) {
+    window.dataLayer.push(payload);
+  }
+}
+
+function isCtaElement(el) {
+  if (!el) return false;
+  return (
+    el.classList.contains("btn") ||
+    el.classList.contains("menu-cta") ||
+    el.hasAttribute("data-track-cta")
+  );
+}
+
+function initTracking() {
+  if (trackingInitialized) return;
+  trackingInitialized = true;
+
+  document.addEventListener("click", e => {
+    const target = e.target.closest("a,button");
+    if (!target) return;
+
+    const href = target.getAttribute("href") || "";
+
+    if (href.startsWith("tel:")) {
+      sendTrackingEvent("phone_click", {
+        phone_number: href.replace("tel:", "")
+      });
+      return;
+    }
+
+    if (isCtaElement(target)) {
+      sendTrackingEvent("cta_click", {
+        cta_text: (target.textContent || "").trim(),
+        cta_href: href || "",
+        cta_id: target.id || "",
+        cta_classes: target.className || ""
+      });
+    }
+  });
+
+  document.addEventListener("submit", e => {
+    const form = e.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    if (!form.classList.contains("contact__form")) return;
+
+    const projectType = form.querySelector('select[name="project_type"]');
+    sendTrackingEvent("form_submit", {
+      form_name: "contact_estimate",
+      project_type: projectType ? projectType.value : ""
+    });
+  });
+}
+
+document.addEventListener("partialsLoaded", initTracking);
+
+let cookieNoticeInitialized = false;
+
+function initCookieNotice() {
+  if (cookieNoticeInitialized) return;
+
+  const notice = document.getElementById("cookieNotice");
+  const acceptBtn = document.getElementById("cookieNoticeAccept");
+  if (!notice || !acceptBtn) return;
+
+  cookieNoticeInitialized = true;
+
+  const storageKey = "tilewizards_cookie_notice_accepted";
+  const alreadyAccepted = localStorage.getItem(storageKey) === "true";
+
+  if (!alreadyAccepted) {
+    notice.hidden = false;
+  }
+
+  acceptBtn.addEventListener("click", () => {
+    localStorage.setItem(storageKey, "true");
+    notice.hidden = true;
+  });
+}
+
+document.addEventListener("partialsLoaded", initCookieNotice);
 
 (function () {
   const items = document.querySelectorAll(".js-reveal");

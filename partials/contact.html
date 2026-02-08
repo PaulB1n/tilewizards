@@ -1,99 +1,120 @@
 <section class="contact section" id="contact">
   <div class="container contact__layout">
-
-    <!-- LEFT: CONTACT INFO -->
     <div class="contact__info" id="contact-info">
       <h2>Contact Information</h2>
 
-      <div class="contact__item">
-        <span class="contact__icon">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M6.6 10.8a15.6 15.6 0 006.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3a12.4 12.4 0 003.9.6c.7 0 1.3.6 1.3 1.3v3.5c0 .7-.6 1.3-1.3 1.3C10.1 21.6 2.4 13.9 2.4 4.9c0-.7.6-1.3 1.3-1.3h3.5c.7 0 1.3.6 1.3 1.3 0 1.3.2 2.6.6 3.9.1.4 0 .9-.3 1.2L6.6 10.8z"/>
-  </svg>
-</span>
-
-        <div>
+      <a class="contact__item contact__item--phone" href="tel:+14372998387">
+        <span class="contact__icon" aria-hidden="true">CALL</span>
+        <div class="contact__item-body">
           <strong>Phone</strong>
-          <a href="tel:+14372998387" class="contact__phone">
-  +1 (437) 299-8387
-</a>
-
+          <span class="contact__value contact__value--strong">+1 (437) 299-8387</span>
         </div>
-      </div>
+      </a>
 
-      <div class="contact__item">
-        <span class="contact__icon">✉️</span>
-        <div>
+      <a class="contact__item contact__item--email" href="mailto:romanboholiub@yahoo.com">
+        <span class="contact__icon" aria-hidden="true">MAIL</span>
+        <div class="contact__item-body">
           <strong>Email</strong>
-          <p>romanboholiub@yahoo.com</p>
+          <span class="contact__value contact__value--strong">romanboholiub@yahoo.com</span>
+        </div>
+      </a>
+
+      <div class="contact__item">
+        <span class="contact__icon" aria-hidden="true">BASE</span>
+        <div class="contact__item-body">
+          <strong>Service Base</strong>
+          <span class="contact__value">Toronto, ON</span>
         </div>
       </div>
 
       <div class="contact__item">
-        <span class="contact__icon">📍</span>
-        <div>
-          <strong>Address</strong>
-          <p>38 Annie Craig Dr, Etobicoke, ON M8V 0G9, Canada</p>
-        </div>
-      </div>
-
-      <div class="contact__item">
-        <span class="contact__icon">⏰</span>
-        <div>
+        <span class="contact__icon" aria-hidden="true">HRS</span>
+        <div class="contact__item-body">
           <strong>Hours</strong>
-          <p>Mon – Fri: 8:30 AM – 5:30PM</p>
+          <span class="contact__value">Mon - Fri: 8:30 AM - 5:30 PM</span>
         </div>
       </div>
 
       <div class="contact__divider"></div>
 
-      <h3>Service Areas</h3>
-      <p>
-        Toronto and surrounding areas within 220km:
-        Mississauga, Vaughan, Markham, Brampton, Oakville, and more.
-      </p>
+      <div class="contact__meta">
+        <h3>Response Time</h3>
+        <p class="contact__meta-text">Usually within 24h</p>
+      </div>
+
+      <div class="contact__meta">
+        <h3>Service Area</h3>
+        <ul class="contact__areas" aria-label="Service areas">
+          <li>Toronto</li>
+          <li>Etobicoke</li>
+          <li>North York</li>
+          <li>Scarborough</li>
+          <li>Mississauga</li>
+          <li>Brampton</li>
+          <li>Caledon</li>
+          <li>Vaughan</li>
+          <li>Markham</li>
+          <li>Richmond Hill</li>
+          <li>Aurora</li>
+          <li>Newmarket</li>
+          <li>Oakville</li>
+          <li>Burlington</li>
+          <li>Milton</li>
+          <li>Ajax</li>
+          <li>Pickering</li>
+          <li>Whitby</li>
+          <li>Oshawa</li>
+          <li>King City</li>
+          <li>Georgina</li>
+        </ul>
+      </div>
     </div>
 
-    <!-- RIGHT: FORM -->
     <form class="contact__form contact__form--ads">
-  <h2>Get a Free Tile Installation Estimate</h2>
+      <h2>Get a Free Tile Installation Estimate</h2>
 
-  <p class="contact__form-subtitle">
-    Free on-site estimate • No hidden fees • Fast response
-  </p>
+      <p class="contact__form-subtitle">
+        Free on-site estimate - No hidden fees - Fast response
+      </p>
 
-  <div class="form__group">
-    <input type="text" name="name" autocomplete="name" placeholder="Your Name *" required>
-    <input type="tel" name="phone" autocomplete="tel" placeholder="Phone Number *" required>
-  </div>
+      <div class="form__group">
+        <input type="text" name="name" autocomplete="name" placeholder="Your Name *" required>
+        <input type="tel" name="phone" autocomplete="tel" placeholder="Phone Number *" required>
+      </div>
 
-<div class="form__group">
-  <select name="project_type" autocomplete="off" required>
-    <option value="" selected disabled>
-      Choose Project Type *
-    </option>
-    <option value="bathroom">Bathroom</option>
-    <option value="kitchen">Kitchen</option>
-    <option value="flooring">Flooring</option>
-    <option value="backsplash">Backsplash</option>
-    <option value="other">Other</option>
-  </select>
-</div>
+      <div class="form__group">
+        <select name="project_type" autocomplete="off" required>
+          <option value="" selected disabled>Choose Project Type *</option>
+          <option value="bathroom">Bathroom</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="flooring">Flooring</option>
+          <option value="backsplash">Backsplash</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
+      <div class="form__group">
+        <textarea name="project_details" autocomplete="off" placeholder="Project details (optional)"></textarea>
+      </div>
 
-  <div class="form__group">
-    <textarea name="project_details" autocomplete="off" placeholder="Project details (optional)"></textarea>
-  </div>
+      <button type="submit" class="btn btn--primary btn--lg">Send Request</button>
 
-  <button type="submit" class="btn btn--primary btn--lg">
-    Send Request
-  </button>
+      <div class="contact__next">
+        <h3>What Happens Next</h3>
+        <ul class="contact__next-list">
+          <li>We call you within 24h</li>
+          <li>On-site estimate and clear quote</li>
+          <li>Start date and material plan confirmation</li>
+        </ul>
+      </div>
 
-  <p class="contact__note">
-    We usually respond within 24 hours. No spam.
-  </p>
-</form>
+      <ul class="contact__trust-row" aria-label="Trust signals">
+        <li>Licensed & insured</li>
+        <li>Warranty-backed work</li>
+        <li>No hidden fees</li>
+      </ul>
 
-    
+      <p class="contact__note">We usually respond within 24 hours. No spam.</p>
+    </form>
   </div>
 </section>
