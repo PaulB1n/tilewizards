@@ -4,7 +4,7 @@
     <!-- Brand -->
     <div class="footer__brand">
       <div class="footer__brand-head">
-        <img src="assets/images/logo.png" alt="Tile Wizards logo" class="footer__logo">
+        <img src="assets/images/logo.png" alt="Tile Wizards logo" class="footer__logo" loading="lazy" decoding="async">
         <strong>Tile Wizards</strong>
       </div>
       <p>Professional tile installation in Toronto & GTA</p>
@@ -66,4 +66,20 @@
     See our <a href="privacy.html">Privacy Policy</a>.
   </p>
   <button type="button" class="btn btn--secondary cookie-notice__btn" id="cookieNoticeAccept">Accept</button>
+</div>
+
+<div class="mobile-sticky-cta is-hidden" id="mobileStickyCta" aria-hidden="true" hidden>
+  <button
+    type="button"
+    class="mobile-sticky-cta__toggle"
+    id="mobileStickyCtaToggle"
+    aria-controls="mobileStickyCtaPanel"
+    aria-expanded="false"
+  >
+    Quick Actions
+  </button>
+  <div class="mobile-sticky-cta__panel" id="mobileStickyCtaPanel" role="group" aria-label="Quick actions">
+    <a href="tel:+14372998387" class="btn btn--secondary">Call Now</a>
+    <a href="/#contact" class="btn btn--primary">Get Estimate</a>
+  </div>
 </div>

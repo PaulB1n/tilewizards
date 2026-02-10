@@ -1,0 +1,141 @@
+.contact .contact__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-space-4);
+}
+
+.contact__form {
+  order: 1;
+}
+
+.contact__info {
+  order: 2;
+}
+
+.contact__info,
+.contact__form,
+.services-page-hero__inner,
+.portfolio-page-hero__inner {
+  padding: var(--r-space-4-5);
+  border-radius: var(--r-radius-md);
+}
+
+.contact__value--strong {
+  font-size: 16px;
+}
+
+.contact__item--email .contact__value--strong {
+  font-size: 14px;
+}
+
+.contact__areas {
+  gap: var(--r-space-1-5);
+}
+
+.contact__areas li {
+  font-size: 12px;
+  padding: 5px 8px;
+}
+
+.contact__form input,
+.contact__form textarea,
+.contact__form select {
+  min-height: 48px;
+}
+
+.contact__form textarea {
+  min-height: 120px;
+}
+
+.contact__next,
+.contact__trust-row,
+.contact__note {
+  display: none;
+}
+
+.services-page-hero__actions,
+.portfolio-page-hero__actions,
+.portfolio__conversion-actions {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.services-page-hero__actions .btn,
+.portfolio-page-hero__actions .btn,
+.portfolio__conversion-actions .btn {
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .contact__info,
+  .contact__form,
+  .services-page-hero__inner,
+  .portfolio-page-hero__inner {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .contact__layout {
+    gap: var(--r-space-5-5);
+  }
+
+  .contact__info,
+  .contact__form {
+    padding: 24px;
+  }
+
+  .services-page-hero__actions,
+  .portfolio-page-hero__actions,
+  .portfolio__conversion-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .services-page-hero__actions .btn,
+  .portfolio-page-hero__actions .btn,
+  .portfolio__conversion-actions .btn {
+    width: auto;
+  }
+
+  .contact__next,
+  .contact__note {
+    display: block;
+  }
+
+  .contact__trust-row {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contact .contact__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: var(--r-space-7);
+  }
+
+  .contact__form,
+  .contact__info {
+    order: initial;
+  }
+
+  .contact__info,
+  .contact__form {
+    padding: 32px;
+    border-radius: var(--radius-main);
+  }
+
+  .contact__value--strong {
+    font-size: 18px;
+  }
+
+  .contact__item--email .contact__value--strong {
+    font-size: 16px;
+  }
+
+  .services-page-hero__inner,
+  .portfolio-page-hero__inner {
+    padding: var(--space-7);
+  }
+}

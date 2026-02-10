@@ -1,0 +1,193 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 120;
+  padding-top: var(--safe-top);
+  backdrop-filter: blur(10px);
+}
+
+.header__inner {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  min-height: 68px;
+  column-gap: var(--r-space-2);
+}
+
+.logo {
+  width: 58px;
+  height: 58px;
+}
+
+.logo img {
+  width: 48px;
+  height: 48px;
+}
+
+.header__contact {
+  justify-self: end;
+}
+
+.nav--desktop {
+  display: none;
+}
+
+.nav--mobile {
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.nav--mobile.active {
+  display: flex;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.burger {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.header__phone {
+  align-items: flex-end;
+  min-height: 44px;
+  padding: var(--r-space-1-5, 6px) var(--r-space-2-5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--r-radius-sm);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.header__contact .phone-number {
+  font-size: var(--r-text-xs);
+  font-weight: 700;
+}
+
+.header__contact .phone-hours {
+  display: none;
+  font-size: 12px;
+  opacity: 0.64;
+}
+
+@media (max-width: 360px) {
+  .header__inner {
+    min-height: 64px;
+    column-gap: var(--r-space-1-5, 6px);
+  }
+
+  .logo {
+    width: 54px;
+    height: 54px;
+  }
+
+  .logo img {
+    width: 44px;
+    height: 44px;
+  }
+
+  .header__phone {
+    padding: var(--r-space-1-5, 6px) var(--r-space-2-5);
+  }
+
+  .header__contact .phone-number {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 480px) {
+  .header__inner {
+    min-height: 72px;
+    column-gap: var(--r-space-3);
+  }
+
+  .logo {
+    width: 62px;
+    height: 62px;
+  }
+
+  .logo img {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (min-width: 768px) {
+  .header__inner {
+    min-height: 76px;
+  }
+
+  .header__contact .phone-number {
+    font-size: var(--r-text-sm);
+  }
+
+  .header__contact .phone-hours {
+    display: block;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    padding-top: 0;
+    backdrop-filter: none;
+  }
+
+  .header__inner {
+    grid-template-columns: auto 1fr auto auto;
+    column-gap: 24px;
+    min-height: 0;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .logo img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .header__phone {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .nav--desktop {
+    display: block;
+  }
+
+  .nav--mobile,
+  .nav--mobile.active {
+    display: none;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .header__contact .phone-number {
+    font-size: 15px;
+  }
+
+  .header__contact .phone-hours {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .header__inner {
+    column-gap: 32px;
+  }
+
+  .nav--desktop ul {
+    gap: 32px;
+  }
+
+  .nav a {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+}

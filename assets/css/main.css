@@ -56,6 +56,10 @@ html, body {
   height: 100%;
 }
 
+html {
+  overflow-x: clip;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -74,7 +78,9 @@ body {
   color: var(--text-main);
   font-family: system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Inter, Arial, sans-serif;
+  font-size: 16px;
   line-height: 1.6;
+  overflow-x: clip;
 }
 body::before {
   content: "";
@@ -499,7 +505,8 @@ p {
 
 .hero--video { 
   position: relative; 
-  min-height: 100vh; 
+  min-height: 100svh;
+  min-height: 100dvh;
   width: 100%; 
   overflow: hidden;
   --mx: 50%;
@@ -717,7 +724,8 @@ p {
 .hero__inner { 
   position: relative; 
   z-index: 3; 
-  min-height: 100vh; 
+  min-height: 100svh;
+  min-height: 100dvh;
   display: flex; 
   align-items: center; 
 }
@@ -1703,7 +1711,8 @@ p {
   top: 0;
   right: 0;
   width: 100%;
-  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
 
   background: linear-gradient(
     180deg,
@@ -1829,6 +1838,47 @@ p {
     background 0.25s ease;
 }
 
+/* Accessible keyboard focus */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.portfolio__filter:focus-visible,
+.faq__question:focus-visible {
+  outline: 2px solid rgba(245, 197, 66, 0.95);
+  outline-offset: 2px;
+}
+
+/* Touch feedback */
+@media (hover: none) and (pointer: coarse) {
+  .btn:active,
+  .portfolio__filter:active,
+  .faq__question:active,
+  .nav--mobile .menu-card:active,
+  .menu-cta:active {
+    transform: scale(0.98);
+  }
+}
+
+.phone-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-main);
+  background: linear-gradient(
+    145deg,
+    rgba(212,175,55,0.18),
+    rgba(212,175,55,0.06)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-main);
+  line-height: 1;
+}
+
 
 .menu-phone:hover {
   transform: translateY(-2px);
@@ -1876,8 +1926,9 @@ p {
   display: flex;
   align-items: center;
   gap: 12px;
-
-  padding: 24px;
+  width: min(420px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 16px 0 0;
 }
 
 
@@ -1893,27 +1944,11 @@ p {
   letter-spacing: 0.3px;
 }
 
-/* Subtle pulse for the phone icon in the mobile menu. */
+/* Keep phone icon stable to avoid visual jitter in menu header. */
 .phone-icon {
-  font-size: 22px;
+  font-size: 10px;
   position: relative;
-
-  animation: phonePulse 1.8s infinite;
-}
-
-@keyframes phonePulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
+  animation: none;
 }
 
 /* === MOBILE CTA BUTTON FIX === */
@@ -1964,8 +1999,8 @@ p {
   transform: translateY(-2px);
 }
 
-/* Hide desktop menu on mobile */
-@media (max-width: 768px) {
+/* Hide desktop menu on mobile + small tablet */
+@media (max-width: 900px) {
   .nav--desktop {
     display: none;
   }
@@ -2858,9 +2893,11 @@ body.menu-open {
 ================================ */
 
 .menu-screen-inner {
-  padding: 100px 28px 32px;
+  padding: 28px 20px 150px;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
   height: 100%;
 }
 
@@ -2878,16 +2915,27 @@ body.menu-open {
 .menu-cards {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  list-style: none;
+  width: min(420px, 100%);
+  margin: 0 auto;
+  padding: 0;
+  flex: initial;
+}
+
+.menu-cards li {
+  margin: 0;
+  width: 100%;
 }
 
 
-.menu-card {
+.nav--mobile .menu-card {
   display: flex;
   align-items: center;
   gap: 16px;
-
-  padding: 14px 16px;
+  width: 100%;
+  min-height: 76px;
+  padding: 16px 18px;
   border-radius: var(--radius-main);
 
   background: rgba(255,255,255,0.04);
@@ -2903,32 +2951,42 @@ body.menu-open {
     background 0.35s ease;
 }
 
-.menu-card:hover {
+/* Visual hierarchy: first two links are primary actions. */
+.nav--mobile .menu-cards li:nth-child(-n+2) .menu-card {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(212,175,55,0.22);
+}
+
+.nav--mobile .menu-cards li:nth-child(n+3) .menu-card {
+  background: rgba(255,255,255,0.035);
+}
+
+.nav--mobile .menu-card:hover {
   transform: translateY(-1.5px);
   background: rgba(255,255,255,0.065);
   box-shadow: 0 14px 32px rgba(0,0,0,0.55);
 }
 
 
-.menu-icon svg {
-  fill: rgba(212,175,55,0.9);
-}
-
-
 .menu-icon {
-  width: 34px;
-  height: 34px;
+  width: 46px;
+  height: 46px;
   border-radius: var(--radius-main);
 
   background: linear-gradient(
     145deg,
-    rgba(212,175,55,0.28),
-    rgba(212,175,55,0.08)
+    rgba(212,175,55,0.18),
+    rgba(212,175,55,0.06)
   );
 
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-main);
+  line-height: 1;
 
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.18),
@@ -2938,7 +2996,7 @@ body.menu-open {
 /* TEXT */
 .menu-title {
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* CTA */
@@ -2997,22 +3055,32 @@ body.menu-open {
   gap: 4px;
 
   text-align: center;
-  letter-spacing: 0.4px;
-  font-size: 11px;
+  letter-spacing: 0.2px;
+  font-size: 13px;
   opacity: 0.85;
   color: rgba(255,255,255,0.45);
 }
 
 
 .menu-location .pin {
-  margin-right: 4px;
-  opacity: 0.7;
+  margin-right: 2px;
+  opacity: 0.9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-main);
+  line-height: 1;
 }
+
 .menu-footer {
   position: fixed;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
 
   display: flex;
   flex-direction: column;
@@ -3071,6 +3139,34 @@ body.menu-open {
     bottom: 12px;
     max-width: none;
   }
+}
+
+.mobile-sticky-cta {
+  position: fixed;
+  left: calc(12px + env(safe-area-inset-left, 0px));
+  right: calc(12px + env(safe-area-inset-right, 0px));
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 1100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mobile-sticky-cta.is-hidden {
+  opacity: 0;
+  transform: translateY(110%);
+  pointer-events: none;
+}
+
+.mobile-sticky-cta .btn {
+  width: 100%;
+  max-width: 420px;
 }
 
 .page-privacy {
