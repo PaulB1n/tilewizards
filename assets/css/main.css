@@ -2304,6 +2304,17 @@ body.menu-open {
   z-index: 2;
 }
 
+.contact-map__search-fallback {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-main);
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.84);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .contact-map__canvas {
   width: 100%;
   min-height: 360px;
@@ -2312,6 +2323,10 @@ body.menu-open {
   overflow: hidden;
   background: #0e0e0e;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-map__canvas[hidden] {
+  display: none;
 }
 
 .contact-map:hover .contact-map__canvas {

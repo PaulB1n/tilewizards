@@ -87,6 +87,30 @@
     ui.manualCta.hidden = mode !== "outside";
   }
 
+  function activateManualCoverageFallback(message) {
+    const ui = getUi();
+    if (!ui.mapContainer || !ui.searchContainer) return;
+
+    mapInitialized = true;
+
+    if (ui.mapCard) {
+      ui.mapCard.classList.add("contact-map--fallback");
+      ui.mapCard.classList.add("contact-map--ready");
+    }
+
+    ui.mapContainer.setAttribute("hidden", "hidden");
+    ui.searchContainer.innerHTML = "";
+
+    const fallbackSearchNote = document.createElement("p");
+    fallbackSearchNote.className = "contact-map__search-fallback";
+    fallbackSearchNote.textContent = "Interactive lookup is temporarily unavailable. Call us and we will confirm your address within 24 hours.";
+    ui.searchContainer.appendChild(fallbackSearchNote);
+
+    setSelectedAddress("");
+    setZoneResult(message || "Call us to confirm coverage for your exact address.", "warn");
+    setResultActions("outside");
+  }
+
   function isPolygonGeometry(geometry) {
     if (!geometry) return false;
     return geometry.type === "Polygon" || geometry.type === "MultiPolygon";
@@ -179,12 +203,12 @@
     if (!ui.mapContainer || !ui.searchContainer) return;
 
     if (typeof window.mapboxgl === "undefined" || typeof window.MapboxGeocoder === "undefined") {
-      setZoneResult("Mapbox libraries are not loaded.", "error");
+      activateManualCoverageFallback("Interactive coverage map is unavailable right now. Call us to confirm your exact address.");
       return;
     }
 
     if (!MAP_CONFIG.token) {
-      setZoneResult("Mapbox token is missing.", "error");
+      activateManualCoverageFallback("Live coverage lookup is unavailable right now. Call us to confirm your exact address.");
       return;
     }
 
