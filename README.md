@@ -56,3 +56,4 @@ robots.txt
 - For analytics, connect GA4 or GTM on page to receive emitted events.
 - Mapbox token is loaded from `assets/js/config.local.js` (ignored by Git).
 - Copy `assets/js/config.example.js` to `assets/js/config.local.js` and set your token locally.
+https://paulb1n.github.io/tilewizards/
