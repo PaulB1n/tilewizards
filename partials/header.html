@@ -1,0 +1,100 @@
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="logo" aria-label="Tile Wizards home">
+      <img src="assets/images/logo.png" alt="Tile Installation Logo" decoding="async">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <nav class="nav nav--desktop">
+      <ul>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header__contact">
+      <a href="tel:+14372998387" class="header__phone">
+        <span class="phone-number">+1 (437) 299-8387</span>
+        <span class="phone-hours">Mon-Fri &middot; 8:30 AM-5:30 PM</span>
+      </a>
+    </div>
+
+    <!-- BURGER -->
+    <button
+      class="burger"
+      id="burger"
+      type="button"
+      aria-label="Open menu"
+      aria-controls="mobileMenu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="nav nav--mobile" id="mobileMenu" aria-hidden="true" hidden>
+    <div class="menu-top">
+      <a href="tel:+14372998387" class="menu-phone">
+        <span class="phone-icon" aria-hidden="true">CALL</span>
+        <span class="phone-text">
+          <span class="phone-label">Call us</span>
+          <span class="phone-number">+1 (437) 299-8387</span>
+        </span>
+      </a>
+
+      <button class="menu-close" id="menuClose" type="button" aria-label="Close menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="menu-screen-inner">
+      <ul class="menu-cards" aria-label="Mobile navigation">
+        <li>
+          <a href="services.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">SERV</span>
+            <span class="menu-title">Services</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="portfolio.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">WORK</span>
+            <span class="menu-title">Portfolio</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="index.html#faq" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">FAQ</span>
+            <span class="menu-title">FAQ</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="index.html#contact" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">BASE</span>
+            <span class="menu-title">Contact</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CTA -->
+    <div class="menu-footer">
+      <a href="index.html#contact" class="menu-cta">
+        Request a Free Quote
+      </a>
+
+      <div class="menu-location">
+        <span class="pin" aria-hidden="true">BASE</span>
+        <span class="location-text">Toronto & GTA</span>
+      </div>
+    </div>
+  </nav>
+</header>

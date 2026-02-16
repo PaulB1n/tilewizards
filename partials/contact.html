@@ -1,0 +1,147 @@
+<section class="contact section section--alt" id="contact">
+  <div class="container contact__layout">
+    <div class="contact__info" id="contact-info">
+      <h2>Contact Information</h2>
+
+      <a class="contact__item contact__item--phone" href="tel:+14372998387">
+        <span class="contact__icon" aria-hidden="true">CALL</span>
+        <div class="contact__item-body">
+          <strong>Phone</strong>
+          <span class="contact__value contact__value--strong">+1 (437) 299-8387</span>
+        </div>
+      </a>
+
+      <a class="contact__item contact__item--email" href="mailto:romanboholiub@yahoo.com">
+        <span class="contact__icon" aria-hidden="true">MAIL</span>
+        <div class="contact__item-body">
+          <strong>Email</strong>
+          <span class="contact__value contact__value--strong">romanboholiub@yahoo.com</span>
+        </div>
+      </a>
+
+      <div class="contact__item">
+        <span class="contact__icon" aria-hidden="true">BASE</span>
+        <div class="contact__item-body">
+          <strong>Service Base</strong>
+          <span class="contact__value">Toronto, ON</span>
+        </div>
+      </div>
+
+      <div class="contact__item">
+        <span class="contact__icon" aria-hidden="true">HRS</span>
+        <div class="contact__item-body">
+          <strong>Hours</strong>
+          <span class="contact__value">Mon - Fri: 8:30 AM - 5:30 PM</span>
+        </div>
+      </div>
+
+      <div class="contact__divider"></div>
+
+      <div class="contact__meta">
+        <h3>Response Time</h3>
+        <p class="contact__meta-text">Usually within 24h</p>
+      </div>
+
+      <div class="contact__meta">
+        <h3>Service Area</h3>
+        <ul class="contact__areas" aria-label="Service areas">
+          <li>Toronto</li>
+          <li>Etobicoke</li>
+          <li>North York</li>
+          <li>Scarborough</li>
+          <li>Mississauga</li>
+          <li>Brampton</li>
+          <li>Caledon</li>
+          <li>Vaughan</li>
+          <li>Markham</li>
+          <li>Richmond Hill</li>
+          <li>Aurora</li>
+          <li>Newmarket</li>
+          <li>Oakville</li>
+          <li>Burlington</li>
+          <li>Milton</li>
+          <li>Ajax</li>
+          <li>Pickering</li>
+          <li>Whitby</li>
+          <li>Oshawa</li>
+          <li>King City</li>
+          <li>Georgina</li>
+        </ul>
+      </div>
+    </div>
+
+    <form class="contact__form contact__form--ads" id="contact-form">
+      <h2>Get a Free Tile Installation Estimate</h2>
+
+      <p class="contact__form-subtitle">
+        Free on-site estimate - No hidden fees - Fast response
+      </p>
+
+      <div class="form__group">
+        <input type="text" name="name" autocomplete="name" placeholder="Your Name *" required>
+        <input type="tel" name="phone" autocomplete="tel" placeholder="Phone Number *" required>
+      </div>
+
+      <div class="form__group">
+        <select name="project_type" autocomplete="off" required>
+          <option value="" selected disabled>Choose Project Type *</option>
+          <option value="bathroom">Bathroom</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="flooring">Flooring</option>
+          <option value="backsplash">Backsplash</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form__group">
+        <textarea name="project_details" autocomplete="off" placeholder="Project details (optional)"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--lg">Send Request</button>
+
+      <div class="contact__next">
+        <h3>What Happens Next</h3>
+        <ul class="contact__next-list">
+          <li>We call you within 24h</li>
+          <li>On-site estimate and clear quote</li>
+          <li>Start date and material plan confirmation</li>
+        </ul>
+      </div>
+
+      <ul class="contact__trust-row" aria-label="Trust signals">
+        <li>Licensed & insured</li>
+        <li>Warranty-backed work</li>
+        <li>No hidden fees</li>
+      </ul>
+
+      <p class="contact__note">We usually respond within 24 hours. No spam.</p>
+    </form>
+  </div>
+
+  <div class="container contact__map-block">
+    <div class="contact-map" id="service-area-check">
+      <h2>Check Service Coverage</h2>
+      <p class="contact-map__subtitle">
+        Enter your address to see if your location is inside our service zone.
+      </p>
+
+      <div class="contact-map__search" id="mapSearch" aria-label="Address search"></div>
+      <div class="contact-map__canvas" id="serviceMap" role="region" aria-label="Service area map"></div>
+      <p class="contact-map__selected" id="selectedAddress" hidden></p>
+
+      <p class="contact-map__result" id="zoneCheckResult" aria-live="polite">
+        Enter an address above to start the coverage check.
+      </p>
+
+      <div class="contact-map__actions" id="zoneCheckActions">
+        <a class="btn btn--primary contact-map__cta" id="zoneMatchCta" href="#contact-form" hidden>
+          Start My Estimate
+        </a>
+        <a class="btn btn--secondary contact-map__cta" id="zoneManualCta" href="tel:+14372998387" hidden>
+          Call to Confirm Coverage
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

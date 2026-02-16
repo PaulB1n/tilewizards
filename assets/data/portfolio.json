@@ -1,0 +1,144 @@
+[
+  {
+    "id": "house",
+    "title": "Residential House Projects",
+    "location": "Toronto, ON",
+    "category": "bathroom",
+    "material": "Porcelain + ceramic mix",
+    "area": "1,400 sq ft",
+    "summary": "Multi-zone residential installation with bathrooms, kitchen backsplash, and floor leveling.",
+    "featured": true,
+    "cover": "assets/images/portfolio/house-1.webp",
+    "stats": [
+      "Full house tile installation",
+      "Bathrooms, kitchens & floors",
+      "Precision leveling & clean cuts"
+    ],
+    "images": [
+      "assets/images/portfolio/house-1.webp",
+      "assets/images/portfolio/house-2.webp",
+      "assets/images/portfolio/house-3.webp",
+      "assets/images/portfolio/house-4.webp",
+      "assets/images/portfolio/house-5.webp",
+      "assets/images/portfolio/house-6.webp",
+      "assets/images/portfolio/house-7.webp",
+      "assets/images/portfolio/house-8.webp",
+      "assets/images/portfolio/house-9.webp",
+      "assets/images/portfolio/house-10.webp"
+    ]
+  },
+
+  {
+    "id": "mosaic",
+    "title": "Custom Mosaic Tile Work",
+    "location": "Etobicoke, ON",
+    "category": "bathroom",
+    "material": "Mosaic porcelain",
+    "area": "180 sq ft",
+    "summary": "Detailed custom layout with tight grout spacing and clean transitions around fixtures.",
+    "cover": "assets/images/portfolio/mosaic-1.webp",
+    "stats": [
+      "Custom mosaic tile installation",
+      "Showers, floors & accent walls",
+      "Detailed layouts & premium finish"
+    ],
+    "images": [
+      "assets/images/portfolio/mosaic-1.webp",
+      "assets/images/portfolio/mosaic-2.webp",
+      "assets/images/portfolio/mosaic-3.webp",
+      "assets/images/portfolio/mosaic-4.webp",
+      "assets/images/portfolio/mosaic-5.webp"
+    ]
+  },
+
+  {
+    "id": "pool",
+    "title": "Pool Tile Installation",
+    "location": "Vaughan, ON",
+    "category": "outdoor",
+    "material": "Pool-rated porcelain",
+    "area": "520 sq ft",
+    "summary": "Exterior pool perimeter and waterline tile with weather-resistant, anti-slip finish.",
+    "cover": "assets/images/portfolio/pool-1.webp",
+    "stats": [
+      "Swimming pool tile installation",
+      "Waterproof & frost-resistant systems",
+      "Outdoor porcelain & pool-rated tile"
+    ],
+    "images": [
+      "assets/images/portfolio/pool-1.webp",
+      "assets/images/portfolio/pool-2.webp",
+      "assets/images/portfolio/pool-3.webp"
+    ]
+  },
+
+  {
+    "id": "slabs",
+    "title": "Large Format Slabs",
+    "location": "Toronto, ON",
+    "category": "slabs",
+    "material": "Large-format porcelain slabs",
+    "area": "960 sq ft",
+    "summary": "Large-format installation focused on minimal joints and clean wall-to-floor alignment.",
+    "cover": "assets/images/portfolio/slabs-1.webp",
+    "stats": [
+      "Large format porcelain slabs",
+      "Perfect alignment & minimal joints",
+      "Modern high-end interiors"
+    ],
+    "images": [
+      "assets/images/portfolio/slabs-1.webp",
+      "assets/images/portfolio/slabs-2.webp",
+      "assets/images/portfolio/slabs-3.webp",
+      "assets/images/portfolio/slabs-4.webp",
+      "assets/images/portfolio/slabs-5.webp",
+      "assets/images/portfolio/slabs-6.webp",
+      "assets/images/portfolio/slabs-7.webp",
+      "assets/images/portfolio/slabs-8.webp"
+    ]
+  },
+  {
+    "id": "facade",
+    "title": "Facade Tile Installation",
+    "location": "Markham, ON",
+    "category": "outdoor",
+    "material": "Exterior porcelain",
+    "area": "640 sq ft",
+    "summary": "Front elevation cladding with exterior-rated tile and weather-sealed edges.",
+    "cover": "assets/images/portfolio/facade-1.webp",
+    "stats": [
+      "Exterior facade tile installation",
+      "Weather-resistant porcelain tile",
+      "Modern residential exteriors"
+    ],
+    "images": [
+      "assets/images/portfolio/facade-1.webp"
+    ]
+  },
+
+  {
+    "id": "steps",
+    "title": "Steps & Staircase Tile",
+    "location": "Mississauga, ON",
+    "category": "floor",
+    "material": "Anti-slip porcelain",
+    "area": "240 sq ft",
+    "summary": "Indoor-outdoor staircase tile with anti-slip nosing and durable edge detailing.",
+    "cover": "assets/images/portfolio/steps-1.webp",
+    "stats": [
+      "Indoor & outdoor staircase tile",
+      "Anti-slip tile solutions",
+      "Clean edges & long-term durability"
+    ],
+    "images": [
+      "assets/images/portfolio/steps-1.webp",
+      "assets/images/portfolio/steps-2.webp",
+      "assets/images/portfolio/steps-3.webp",
+      "assets/images/portfolio/steps-4.webp",
+      "assets/images/portfolio/steps-5.webp",
+      "assets/images/portfolio/steps-6.webp",
+      "assets/images/portfolio/steps-7.webp",
+      "assets/images/portfolio/steps-8.webp"
+    ]
+  }
+]

@@ -1,0 +1,114 @@
+/*
+Responsive Architecture Guide
+- Strategy: mobile-first, only min-width breakpoints (480, 768, 1024, 1280).
+- Layers: reset -> tokens -> base -> layout -> components -> pages -> overrides.
+- Tokens: scale tokens (--r-*) + semantic tokens (--space-section-*, --text-*).
+- Pages: page-specific adjustments only, no component skinning.
+- Components: reusable BEM blocks without page wrapper dependency.
+- Layout: grid/section spacing and structural flow rules.
+- Utilities: low-specificity helpers prefixed with .u-.
+*/
+
+:root {
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+
+    --container-inline: 12px;
+    --container-max: 1240px;
+
+    --r-space-1: 4px;
+    --r-space-1-5: 6px;
+    --r-space-2: 8px;
+    --r-space-2-5: 10px;
+    --r-space-3: 12px;
+    --r-space-3-5: 14px;
+    --r-space-4: 16px;
+    --r-space-4-5: 18px;
+    --r-space-5: 20px;
+    --r-space-5-5: 22px;
+    --r-space-6: 24px;
+    --r-space-6-5: 26px;
+    --r-space-7: 32px;
+    --r-space-7-5: 30px;
+    --r-space-8: 40px;
+    --r-space-9: 52px;
+
+    --r-radius-xs: 12px;
+    --r-radius-sm: 10px;
+    --r-radius-md: 14px;
+    --r-radius-lg: 16px;
+
+    --r-text-xs: 12px;
+    --r-text-sm: 14px;
+    --r-text-md: 16px;
+    --r-text-lg: clamp(18px, 2.3vw, 22px);
+    --r-title-md: clamp(24px, 6vw, 34px);
+    --r-title-lg: clamp(34px, 5vw, 52px);
+
+    /* semantic tokens */
+    --space-section-sm: 52px;
+    --space-section-md: 64px;
+    --space-section-lg: 74px;
+
+  --text-body: var(--r-text-sm);
+  --text-muted: rgba(255, 255, 255, 0.78);
+  --text-heading: var(--r-title-md);
+}
+
+@media (min-width: 480px) {
+  :root {
+    --container-inline: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-inline: 20px;
+    --text-heading: clamp(34px, 4.8vw, 42px);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-inline: 24px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --container-inline: 28px;
+  }
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Prevent accidental horizontal scroll from transformed/decorative layers. */
+body {
+  overflow-y: auto;
+}
+
+main {
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: min(100%, var(--container-max));
+  padding-inline: var(--container-inline);
+}

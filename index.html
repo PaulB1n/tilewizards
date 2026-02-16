@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://api.mapbox.com" crossorigin>
+  <link rel="preconnect" href="https://events.mapbox.com" crossorigin>
+  
+   
+  <title>Tile Wizards | Toronto</title>
+  <meta name="description" content="Professional tile installation in Toronto, Mississauga, Vaughan & GTA. Bathrooms, kitchens, floors, and custom tile work. Free estimates." />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css">
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/portfolio.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo_favicon.ico">
+</head>
+
+<body class="page-home">
+
+  <!-- HEADER (partials) -->
+  <div data-include="partials/header.html"></div>
+
+  <main>
+
+    <!-- ================= HERO WITH VIDEO ================= -->
+    <section class="hero hero--video section section--hero hero-layout hero-media hero-effects" id="hero">
+
+      <!-- Background -->
+        <div class="hero__bg" aria-hidden="true">
+        <div class="grid-spark"></div>
+      </div>
+
+
+      <!-- Overlay -->
+      <div class="hero__overlay"></div>
+
+      <!-- Interactive tiles -->
+      <div class="hero__tiles" aria-hidden="true"></div>
+
+      <!-- Content -->
+      <div class="container hero__inner">
+        <div class="hero__content animate hero-content">
+
+  <h1 class="u-balance">
+    <span class="hero__title-short">Tile Installation in Toronto &amp; GTA</span>
+    <span class="hero__title-full">Professional Tile Installation in Toronto &amp; GTA &mdash; Done Right the First Time</span>
+  </h1>
+
+  <p class="hero__subtitle">
+    Licensed & insured tile installers for bathrooms, kitchens, and floors. Clean work, precise leveling, on-time completion, and warranty included.
+  </p>
+
+  <ul class="hero__benefits">
+    <li>Free on-site estimate</li>
+    <li>Licensed & insured</li>
+    <li>No hidden fees</li>
+    <li>Local Toronto installer</li>
+  </ul>
+
+  <div class="hero__actions">
+    <a href="#contact" class="btn btn--primary">
+      Get Free Estimate
+    </a>
+
+    <a href="tel:+14372998387" class="btn btn--secondary">
+      Call Now
+    </a>
+  </div>
+
+  <ul class="hero__trust-list">
+    <li>&#11088;&#11088;&#11088;&#11088;&#11088; Rated 4.9 on Google <span>(40+ reviews, as of February 2026)</span></li>
+    <li>&#127942; 6+ years experience</li>
+    <li>&#129521; Licensed & insured</li>
+  </ul>
+
+
+</div>
+
+      </div>
+
+    </section>
+    <!-- ================= END HERO ================= -->
+
+    <!-- SERVICES -->
+    <div data-include="partials/services.html"></div>
+
+    <!-- PORTFOLIO -->
+    <div data-include="partials/portfolio.html"></div>
+
+    <!-- FAQ -->
+    <div data-include="partials/faq.html"></div>
+
+
+    <!-- CONTACT -->
+    <div data-include="partials/contact.html" ></div>
+
+    
+
+  </main>
+
+  <!-- FOOTER -->
+  <div data-include="partials/footer.html"></div>
+
+  <!-- LIGHTBOX -->
+ <div id="lightbox">
+  <button class="lightbox__close" aria-label="Close"></button>
+
+  <div class="lightbox__content">
+    <div class="lightbox__media">
+      <button class="lightbox__prev" aria-label="Previous image"></button>
+      <img src="" alt="" loading="lazy" decoding="async">
+      <button class="lightbox__next" aria-label="Next image"></button>
+    </div>
+  </div>
+
+  <div class="lightbox__counter"></div>
+</div>
+
+
+
+  <!-- JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
+  <script src="https://unpkg.com/@turf/turf@7.2.0/turf.min.js"></script>
+  <script>
+    window.MAPBOX_TOKEN = window.MAPBOX_TOKEN || "";
+  </script>
+  <script src="assets/js/config.local.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/gallery.js"></script>
+  <script src="assets/js/map.js"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does tile installation cost in Toronto?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tile installation costs in Toronto typically start from $10 per square foot. The final price depends on the type of tile, layout complexity, surface preparation, and project size. We always provide a clear, detailed quote before starting the work."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is your estimate really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely. We provide free, no-obligation estimates for all tile installation projects. There are no hidden fees or surprise charges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does a typical tile installation take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project timelines vary, but a standard shower tile installation usually takes about 3 days. Larger or more complex projects may take longer. We always discuss timelines in advance so you know exactly what to expect."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer a warranty on your work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We stand behind the quality of our work and use proven installation techniques and professional materials. Warranty details may vary depending on the project type and materials used and are discussed during the estimate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you supply tiles and materials?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We can supply and deliver tiles and all required installation materials. We also help clients choose the right tile type and layout to match their space and budget."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which areas do you serve in Toronto and GTA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We serve Toronto and the entire GTA, including Mississauga, Vaughan, Markham, Brampton, and surrounding areas within a 220 km radius."
+      }
+    }
+  ]
+}
+</script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Tile Wizards",
+  "image": "https://tilewizards.ca/assets/images/logo.png",
+  "url": "https://tilewizards.ca/",
+  "telephone": "+1-437-299-8387",
+  "email": "romanboholiub@yahoo.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "38 Annie Craig Dr",
+    "addressLocality": "Etobicoke",
+    "addressRegion": "ON",
+    "postalCode": "M8V 0G9",
+    "addressCountry": "CA"
+  },
+  "areaServed": [
+    "Toronto",
+    "Mississauga",
+    "Vaughan",
+    "Markham",
+    "Brampton",
+    "GTA"
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "08:30",
+      "closes": "17:30"
+    }
+  ],
+  "priceRange": "$$",
+  "sameAs": []
+}
+  </script>
+
+</body>
+</html>
+

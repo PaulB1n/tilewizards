@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Portfolio | Tile Wizards Toronto</title>
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/portfolio.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <link rel="icon" type="image/png" href="assets/images/logo_favicon.ico">
+</head>
+
+<body class="page-portfolio">
+
+  <div data-include="partials/header.html"></div>
+
+  <main>
+    <section class="portfolio-page-hero section">
+      <div class="container portfolio-page-hero__inner">
+        <p class="portfolio-page-hero__eyebrow">Tile Wizards Portfolio</p>
+        <h1>Recent Tile Installation Projects Across Toronto & GTA</h1>
+        <p class="portfolio-page-hero__subtitle">
+          Real project snapshots with clean cuts, level surfaces, and durable finishes.
+          Browse different spaces, materials, and installation types.
+        </p>
+        <ul class="portfolio-page-hero__chips">
+          <li>Bathrooms</li>
+          <li>Floors</li>
+          <li>Outdoor Areas</li>
+          <li>Large Format Slabs</li>
+        </ul>
+        <div class="portfolio-page-hero__actions">
+          <a href="index.html#contact" class="btn btn--primary">Get Free Estimate</a>
+          <a href="services.html" class="btn btn--secondary">Explore Services</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio-kpis section">
+      <div class="container portfolio-kpis__grid">
+        <article>
+          <strong>40+</strong>
+          <p>Completed residential projects in Toronto and GTA.</p>
+        </article>
+        <article>
+          <strong>6+</strong>
+          <p>Years of hands-on installation experience.</p>
+        </article>
+        <article>
+          <strong>4.9</strong>
+          <p>Average client rating based on public Google reviews (as of February 2026).</p>
+        </article>
+      </div>
+    </section>
+
+    <div data-include="partials/portfolio.html"></div>
+  </main>
+
+  <div data-include="partials/footer.html"></div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button class="lightbox__close" aria-label="Close"></button>
+
+    <div class="lightbox__content">
+  <div class="lightbox__media">
+    <button class="lightbox__prev" aria-label="Previous image"></button>
+    <img src="" alt="Full size portfolio image" loading="lazy" decoding="async">
+    <button class="lightbox__next" aria-label="Next image"></button>
+  </div>
+</div>
+
+
+    <div class="lightbox__counter"></div>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/gallery.js"></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Tile Wizards",
+  "image": "https://tilewizards.ca/assets/images/logo.png",
+  "url": "https://tilewizards.ca/portfolio.html",
+  "telephone": "+1-437-299-8387",
+  "email": "romanboholiub@yahoo.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "38 Annie Craig Dr",
+    "addressLocality": "Etobicoke",
+    "addressRegion": "ON",
+    "postalCode": "M8V 0G9",
+    "addressCountry": "CA"
+  },
+  "areaServed": [
+    "Toronto",
+    "Mississauga",
+    "Vaughan",
+    "Markham",
+    "Brampton",
+    "GTA"
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "08:30",
+      "closes": "17:30"
+    }
+  ],
+  "priceRange": "$$"
+}
+  </script>
+
+</body>
+
+</html>

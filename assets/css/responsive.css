@@ -1,0 +1,18 @@
+@import url("./responsive/reset.css");
+@import url("./responsive/global.css");
+@import url("./responsive/utilities.css");
+
+@import url("./responsive/sections/section-base.css");
+@import url("./responsive/sections/services.css");
+@import url("./responsive/sections/portfolio.css");
+@import url("./responsive/sections/reviews.css");
+@import url("./responsive/sections/faq.css");
+@import url("./responsive/sections/contact.css");
+
+@import url("./responsive/header.css");
+@import url("./responsive/hero.css");
+@import url("./responsive/footer.css");
+
+@import url("./responsive/pages/home.css");
+@import url("./responsive/pages/privacy.css");
+@import url("./responsive/pages/portfolio.css");
