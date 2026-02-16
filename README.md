@@ -54,11 +54,14 @@ robots.txt
 ## Notes
 - This is a static frontend. Form submission backend is not included in this repo.
 - For analytics, connect GA4 or GTM on page to receive emitted events.
-<<<<<<< HEAD
-- Mapbox token is loaded from `assets/js/config.local.js` (ignored by Git).
-- Copy `assets/js/config.example.js` to `assets/js/config.local.js` and set your token locally.
-https://paulb1n.github.io/tilewizards/
-=======
-- Mapbox token for production is loaded from `assets/js/config.public.js` (public token, safe for client-side use).
+- `assets/js/config.public.js` stays empty in Git to avoid secret leaks.
 - Optional local override: copy `assets/js/config.example.js` to `assets/js/config.local.js` and include it only in local/dev pages when needed.
->>>>>>> 0a0417f (Fix Mapbox token loading and remove hero video asset)
+
+## Secure Mapbox Token on GitHub Pages
+1. Add repository secret:
+   - Name: `MAPBOX_PUBLIC_TOKEN`
+   - Value: your Mapbox public token (`pk...`)
+2. In GitHub repo settings, set `Pages -> Build and deployment -> Source` to `GitHub Actions`.
+3. Push to `main`.
+
+The workflow `.github/workflows/deploy-pages.yml` injects the secret token during deployment and publishes the built artifact to GitHub Pages.
