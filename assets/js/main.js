@@ -3,15 +3,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   /* LOAD PARTIALS */
   const includes = document.querySelectorAll("[data-include]");
 
-  for (const el of includes) {
-  const file = el.getAttribute("data-include");
-  const response = await fetch(file, { cache: "no-store" });
-  if (!response.ok) {
-    console.error(`Failed to load partial: ${file} (${response.status})`);
-    continue;
-  }
-  el.innerHTML = await response.text();
-}
+  const includeTasks = Array.from(includes).map(async el => {
+    const file = el.getAttribute("data-include");
+    if (!file) return;
+
+    try {
+      const response = await fetch(file);
+      if (!response.ok) {
+        console.error(`Failed to load partial: ${file} (${response.status})`);
+        return;
+      }
+      el.innerHTML = await response.text();
+    } catch (error) {
+      console.error(`Failed to load partial: ${file}`, error);
+    }
+  });
+  await Promise.all(includeTasks);
 
 /*  */
 document.dispatchEvent(new Event("partialsLoaded"));
@@ -32,13 +39,18 @@ document.dispatchEvent(new Event("partialsLoaded"));
   window.addEventListener("orientationchange", syncHeaderHeight);
   requestAnimationFrame(syncHeaderHeight);
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 20) {
-      header.classList.add("header--scrolled");
-    } else {
-      header.classList.remove("header--scrolled");
+  if (header) {
+    function syncHeaderScrolledState() {
+      if (window.scrollY > 20) {
+        header.classList.add("header--scrolled");
+      } else {
+        header.classList.remove("header--scrolled");
+      }
     }
-  });
+
+    window.addEventListener("scroll", syncHeaderScrolledState, { passive: true });
+    syncHeaderScrolledState();
+  }
 
   /* MOBILE MENU */
   const burger = document.getElementById("burger");
@@ -314,45 +326,6 @@ function initMobileStickyCta() {
 
 document.addEventListener("partialsLoaded", initMobileStickyCta);
 
-let serviceCardsInitialized = false;
-
-function initMobileServiceCards() {
-  if (serviceCardsInitialized) return;
-
-  const isMobile = window.matchMedia("(max-width: 767.98px)").matches;
-  if (!isMobile) return;
-
-  const cards = document.querySelectorAll(".services .services__grid article");
-  if (!cards.length) return;
-
-  serviceCardsInitialized = true;
-
-  cards.forEach(card => {
-    const ctaLink = card.querySelector(".service__cta[href]");
-    if (!ctaLink) return;
-
-    card.setAttribute("role", "link");
-    card.tabIndex = 0;
-
-    const goToCardCta = () => {
-      window.location.href = ctaLink.getAttribute("href");
-    };
-
-    card.addEventListener("click", e => {
-      if (e.target.closest("a,button,input,textarea,select,label")) return;
-      goToCardCta();
-    });
-
-    card.addEventListener("keydown", e => {
-      if (e.key !== "Enter" && e.key !== " ") return;
-      e.preventDefault();
-      goToCardCta();
-    });
-  });
-}
-
-document.addEventListener("partialsLoaded", initMobileServiceCards);
-
 let touchFeedbackInitialized = false;
 
 function initTouchFeedback() {
@@ -386,28 +359,6 @@ function initLazyImages() {
 
 document.addEventListener("partialsLoaded", initLazyImages);
 
-(function () {
-  const items = document.querySelectorAll(".js-reveal");
-
-  function revealOnScroll() {
-    const triggerBottom = window.innerHeight * 0.9;
-
-    items.forEach(el => {
-      const top = el.getBoundingClientRect().top;
-      const delay = el.dataset.delay || 0;
-
-      if (top < triggerBottom) {
-        setTimeout(() => {
-          el.classList.add("is-visible");
-        }, delay);
-      }
-    });
-  }
-
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll();
-})();
-
 document.addEventListener("partialsLoaded", () => {
   const items = document.querySelectorAll(".js-reveal");
   if (!items.length) return;
@@ -425,7 +376,7 @@ document.addEventListener("partialsLoaded", () => {
     });
   }
 
-  window.addEventListener("scroll", revealOnScroll);
+  window.addEventListener("scroll", revealOnScroll, { passive: true });
   revealOnScroll();
 });
 
@@ -510,6 +461,8 @@ document.addEventListener("partialsLoaded", () => {
 
 document.addEventListener("partialsLoaded", () => {
   const links = document.querySelectorAll('a[href^="/#"], a[href^="#"]');
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const scrollBehavior = prefersReducedMotion ? "auto" : "smooth";
 
   links.forEach(link => {
     link.addEventListener("click", e => {
@@ -524,7 +477,7 @@ document.addEventListener("partialsLoaded", () => {
         e.preventDefault();
 
         target.scrollIntoView({
-          behavior: "smooth",
+          behavior: scrollBehavior,
           block: "start"
         });
 
@@ -547,7 +500,7 @@ document.addEventListener("partialsLoaded", () => {
     const target = document.querySelector(window.location.hash);
     if (target) {
       setTimeout(() => {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        target.scrollIntoView({ behavior: scrollBehavior, block: "start" });
       }, 120);
     }
   }

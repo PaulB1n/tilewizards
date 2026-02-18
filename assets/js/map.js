@@ -12,6 +12,17 @@
     zoneLineColor: "#f2d67f",
     zoneLineWidth: 2.25
   };
+  const MAP_ASSETS = {
+    styles: [
+      "https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css",
+      "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css"
+    ],
+    scripts: [
+      "https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js",
+      "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js",
+      "https://unpkg.com/@turf/turf@7.2.0/turf.min.js"
+    ]
+  };
 
   const DEFAULT_MESSAGE = "Enter an address above to start the coverage check.";
   const FALLBACK_SERVICE_AREA = {
@@ -44,6 +55,63 @@
   let mapInitialized = false;
   let observerInitialized = false;
   let cachedServiceAreaData = null;
+  let mapAssetsPromise = null;
+
+  function loadStylesheet(href) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`link[rel="stylesheet"][href="${href}"]`);
+      if (existing) {
+        resolve();
+        return;
+      }
+
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      link.onload = () => resolve();
+      link.onerror = () => reject(new Error("Failed to load stylesheet: " + href));
+      document.head.appendChild(link);
+    });
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (existing.getAttribute("data-loaded") === "true") {
+          resolve();
+          return;
+        }
+        existing.addEventListener("load", () => resolve(), { once: true });
+        existing.addEventListener("error", () => reject(new Error("Failed to load script: " + src)), { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        script.setAttribute("data-loaded", "true");
+        resolve();
+      };
+      script.onerror = () => reject(new Error("Failed to load script: " + src));
+      document.head.appendChild(script);
+    });
+  }
+
+  function loadMapAssets() {
+    if (mapAssetsPromise) return mapAssetsPromise;
+
+    mapAssetsPromise = (async function () {
+      await Promise.all(MAP_ASSETS.styles.map(loadStylesheet));
+      for (const scriptSrc of MAP_ASSETS.scripts) {
+        await loadScript(scriptSrc);
+      }
+    })();
+
+    return mapAssetsPromise;
+  }
 
   function getUi() {
     return {
@@ -150,7 +218,7 @@
     if (cachedServiceAreaData) return cachedServiceAreaData;
 
     try {
-      const response = await fetch(MAP_CONFIG.serviceAreaUrl, { cache: "no-store" });
+      const response = await fetch(MAP_CONFIG.serviceAreaUrl);
       if (!response.ok) {
         throw new Error("Failed to fetch service area");
       }
@@ -202,7 +270,14 @@
     const ui = getUi();
     if (!ui.mapContainer || !ui.searchContainer) return;
 
-    if (typeof window.mapboxgl === "undefined" || typeof window.MapboxGeocoder === "undefined") {
+    try {
+      await loadMapAssets();
+    } catch (_error) {
+      activateManualCoverageFallback("Interactive coverage map is unavailable right now. Call us to confirm your exact address.");
+      return;
+    }
+
+    if (typeof window.mapboxgl === "undefined" || typeof window.MapboxGeocoder === "undefined" || typeof window.turf === "undefined") {
       activateManualCoverageFallback("Interactive coverage map is unavailable right now. Call us to confirm your exact address.");
       return;
     }

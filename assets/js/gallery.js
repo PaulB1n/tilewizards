@@ -14,6 +14,7 @@ function initPortfolioGrid() {
     ? Array.from(filtersRoot.querySelectorAll(".portfolio__filter"))
     : [];
   const LIMIT = isHome ? 3 : Infinity;
+  const validFilters = new Set(["all", ...filterButtons.map(btn => btn.dataset.filter).filter(Boolean)]);
 
   const scopeLabels = {
     bathroom: "Bathroom",
@@ -25,6 +26,29 @@ function initPortfolioGrid() {
   let allItems = [];
   let activeFilter = "all";
 
+  function normalizeFilter(filter) {
+    if (!filter) return "all";
+    return validFilters.has(filter) ? filter : "all";
+  }
+
+  function getFilterFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return normalizeFilter(params.get("filter"));
+  }
+
+  function syncFilterToUrl(filter) {
+    const url = new URL(window.location.href);
+    if (filter === "all") {
+      url.searchParams.delete("filter");
+    } else {
+      url.searchParams.set("filter", filter);
+    }
+
+    const search = url.searchParams.toString();
+    const nextUrl = `${url.pathname}${search ? `?${search}` : ""}${url.hash}`;
+    window.history.replaceState({}, "", nextUrl);
+  }
+
   function renderGrid() {
     const filtered =
       activeFilter === "all"
@@ -34,10 +58,17 @@ function initPortfolioGrid() {
     const visibleItems = filtered.slice(0, LIMIT);
     grid.innerHTML = "";
 
+    if (!visibleItems.length) {
+      grid.innerHTML = '<p class="portfolio__empty" role="status">No projects found for this filter. Try another category.</p>';
+      return;
+    }
+
     visibleItems.forEach((item, index) => {
-      const card = document.createElement("div");
+      const card = document.createElement("button");
       const isFeatured = isPortfolioPage && (item.featured || index === 0);
       card.className = `portfolio__item portfolio__item--card${isFeatured ? " portfolio__item--featured" : ""}`;
+      card.type = "button";
+      card.setAttribute("aria-label", `Open gallery for ${item.title || "project"}`);
 
       card.dataset.images = JSON.stringify(item.images || []);
       card.dataset.title = item.title || "Project";
@@ -49,12 +80,16 @@ function initPortfolioGrid() {
       const material = item.material || "Porcelain";
       const summary = item.summary || "Professional tile installation with clean cuts and level finish.";
       const stats = Array.isArray(item.stats) ? item.stats.slice(0, 2) : [];
+      const imageWidth = Number(item.imageWidth) || 1200;
+      const imageHeight = Number(item.imageHeight) || 900;
 
       card.innerHTML = `
         <div class="portfolio__media">
           <img
             src="${item.cover}"
             alt="${altText}"
+            width="${imageWidth}"
+            height="${imageHeight}"
             loading="lazy"
             decoding="async"
           >
@@ -86,13 +121,17 @@ function initPortfolioGrid() {
     });
   }
 
-  function setActiveFilter(nextFilter) {
-    activeFilter = nextFilter;
+  function setActiveFilter(nextFilter, options = {}) {
+    const { syncUrl = true } = options;
+    activeFilter = normalizeFilter(nextFilter);
     filterButtons.forEach(btn => {
-      const isActive = btn.dataset.filter === nextFilter;
+      const isActive = btn.dataset.filter === activeFilter;
       btn.classList.toggle("is-active", isActive);
       btn.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
+    if (syncUrl) {
+      syncFilterToUrl(activeFilter);
+    }
     renderGrid();
   }
 
@@ -100,7 +139,7 @@ function initPortfolioGrid() {
     .then(res => res.json())
     .then(items => {
       allItems = Array.isArray(items) ? items : [];
-      renderGrid();
+      setActiveFilter(getFilterFromUrl(), { syncUrl: true });
 
       filterButtons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -108,13 +147,17 @@ function initPortfolioGrid() {
         });
       });
     })
-    .catch(err => console.error("Portfolio load error:", err));
+    .catch(err => {
+      console.error("Portfolio load error:", err);
+      grid.innerHTML = '<p class="portfolio__empty portfolio__empty--error" role="status">Failed to load portfolio projects. Please refresh the page.</p>';
+    });
 }
 
 let currentImages = [];
 let currentIndex = 0;
 let currentTitle = "";
 let lightboxReady = false;
+let lastFocusedElement = null;
 
 function initLightbox() {
   if (lightboxReady) return;
@@ -153,6 +196,8 @@ function initLightbox() {
     loader.setAttribute("aria-hidden", "true");
     content.appendChild(loader);
   }
+
+  lightbox.setAttribute("aria-hidden", "true");
 
   function updateCounter() {
     if (currentImages.length <= 1) {
@@ -207,19 +252,29 @@ function initLightbox() {
 
   function closeLightbox() {
     lightbox.classList.remove("active");
+    lightbox.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    if (lastFocusedElement instanceof HTMLElement && document.contains(lastFocusedElement)) {
+      lastFocusedElement.focus();
+    }
   }
 
-  document.addEventListener("click", e => {
-    const img = e.target.closest(".portfolio__media img");
-    if (!img) return;
-
-    const item = img.closest(".portfolio__item");
+  function openLightboxFromItem(item) {
     if (!item || !item.dataset.images) return;
 
-    currentImages = JSON.parse(item.dataset.images);
+    let images = [];
+    try {
+      images = JSON.parse(item.dataset.images);
+    } catch (_error) {
+      return;
+    }
+
+    if (!Array.isArray(images) || !images.length) return;
+
+    currentImages = images;
     currentIndex = 0;
     currentTitle = item.dataset.title || "Project";
+    lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     setLightboxImage(currentIndex);
     updateCounter();
@@ -227,7 +282,15 @@ function initLightbox() {
     preloadNeighbor(1);
 
     lightbox.classList.add("active");
+    lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+
+  document.addEventListener("click", e => {
+    const item = e.target.closest(".portfolio__item");
+    if (!item) return;
+    openLightboxFromItem(item);
   });
 
   closeBtn.addEventListener("click", closeLightbox);
@@ -253,6 +316,39 @@ function initLightbox() {
     if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") changeSlide(1);
     if (e.key === "ArrowLeft") changeSlide(-1);
+    if (e.key === "Tab") {
+      const focusable = Array.from(
+        lightbox.querySelectorAll(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+
+      if (!focusable.length) {
+        e.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (!(active instanceof HTMLElement) || !lightbox.contains(active)) {
+        e.preventDefault();
+        first.focus();
+        return;
+      }
+
+      if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+        return;
+      }
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    }
   });
 
   let startX = 0;

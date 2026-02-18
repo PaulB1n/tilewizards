@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://api.mapbox.com" crossorigin>
-  <link rel="preconnect" href="https://events.mapbox.com" crossorigin>
-  
-   
   <title>Tile Wizards | Toronto</title>
   <meta name="description" content="Professional tile installation in Toronto, Mississauga, Vaughan & GTA. Bathrooms, kitchens, floors, and custom tile work. Free estimates." />
+  <link rel="canonical" href="https://tilewizards.ca/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tile Wizards" />
+  <meta property="og:title" content="Tile Wizards | Toronto" />
+  <meta property="og:description" content="Professional tile installation in Toronto, Mississauga, Vaughan & GTA. Bathrooms, kitchens, floors, and custom tile work. Free estimates." />
+  <meta property="og:url" content="https://tilewizards.ca/" />
+  <meta property="og:image" content="https://tilewizards.ca/assets/images/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tile Wizards | Toronto" />
+  <meta name="twitter:description" content="Professional tile installation in Toronto, Mississauga, Vaughan & GTA. Bathrooms, kitchens, floors, and custom tile work. Free estimates." />
+  <meta name="twitter:image" content="https://tilewizards.ca/assets/images/logo.png" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css">
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/portfolio.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
@@ -20,15 +25,16 @@
 
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/images/logo_favicon.ico">
+  <link rel="icon" type="image/png" href="assets/images/favicon-32.png">
 </head>
 
 <body class="page-home">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- HEADER (partials) -->
   <div data-include="partials/header.html"></div>
 
-  <main>
+  <main id="main-content">
 
     <!-- ================= HERO WITH VIDEO ================= -->
     <section class="hero hero--video section section--hero hero-layout hero-media hero-effects" id="hero">
@@ -110,13 +116,13 @@
   <div data-include="partials/footer.html"></div>
 
   <!-- LIGHTBOX -->
- <div id="lightbox">
+ <div id="lightbox" role="dialog" aria-modal="true" aria-label="Project image gallery" aria-hidden="true">
   <button class="lightbox__close" aria-label="Close"></button>
 
   <div class="lightbox__content">
     <div class="lightbox__media">
       <button class="lightbox__prev" aria-label="Previous image"></button>
-      <img src="" alt="" loading="lazy" decoding="async">
+      <img src="" alt="" width="1200" height="900" loading="lazy" decoding="async">
       <button class="lightbox__next" aria-label="Next image"></button>
     </div>
   </div>
@@ -127,9 +133,6 @@
 
 
   <!-- JS -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
-  <script src="https://unpkg.com/@turf/turf@7.2.0/turf.min.js"></script>
   <script>
     window.MAPBOX_TOKEN = window.MAPBOX_TOKEN || "";
   </script>

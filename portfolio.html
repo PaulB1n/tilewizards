@@ -5,19 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Portfolio | Tile Wizards Toronto</title>
+  <meta name="description" content="Browse recent tile installation projects by Tile Wizards across Toronto and GTA, including bathrooms, floors, outdoor spaces, and slab work.">
+  <link rel="canonical" href="https://tilewizards.ca/portfolio.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tile Wizards">
+  <meta property="og:title" content="Portfolio | Tile Wizards Toronto">
+  <meta property="og:description" content="Browse recent tile installation projects by Tile Wizards across Toronto and GTA, including bathrooms, floors, outdoor spaces, and slab work.">
+  <meta property="og:url" content="https://tilewizards.ca/portfolio.html">
+  <meta property="og:image" content="https://tilewizards.ca/assets/images/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Portfolio | Tile Wizards Toronto">
+  <meta name="twitter:description" content="Browse recent tile installation projects by Tile Wizards across Toronto and GTA, including bathrooms, floors, outdoor spaces, and slab work.">
+  <meta name="twitter:image" content="https://tilewizards.ca/assets/images/logo.png">
 
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/portfolio.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 
-  <link rel="icon" type="image/png" href="assets/images/logo_favicon.ico">
+  <link rel="icon" type="image/png" href="assets/images/favicon-32.png">
 </head>
 
 <body class="page-portfolio">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div data-include="partials/header.html"></div>
 
-  <main>
+  <main id="main-content">
     <section class="portfolio-page-hero section">
       <div class="container portfolio-page-hero__inner">
         <p class="portfolio-page-hero__eyebrow">Tile Wizards Portfolio</p>
@@ -62,13 +75,13 @@
   <div data-include="partials/footer.html"></div>
 
   <!-- LIGHTBOX -->
-  <div id="lightbox">
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Project image gallery" aria-hidden="true">
     <button class="lightbox__close" aria-label="Close"></button>
 
     <div class="lightbox__content">
   <div class="lightbox__media">
     <button class="lightbox__prev" aria-label="Previous image"></button>
-    <img src="" alt="Full size portfolio image" loading="lazy" decoding="async">
+    <img src="" alt="Full size portfolio image" width="1200" height="900" loading="lazy" decoding="async">
     <button class="lightbox__next" aria-label="Next image"></button>
   </div>
 </div>

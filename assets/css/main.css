@@ -56,6 +56,10 @@ html, body {
   height: 100%;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   overflow-x: clip;
 }
@@ -1546,6 +1550,40 @@ p {
   }
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -48px;
+  z-index: 2200;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #f5c542;
+  color: #111;
+  text-decoration: none;
+  font-weight: 700;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 12px;
+}
+
+:where(main, section, div, form)[id] {
+  scroll-margin-top: calc(var(--header-h, 88px) + 16px);
+}
+
 /* ===============================
    MOBILE MENU (RESTORED)
 ================================ */
@@ -1563,7 +1601,7 @@ p {
   width: 26px;
   height: 2px;
   background-color: #ffffff;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
 }
 
 .nav--mobile {
@@ -1870,6 +1908,15 @@ button:focus-visible,
     display: flex;
   }
 } 
+
+@media (min-width: 1024px) {
+  .nav--mobile,
+  .nav--mobile.active {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
 
 body.menu-open {
   overflow: hidden;
@@ -2327,6 +2374,12 @@ body.menu-open {
 
 .contact-map__canvas[hidden] {
   display: none;
+}
+
+.contact-map--fallback .contact-map__canvas {
+  display: none !important;
+  min-height: 0;
+  border: 0;
 }
 
 .contact-map:hover .contact-map__canvas {
@@ -2977,8 +3030,12 @@ body.menu-open {
   justify-content: flex-start;
   height: 100%;
   min-height: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+}
+
+body.menu-open .menu-screen-inner {
+  overflow-y: auto;
 }
 
 /* GRADIENT BACKGROUND */

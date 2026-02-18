@@ -92,11 +92,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Prevent accidental horizontal scroll from transformed/decorative layers. */
-body {
-  overflow-y: auto;
-}
-
 main {
   overflow-x: hidden;
   overflow-y: visible;

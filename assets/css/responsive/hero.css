@@ -1,9 +1,15 @@
 /* hero-layout */
 :where(.hero, .hero-layout) {
-  background: url("../images/hero-poster.jpg") center / cover no-repeat;
+  background: url("../images/hero-poster-mobile.jpg") center / cover no-repeat;
   height: auto;
   min-height: 0;
   overflow: visible;
+}
+
+@media (min-width: 768px) {
+  :where(.hero, .hero-layout) {
+    background-image: url("../images/hero-poster.jpg");
+  }
 }
 
 :where(.hero__inner, .hero-layout .hero__inner) {

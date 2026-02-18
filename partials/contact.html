@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <form class="contact__form contact__form--ads" id="contact-form">
+    <form class="contact__form contact__form--ads" id="contact-form" action="" method="get">
       <h2>Get a Free Tile Installation Estimate</h2>
 
       <p class="contact__form-subtitle">
@@ -78,12 +78,15 @@
       </p>
 
       <div class="form__group">
-        <input type="text" name="name" autocomplete="name" placeholder="Your Name *" required>
-        <input type="tel" name="phone" autocomplete="tel" placeholder="Phone Number *" required>
+        <label class="visually-hidden" for="contact-name">Your Name</label>
+        <input id="contact-name" type="text" name="name" autocomplete="name" placeholder="Your Name (e.g., John Smith) *" required>
+        <label class="visually-hidden" for="contact-phone">Phone Number</label>
+        <input id="contact-phone" type="tel" name="phone" autocomplete="tel" placeholder="Phone Number (e.g., +1 437 299 8387) *" required>
       </div>
 
       <div class="form__group">
-        <select name="project_type" autocomplete="off" required>
+        <label class="visually-hidden" for="contact-project-type">Project Type</label>
+        <select id="contact-project-type" name="project_type" autocomplete="off" required>
           <option value="" selected disabled>Choose Project Type *</option>
           <option value="bathroom">Bathroom</option>
           <option value="kitchen">Kitchen</option>
@@ -94,7 +97,8 @@
       </div>
 
       <div class="form__group">
-        <textarea name="project_details" autocomplete="off" placeholder="Project details (optional)"></textarea>
+        <label class="visually-hidden" for="contact-project-details">Project Details</label>
+        <textarea id="contact-project-details" name="project_details" autocomplete="off" placeholder="Project details (optional)..."></textarea>
       </div>
 
       <button type="submit" class="btn btn--primary btn--lg">Send Request</button>

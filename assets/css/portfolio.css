@@ -323,6 +323,12 @@ cursor: pointer;
 }
 
 .portfolio__item--card {
+  width: 100%;
+  display: block;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  font: inherit;
   background: #0e0e0e;
   border-radius: 20px;
   overflow: hidden;
@@ -342,6 +348,20 @@ cursor: pointer;
 /* hide button on portfolio page */
 .page-portfolio .portfolio__actions--home {
   display: none;
+}
+
+.portfolio__empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.88);
+}
+
+.portfolio__empty--error {
+  border-color: rgba(255, 120, 120, 0.5);
 }
 
 
