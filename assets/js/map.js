@@ -1,6 +1,5 @@
 (function () {
   const MAP_CONFIG = {
-    token: window.MAPBOX_TOKEN || "",
     center: [-79.3832, 43.6532],
     zoom: 9,
     checkZoom: 11.5,
@@ -18,9 +17,12 @@
       "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css"
     ],
     scripts: [
-      "https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js",
-      "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js",
-      "https://unpkg.com/@turf/turf@7.2.0/turf.min.js"
+      ["https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"],
+      ["https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"],
+      [
+        "https://unpkg.com/@turf/turf@7.2.0/turf.min.js",
+        "https://cdn.jsdelivr.net/npm/@turf/turf@7.2.0/turf.min.js"
+      ]
     ]
   };
 
@@ -56,6 +58,11 @@
   let observerInitialized = false;
   let cachedServiceAreaData = null;
   let mapAssetsPromise = null;
+
+  function getMapToken() {
+    if (typeof window.MAPBOX_TOKEN !== "string") return "";
+    return window.MAPBOX_TOKEN.trim();
+  }
 
   function loadStylesheet(href) {
     return new Promise((resolve, reject) => {
@@ -105,8 +112,24 @@
 
     mapAssetsPromise = (async function () {
       await Promise.all(MAP_ASSETS.styles.map(loadStylesheet));
-      for (const scriptSrc of MAP_ASSETS.scripts) {
-        await loadScript(scriptSrc);
+
+      for (const scriptSources of MAP_ASSETS.scripts) {
+        const sources = Array.isArray(scriptSources) ? scriptSources : [scriptSources];
+        let lastError = null;
+
+        for (const scriptSrc of sources) {
+          try {
+            await loadScript(scriptSrc);
+            lastError = null;
+            break;
+          } catch (error) {
+            lastError = error;
+          }
+        }
+
+        if (lastError) {
+          throw lastError;
+        }
       }
     })();
 
@@ -282,12 +305,13 @@
       return;
     }
 
-    if (!MAP_CONFIG.token) {
+    const mapToken = getMapToken();
+    if (!mapToken) {
       activateManualCoverageFallback("Live coverage lookup is unavailable right now. Call us to confirm your exact address.");
       return;
     }
 
-    window.mapboxgl.accessToken = MAP_CONFIG.token;
+    window.mapboxgl.accessToken = mapToken;
     setZoneResult("Loading map and service area...", "info");
 
     const serviceAreaData = await loadServiceAreaData();
@@ -454,4 +478,9 @@
   }
 
   document.addEventListener("partialsLoaded", initMapOnVisible);
+  document.addEventListener("DOMContentLoaded", initMapOnVisible, { once: true });
+
+  if (document.readyState === "interactive" || document.readyState === "complete") {
+    initMapOnVisible();
+  }
 })();
