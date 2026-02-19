@@ -478,6 +478,7 @@ cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
   z-index: 9999;
