@@ -64,6 +64,26 @@
     return window.MAPBOX_TOKEN.trim();
   }
 
+  function parseMapTokenFromScript(sourceText) {
+    if (typeof sourceText !== "string" || !sourceText) return "";
+    const match = sourceText.match(/window\.MAPBOX_TOKEN\s*=\s*["']([^"']+)["']/);
+    return match && match[1] ? match[1].trim() : "";
+  }
+
+  async function loadTokenFromPublicConfig() {
+    try {
+      const response = await fetch("assets/js/config.public.js?v=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) return "";
+      const sourceText = await response.text();
+      const token = parseMapTokenFromScript(sourceText);
+      if (!token) return "";
+      window.MAPBOX_TOKEN = token;
+      return token;
+    } catch (_error) {
+      return "";
+    }
+  }
+
   function isLocalDevEnvironment() {
     const hostname = window.location.hostname;
     return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
@@ -73,22 +93,24 @@
     const currentToken = getMapToken();
     if (currentToken) return currentToken;
 
-    if (!isLocalDevEnvironment()) {
-      return "";
+    if (isLocalDevEnvironment()) {
+      const staticLocalConfig = document.querySelector('script[src="assets/js/config.local.js"]');
+      if (staticLocalConfig) {
+        const tokenFromStaticLocalConfig = getMapToken();
+        if (tokenFromStaticLocalConfig) return tokenFromStaticLocalConfig;
+      }
+
+      try {
+        await loadScript("assets/js/config.local.js");
+      } catch (_error) {
+        // no-op
+      }
+
+      const tokenFromDynamicLocalConfig = getMapToken();
+      if (tokenFromDynamicLocalConfig) return tokenFromDynamicLocalConfig;
     }
 
-    const staticLocalConfig = document.querySelector('script[src="assets/js/config.local.js"]');
-    if (staticLocalConfig) {
-      return getMapToken();
-    }
-
-    try {
-      await loadScript("assets/js/config.local.js");
-    } catch (_error) {
-      return "";
-    }
-
-    return getMapToken();
+    return loadTokenFromPublicConfig();
   }
 
   function loadStylesheet(href) {
