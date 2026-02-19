@@ -64,9 +64,18 @@
     return window.MAPBOX_TOKEN.trim();
   }
 
+  function isLocalDevEnvironment() {
+    const hostname = window.location.hostname;
+    return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
+  }
+
   async function ensureMapToken() {
     const currentToken = getMapToken();
     if (currentToken) return currentToken;
+
+    if (!isLocalDevEnvironment()) {
+      return "";
+    }
 
     const staticLocalConfig = document.querySelector('script[src="assets/js/config.local.js"]');
     if (staticLocalConfig) {

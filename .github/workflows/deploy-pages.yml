@@ -35,7 +35,10 @@ jobs:
             exit 1
           fi
 
-          sed -i "s|window.MAPBOX_TOKEN = \"\";|window.MAPBOX_TOKEN = \"$MAPBOX_PUBLIC_TOKEN\";|g" assets/js/config.public.js
+          printf '%s\n%s\n' \
+            '// Generated during GitHub Pages deployment.' \
+            "window.MAPBOX_TOKEN = \"$MAPBOX_PUBLIC_TOKEN\";" \
+            > assets/js/config.public.js
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
