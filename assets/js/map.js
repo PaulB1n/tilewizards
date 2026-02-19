@@ -64,6 +64,24 @@
     return window.MAPBOX_TOKEN.trim();
   }
 
+  async function ensureMapToken() {
+    const currentToken = getMapToken();
+    if (currentToken) return currentToken;
+
+    const staticLocalConfig = document.querySelector('script[src="assets/js/config.local.js"]');
+    if (staticLocalConfig) {
+      return getMapToken();
+    }
+
+    try {
+      await loadScript("assets/js/config.local.js");
+    } catch (_error) {
+      return "";
+    }
+
+    return getMapToken();
+  }
+
   function loadStylesheet(href) {
     return new Promise((resolve, reject) => {
       const existing = document.querySelector(`link[rel="stylesheet"][href="${href}"]`);
@@ -89,6 +107,10 @@
           resolve();
           return;
         }
+        if (existing.getAttribute("data-error") === "true") {
+          reject(new Error("Failed to load script: " + src));
+          return;
+        }
         existing.addEventListener("load", () => resolve(), { once: true });
         existing.addEventListener("error", () => reject(new Error("Failed to load script: " + src)), { once: true });
         return;
@@ -102,7 +124,10 @@
         script.setAttribute("data-loaded", "true");
         resolve();
       };
-      script.onerror = () => reject(new Error("Failed to load script: " + src));
+      script.onerror = () => {
+        script.setAttribute("data-error", "true");
+        reject(new Error("Failed to load script: " + src));
+      };
       document.head.appendChild(script);
     });
   }
@@ -293,6 +318,12 @@
     const ui = getUi();
     if (!ui.mapContainer || !ui.searchContainer) return;
 
+    const mapToken = await ensureMapToken();
+    if (!mapToken) {
+      activateManualCoverageFallback("Live coverage lookup is unavailable right now. Call us to confirm your exact address.");
+      return;
+    }
+
     try {
       await loadMapAssets();
     } catch (_error) {
@@ -302,12 +333,6 @@
 
     if (typeof window.mapboxgl === "undefined" || typeof window.MapboxGeocoder === "undefined" || typeof window.turf === "undefined") {
       activateManualCoverageFallback("Interactive coverage map is unavailable right now. Call us to confirm your exact address.");
-      return;
-    }
-
-    const mapToken = getMapToken();
-    if (!mapToken) {
-      activateManualCoverageFallback("Live coverage lookup is unavailable right now. Call us to confirm your exact address.");
       return;
     }
 
