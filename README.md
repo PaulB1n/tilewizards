@@ -165,12 +165,9 @@ Files:
 - `assets/js/config.public.js` -> committed, intentionally empty in Git.
 - `assets/js/config.example.js` -> token template.
 
-Local development options:
-1. Temporary direct edit (simple):
+Local development option:
+1. Temporary direct edit:
    - set token in `assets/js/config.public.js`
-2. Optional local override file (cleaner):
-   - create `assets/js/config.local.js` from example
-   - include it after `config.public.js` in local HTML only
 
 Recommended token hardening:
 - Use a public (`pk...`) token only.

@@ -84,31 +84,9 @@
     }
   }
 
-  function isLocalDevEnvironment() {
-    const hostname = window.location.hostname;
-    return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]";
-  }
-
   async function ensureMapToken() {
     const currentToken = getMapToken();
     if (currentToken) return currentToken;
-
-    if (isLocalDevEnvironment()) {
-      const staticLocalConfig = document.querySelector('script[src="assets/js/config.local.js"]');
-      if (staticLocalConfig) {
-        const tokenFromStaticLocalConfig = getMapToken();
-        if (tokenFromStaticLocalConfig) return tokenFromStaticLocalConfig;
-      }
-
-      try {
-        await loadScript("assets/js/config.local.js");
-      } catch (_error) {
-        // no-op
-      }
-
-      const tokenFromDynamicLocalConfig = getMapToken();
-      if (tokenFromDynamicLocalConfig) return tokenFromDynamicLocalConfig;
-    }
 
     return loadTokenFromPublicConfig();
   }
@@ -245,7 +223,18 @@
       ui.mapCard.classList.add("contact-map--ready");
     }
 
-    ui.mapContainer.setAttribute("hidden", "hidden");
+    ui.mapContainer.removeAttribute("hidden");
+    ui.mapContainer.classList.add("contact-map__canvas--fallback");
+    ui.mapContainer.innerHTML = "";
+
+    const fallbackIframe = document.createElement("iframe");
+    fallbackIframe.className = "contact-map__iframe";
+    fallbackIframe.src = "https://www.openstreetmap.org/export/embed.html?bbox=-80.8%2C43.0%2C-78.1%2C44.8&layer=mapnik&marker=43.6532%2C-79.3832";
+    fallbackIframe.setAttribute("title", "Tile Wizards service area map");
+    fallbackIframe.loading = "lazy";
+    fallbackIframe.referrerPolicy = "no-referrer-when-downgrade";
+    ui.mapContainer.appendChild(fallbackIframe);
+
     ui.searchContainer.innerHTML = "";
 
     const fallbackSearchNote = document.createElement("p");
