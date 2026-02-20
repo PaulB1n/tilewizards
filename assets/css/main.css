@@ -2513,23 +2513,32 @@ body.menu-open {
 .contact-map .mapboxgl-ctrl-geocoder--icon-close {
   width: 16px;
   height: 16px;
-  top: 50%;
-  right: 14px;
+  position: static;
+  top: auto;
+  right: auto;
   left: auto;
-  margin-top: 0;
-  transform: translateY(-50%);
+  transform: none;
+  margin: 0;
 }
 
 .contact-map .mapboxgl-ctrl-geocoder--button {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  bottom: 0;
+  width: 32px;
   background: transparent;
-  min-width: 34px;
-  min-height: 34px;
+  min-width: 32px;
+  min-height: 32px;
+  margin: auto 0;
   padding: 0;
+  border: 0;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
-  border-radius: 10px;
+  z-index: 2;
 }
 
 .contact-map .mapboxgl-ctrl-geocoder--button:hover {
