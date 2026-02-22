@@ -18,8 +18,8 @@
   <meta name="twitter:description" content="Explore Tile Wizards services in Toronto and GTA: bathroom tile, backsplashes, floor tile, pool tile, stairs, and large-format slab installation.">
   <meta name="twitter:image" content="https://tilewizards.ca/assets/images/logo.png">
 
-  <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/main.css?v=__ASSET_VERSION__">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=__ASSET_VERSION__">
 
   <link rel="icon" type="image/png" href="assets/images/favicon-32.png">
 </head>
@@ -31,21 +31,23 @@
 
   <main id="main-content">
     <section class="services-page-hero section">
-      <div class="container services-page-hero__inner">
-        <p class="services-page-hero__eyebrow">Tile Wizards Services</p>
-        <h1>Tile Installation Services in Toronto & GTA</h1>
-        <p class="services-page-hero__subtitle">
-          Professional installation for residential and commercial projects.
-          Clean prep, precise leveling, and durable finishes for high-traffic spaces.
-        </p>
-        <ul class="services-page-hero__chips">
-          <li>Licensed & Insured</li>
-          <li>Detailed Quotes</li>
-          <li>Warranty-Backed Work</li>
-        </ul>
-        <div class="services-page-hero__actions">
-          <a href="#contact" class="btn btn--primary">Get Free Estimate</a>
-          <a href="tel:+14372998387" class="btn btn--secondary">Call Now</a>
+      <div class="container">
+        <div class="services-page-hero__inner">
+          <p class="services-page-hero__eyebrow">Tile Wizards Services</p>
+          <h1>Tile Installation Services in Toronto & GTA</h1>
+          <p class="services-page-hero__subtitle">
+            Professional installation for residential and commercial projects.
+            Clean prep, precise leveling, and durable finishes for high-traffic spaces.
+          </p>
+          <ul class="services-page-hero__chips">
+            <li>Licensed & Insured</li>
+            <li>Detailed Quotes</li>
+            <li>Warranty-Backed Work</li>
+          </ul>
+          <div class="services-page-hero__actions">
+            <a href="#contact" class="btn btn--primary">Get Free Estimate</a>
+            <a href="tel:+14372998387" class="btn btn--secondary">Call Now</a>
+          </div>
         </div>
       </div>
     </section>
@@ -111,7 +113,12 @@
 
   <div data-include="partials/footer.html"></div>
 
-  <script src="assets/js/main.js"></script>
+  <script>
+    window.MAPBOX_TOKEN = window.MAPBOX_TOKEN || "";
+  </script>
+  <script src="assets/js/config.public.js?v=__ASSET_VERSION__"></script>
+  <script src="assets/js/main.js?v=__ASSET_VERSION__"></script>
+  <script src="assets/js/map.js?v=__ASSET_VERSION__"></script>
 
   <script type="application/ld+json">
 {

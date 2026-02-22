@@ -25,20 +25,154 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Lint (JS syntax)
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check assets/js/main.js
+          node --check assets/js/gallery.js
+          node --check assets/js/map.js
+
+      - name: Link Check (local href/src/include)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          root = Path(".")
+          attr_re = re.compile(r'(?:href|src|data-include)\s*=\s*["\']([^"\']+)["\']', re.IGNORECASE)
+          skip_prefixes = ("http://", "https://", "mailto:", "tel:", "#", "javascript:", "data:")
+
+          checks = []
+          checks.extend((page, page.parent) for page in sorted(root.glob("*.html")))
+          checks.extend((partial, root) for partial in sorted((root / "partials").glob("*.html")))
+
+          errors = []
+          for file_path, base_dir in checks:
+              text = file_path.read_text(encoding="utf-8")
+              for raw_ref in attr_re.findall(text):
+                  ref = raw_ref.strip()
+                  if not ref or ref.startswith(skip_prefixes):
+                      continue
+                  clean = ref.split("#", 1)[0].split("?", 1)[0].strip()
+                  if not clean:
+                      continue
+                  target = (base_dir / clean).resolve()
+                  if not target.exists():
+                      errors.append(f"{file_path}: missing {raw_ref} -> {target}")
+
+          if errors:
+              print("Broken local references found:")
+              for err in errors:
+                  print(f"- {err}")
+              sys.exit(1)
+
+          print("Link check passed.")
+          PY
+
+      - name: Accessibility Smoke Checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          pages = sorted(Path(".").glob("*.html"))
+          errors = []
+
+          for page in pages:
+              text = page.read_text(encoding="utf-8")
+
+              if not re.search(r"<html[^>]*\blang\s*=", text, re.IGNORECASE):
+                  errors.append(f"{page}: missing html[lang]")
+
+              h1_count = len(re.findall(r"<h1\b", text, re.IGNORECASE))
+              if h1_count != 1:
+                  errors.append(f"{page}: expected exactly 1 <h1>, found {h1_count}")
+
+              for img_match in re.finditer(r"<img\b[^>]*>", text, re.IGNORECASE):
+                  tag = img_match.group(0)
+                  if not re.search(r"\balt\s*=\s*['\"][^'\"]*['\"]", tag, re.IGNORECASE):
+                      errors.append(f"{page}: image without alt attribute -> {tag}")
+
+              for btn_match in re.finditer(r"<button\b[^>]*>(.*?)</button>", text, re.IGNORECASE | re.DOTALL):
+                  opening_tag = btn_match.group(0).split(">", 1)[0] + ">"
+                  inner_html = btn_match.group(1)
+                  text_content = re.sub(r"<[^>]+>", "", inner_html).strip()
+                  has_aria_label = bool(re.search(r"\baria-label\s*=\s*['\"][^'\"]+['\"]", opening_tag, re.IGNORECASE))
+                  if not text_content and not has_aria_label:
+                      errors.append(f"{page}: button has no visible text and no aria-label -> {opening_tag}")
+
+          if errors:
+              print("Accessibility smoke checks failed:")
+              for err in errors:
+                  print(f"- {err}")
+              sys.exit(1)
+
+          print("Accessibility smoke checks passed.")
+          PY
+
+      - name: Smoke Test (serve + HTTP checks)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m http.server 4173 >/tmp/site.log 2>&1 &
+          SERVER_PID=$!
+          trap "kill ${SERVER_PID}" EXIT
+          sleep 2
+
+          for page in index.html services.html portfolio.html privacy.html 404.html robots.txt sitemap.xml; do
+            code=$(curl -s -o /tmp/page.out -w "%{http_code}" "http://127.0.0.1:4173/${page}")
+            if [ "${code}" != "200" ]; then
+              echo "Smoke check failed for ${page}: HTTP ${code}"
+              exit 1
+            fi
+          done
+
+          for page in index.html services.html portfolio.html privacy.html 404.html; do
+            curl -s "http://127.0.0.1:4173/${page}" | grep -qi "<title>" || {
+              echo "Smoke check failed for ${page}: missing <title>"
+              exit 1
+            }
+          done
+
       - name: Inject Mapbox public token
         shell: bash
         env:
           MAPBOX_PUBLIC_TOKEN: ${{ secrets.MAPBOX_PUBLIC_TOKEN }}
+          GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
         run: |
           if [ -z "$MAPBOX_PUBLIC_TOKEN" ]; then
             echo "Missing required secret: MAPBOX_PUBLIC_TOKEN"
             exit 1
           fi
 
-          printf '%s\n%s\n' \
+          printf '%s\n%s\n%s\n%s\n' \
             '// Generated during GitHub Pages deployment.' \
             "window.MAPBOX_TOKEN = \"$MAPBOX_PUBLIC_TOKEN\";" \
+            "window.GA_MEASUREMENT_ID = \"${GA_MEASUREMENT_ID:-}\";" \
+            "window.LEADS_WEBHOOK_URL = \"${GOOGLE_SHEETS_WEBHOOK_URL:-}\";" \
             > assets/js/config.public.js
+
+      - name: Apply asset version for cache busting
+        shell: bash
+        env:
+          ASSET_VERSION: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          VERSION="${ASSET_VERSION::12}"
+          find . -maxdepth 1 -type f -name "*.html" -print0 | xargs -0 sed -i "s/__ASSET_VERSION__/${VERSION}/g"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

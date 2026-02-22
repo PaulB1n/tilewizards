@@ -173,11 +173,22 @@ Recommended token hardening:
 - Use a public (`pk...`) token only.
 - Restrict token by allowed domain(s) in Mapbox dashboard.
 
-### GitHub Pages secret
-For CI deployment, set repo secret:
-- `MAPBOX_PUBLIC_TOKEN`
+### Optional analytics config
+Tracking bootstrap uses `window.GA_MEASUREMENT_ID` (GA4 measurement ID).
 
-The workflow injects this value into `assets/js/config.public.js` during deployment.
+### Google Sheets lead webhook
+Contact form submission uses `window.LEADS_WEBHOOK_URL` (Google Apps Script Web App URL).
+
+Setup guide:
+- `docs/google-sheets-leads.md`
+
+### GitHub Pages secrets
+For CI deployment, set repo secrets:
+- `MAPBOX_PUBLIC_TOKEN`
+- `GA_MEASUREMENT_ID` (optional)
+- `GOOGLE_SHEETS_WEBHOOK_URL` (optional, required for live lead capture)
+
+The workflow injects these values into `assets/js/config.public.js` during deployment.
 
 ## Development Workflow
 

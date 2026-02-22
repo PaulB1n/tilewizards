@@ -118,12 +118,85 @@ document.dispatchEvent(new Event("partialsLoaded"));
     desktopMq.addListener(syncMenuForViewport);
   }
 
-  console.log("Mobile menu initialized");
 });
+
+const COOKIE_NOTICE_STORAGE_KEY = "tilewizards_cookie_notice_accepted";
+const ANALYTICS_BOOTSTRAP_SRC = "https://www.googletagmanager.com/gtag/js?id=";
+const LEADS_RATE_LIMIT_STORAGE_KEY = "tilewizards_last_lead_submit_at";
+const LEADS_MIN_INTERVAL_MS = 15000;
+
+function readLocalStorageValue(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (_error) {
+    return null;
+  }
+}
+
+function writeLocalStorageValue(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+    return true;
+  } catch (_error) {
+    return false;
+  }
+}
+
+function hasAnalyticsConsent() {
+  return readLocalStorageValue(COOKIE_NOTICE_STORAGE_KEY) === "true";
+}
+
+function getLeadsWebhookUrl() {
+  if (typeof window.LEADS_WEBHOOK_URL !== "string") return "";
+  return window.LEADS_WEBHOOK_URL.trim();
+}
+
+function getGaMeasurementId() {
+  if (typeof window.GA_MEASUREMENT_ID !== "string") return "";
+  return window.GA_MEASUREMENT_ID.trim();
+}
+
+let analyticsInitialized = false;
+
+function initAnalytics() {
+  if (analyticsInitialized) return;
+  if (!hasAnalyticsConsent()) return;
+
+  const measurementId = getGaMeasurementId();
+  if (!measurementId) return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag() {
+    window.dataLayer.push(arguments);
+  };
+
+  window.gtag("js", new Date());
+  window.gtag("config", measurementId, {
+    anonymize_ip: true
+  });
+
+  const existingLoader = document.querySelector(
+    `script[data-analytics-loader="ga4"][data-ga-id="${measurementId}"]`
+  );
+
+  if (!existingLoader) {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `${ANALYTICS_BOOTSTRAP_SRC}${encodeURIComponent(measurementId)}`;
+    script.setAttribute("data-analytics-loader", "ga4");
+    script.setAttribute("data-ga-id", measurementId);
+    document.head.appendChild(script);
+  }
+
+  analyticsInitialized = true;
+}
 
 let trackingInitialized = false;
 
 function sendTrackingEvent(eventName, params = {}) {
+  if (!hasAnalyticsConsent()) return;
+  initAnalytics();
+
   const payload = {
     event: eventName,
     page_path: window.location.pathname,
@@ -132,10 +205,6 @@ function sendTrackingEvent(eventName, params = {}) {
 
   if (typeof window.gtag === "function") {
     window.gtag("event", eventName, payload);
-  }
-
-  if (Array.isArray(window.dataLayer)) {
-    window.dataLayer.push(payload);
   }
 }
 
@@ -190,6 +259,126 @@ function initTracking() {
 
 document.addEventListener("partialsLoaded", initTracking);
 
+let contactFormSubmissionInitialized = false;
+
+function setContactFormStatus(statusNode, state, message) {
+  if (!statusNode) return;
+  statusNode.hidden = !message;
+  statusNode.dataset.state = state || "info";
+  statusNode.textContent = message || "";
+}
+
+function getContactSubmitCooldownMs() {
+  const lastSubmitRaw = readLocalStorageValue(LEADS_RATE_LIMIT_STORAGE_KEY);
+  const lastSubmitAt = Number(lastSubmitRaw);
+  if (!Number.isFinite(lastSubmitAt) || lastSubmitAt <= 0) return 0;
+  return Math.max(0, LEADS_MIN_INTERVAL_MS - (Date.now() - lastSubmitAt));
+}
+
+function initContactFormSubmission() {
+  if (contactFormSubmissionInitialized) return;
+
+  const form = document.querySelector(".contact__form");
+  if (!(form instanceof HTMLFormElement)) return;
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const statusNode = form.querySelector("[data-form-status]");
+  const honeypot = form.querySelector('input[name="company"]');
+  const defaultSubmitText = submitBtn ? submitBtn.textContent : "";
+
+  function setSubmittingState(isSubmitting) {
+    if (!(submitBtn instanceof HTMLButtonElement)) return;
+    submitBtn.disabled = isSubmitting;
+    submitBtn.setAttribute("aria-busy", String(isSubmitting));
+    submitBtn.textContent = isSubmitting ? "Sending..." : defaultSubmitText;
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const endpoint = getLeadsWebhookUrl();
+    if (!endpoint) {
+      setContactFormStatus(
+        statusNode,
+        "warn",
+        "Form is temporarily unavailable. Please call +1 (437) 299-8387."
+      );
+      return;
+    }
+
+    if (honeypot instanceof HTMLInputElement && honeypot.value.trim() !== "") {
+      setContactFormStatus(statusNode, "ok", "Thanks. Your request has been received.");
+      form.reset();
+      return;
+    }
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    const remainingCooldownMs = getContactSubmitCooldownMs();
+    if (remainingCooldownMs > 0) {
+      const seconds = Math.ceil(remainingCooldownMs / 1000);
+      setContactFormStatus(
+        statusNode,
+        "warn",
+        `Please wait ${seconds}s before sending another request.`
+      );
+      return;
+    }
+
+    const formData = new FormData(form);
+    const payload = new URLSearchParams();
+    formData.forEach((value, key) => {
+      if (key === "company") return;
+      payload.append(key, String(value));
+    });
+    payload.append("source_page", window.location.href);
+    payload.append("submitted_at", new Date().toISOString());
+    payload.append("website", window.location.hostname);
+
+    setSubmittingState(true);
+    setContactFormStatus(statusNode, "info", "");
+
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        body: payload.toString()
+      });
+
+      writeLocalStorageValue(LEADS_RATE_LIMIT_STORAGE_KEY, String(Date.now()));
+      setContactFormStatus(
+        statusNode,
+        "ok",
+        "Thanks. We received your request and will contact you within 24 hours."
+      );
+      sendTrackingEvent("lead_submit_success", {
+        form_name: "contact_estimate_google_sheets"
+      });
+      form.reset();
+    } catch (_error) {
+      setContactFormStatus(
+        statusNode,
+        "error",
+        "Request failed to send. Please call +1 (437) 299-8387."
+      );
+      sendTrackingEvent("lead_submit_error", {
+        form_name: "contact_estimate_google_sheets"
+      });
+    } finally {
+      setSubmittingState(false);
+    }
+  });
+
+  contactFormSubmissionInitialized = true;
+}
+
+document.addEventListener("partialsLoaded", initContactFormSubmission);
+
 let cookieNoticeInitialized = false;
 
 function initCookieNotice() {
@@ -201,8 +390,7 @@ function initCookieNotice() {
 
   cookieNoticeInitialized = true;
 
-  const storageKey = "tilewizards_cookie_notice_accepted";
-  const alreadyAccepted = localStorage.getItem(storageKey) === "true";
+  const alreadyAccepted = hasAnalyticsConsent();
   const emitNoticeStateChange = () => {
     document.dispatchEvent(new Event("cookieNoticeStateChange"));
   };
@@ -210,16 +398,19 @@ function initCookieNotice() {
   if (!alreadyAccepted) {
     notice.hidden = false;
   }
+  initAnalytics();
   emitNoticeStateChange();
 
   acceptBtn.addEventListener("click", () => {
-    localStorage.setItem(storageKey, "true");
+    writeLocalStorageValue(COOKIE_NOTICE_STORAGE_KEY, "true");
+    initAnalytics();
     notice.hidden = true;
     emitNoticeStateChange();
   });
 }
 
 document.addEventListener("partialsLoaded", initCookieNotice);
+document.addEventListener("partialsLoaded", initAnalytics);
 
 let stickyCtaInitialized = false;
 
@@ -459,48 +650,135 @@ document.addEventListener("partialsLoaded", () => {
 
 
 
+let anchorNavigationInitialized = false;
+
+function normalizePathname(pathname) {
+  if (typeof pathname !== "string" || !pathname) return "/";
+  let cleanPath = pathname.replace(/\/{2,}/g, "/");
+  if (cleanPath.endsWith("/index.html")) {
+    cleanPath = cleanPath.slice(0, -"/index.html".length) || "/";
+  }
+  if (cleanPath.length > 1 && cleanPath.endsWith("/")) {
+    cleanPath = cleanPath.slice(0, -1);
+  }
+  return cleanPath || "/";
+}
+
+function getTargetFromHash(hash) {
+  if (typeof hash !== "string" || !hash.startsWith("#") || hash.length < 2) return null;
+  let targetId = hash.slice(1);
+  try {
+    targetId = decodeURIComponent(targetId);
+  } catch (_error) {
+    // no-op: keep original encoded hash value
+  }
+  return document.getElementById(targetId);
+}
+
+function isAnchorLinkHref(href) {
+  if (!href) return false;
+  return !href.startsWith("mailto:") && !href.startsWith("tel:") && !href.startsWith("javascript:") && href.includes("#");
+}
+
+function closeMobileMenuForAnchorNavigation() {
+  const mobileMenu = document.getElementById("mobileMenu");
+  const burger = document.getElementById("burger");
+  if (!mobileMenu) return;
+
+  mobileMenu.classList.remove("active");
+  mobileMenu.hidden = true;
+  mobileMenu.setAttribute("aria-hidden", "true");
+  if (burger) burger.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("menu-open");
+  document.dispatchEvent(new Event("mobileMenuStateChange"));
+}
+
+function normalizeAnchorLinksForCurrentPage() {
+  const currentPath = normalizePathname(window.location.pathname);
+  const currentDirPath = normalizePathname(window.location.pathname.replace(/[^/]*$/, ""));
+  const currentIndexPath = normalizePathname(window.location.pathname.replace(/[^/]*$/, "index.html"));
+
+  document.querySelectorAll('a[href*="#"]').forEach(link => {
+    const rawHref = link.getAttribute("href");
+    if (!isAnchorLinkHref(rawHref)) return;
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(rawHref, window.location.href);
+    } catch (_error) {
+      return;
+    }
+
+    if (parsedUrl.origin !== window.location.origin || !parsedUrl.hash) return;
+
+    const linkPath = normalizePathname(parsedUrl.pathname);
+    const mayPointToCurrentDoc =
+      linkPath === currentPath || linkPath === currentDirPath || linkPath === currentIndexPath;
+    if (!mayPointToCurrentDoc) return;
+
+    const target = getTargetFromHash(parsedUrl.hash);
+    if (!target) return;
+
+    if (!link.dataset.originalHref) {
+      link.dataset.originalHref = rawHref;
+    }
+    link.setAttribute("href", parsedUrl.hash);
+  });
+}
+
+function initAnchorNavigation() {
+  if (anchorNavigationInitialized) return;
+  anchorNavigationInitialized = true;
+
+  document.addEventListener("click", e => {
+    const link = e.target.closest("a[href]");
+    if (!link) return;
+
+    const href = link.getAttribute("href");
+    if (!isAnchorLinkHref(href)) return;
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(href, window.location.href);
+    } catch (_error) {
+      return;
+    }
+
+    if (parsedUrl.origin !== window.location.origin || !parsedUrl.hash) return;
+    if (normalizePathname(parsedUrl.pathname) !== normalizePathname(window.location.pathname)) return;
+
+    const target = getTargetFromHash(parsedUrl.hash);
+    if (!target) return;
+
+    e.preventDefault();
+
+    if (window.location.hash !== parsedUrl.hash) {
+      window.history.pushState(null, "", parsedUrl.hash);
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start"
+    });
+
+    closeMobileMenuForAnchorNavigation();
+  });
+}
+
 document.addEventListener("partialsLoaded", () => {
-  const links = document.querySelectorAll('a[href^="/#"], a[href^="#"]');
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const scrollBehavior = prefersReducedMotion ? "auto" : "smooth";
+  normalizeAnchorLinksForCurrentPage();
+  initAnchorNavigation();
 
-  links.forEach(link => {
-    link.addEventListener("click", e => {
-      const href = link.getAttribute("href");
-      const hash = href.includes("#") ? href.substring(href.indexOf("#")) : null;
-      if (!hash) return;
-
-      const target = document.querySelector(hash);
-
-      
-      if (target) {
-        e.preventDefault();
-
+  if (window.location.hash) {
+    const target = getTargetFromHash(window.location.hash);
+    if (target) {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setTimeout(() => {
         target.scrollIntoView({
-          behavior: scrollBehavior,
+          behavior: prefersReducedMotion ? "auto" : "smooth",
           block: "start"
         });
-
-        const mobileMenu = document.getElementById("mobileMenu");
-        const burger = document.getElementById("burger");
-        if (mobileMenu) {
-          mobileMenu.classList.remove("active");
-          mobileMenu.hidden = true;
-          mobileMenu.setAttribute("aria-hidden", "true");
-          if (burger) burger.setAttribute("aria-expanded", "false");
-          document.body.classList.remove("menu-open");
-        }
-      }
-      
-    });
-  });
-
-  
-  if (window.location.hash) {
-    const target = document.querySelector(window.location.hash);
-    if (target) {
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: scrollBehavior, block: "start" });
       }, 120);
     }
   }

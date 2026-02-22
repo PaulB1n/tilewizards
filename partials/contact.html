@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <form class="contact__form contact__form--ads" id="contact-form" action="" method="get">
+    <form class="contact__form contact__form--ads" id="contact-form" action="" method="post">
       <h2>Get a Free Tile Installation Estimate</h2>
 
       <p class="contact__form-subtitle">
@@ -101,7 +101,13 @@
         <textarea id="contact-project-details" name="project_details" autocomplete="off" placeholder="Project details (optional)..."></textarea>
       </div>
 
+      <div class="form__group form__group--hp" aria-hidden="true">
+        <label class="visually-hidden" for="contact-company">Company</label>
+        <input id="contact-company" type="text" name="company" autocomplete="off" tabindex="-1" placeholder="Leave this field empty">
+      </div>
+
       <button type="submit" class="btn btn--primary btn--lg">Send Request</button>
+      <p class="contact__submit-status" id="contactFormStatus" data-form-status role="status" aria-live="polite" hidden></p>
 
       <div class="contact__next">
         <h3>What Happens Next</h3>

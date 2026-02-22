@@ -4,6 +4,12 @@
   gap: var(--r-space-4);
 }
 
+.services-page-hero.section,
+.portfolio-page-hero.section {
+  --section-pt-sm: calc(var(--header-h, 72px) + 14px);
+  --section-pb-sm: var(--space-8);
+}
+
 .contact__form {
   order: 1;
 }
@@ -120,6 +126,12 @@
 }
 
 @media (min-width: 768px) {
+  .services-page-hero.section,
+  .portfolio-page-hero.section {
+    --section-pt-lg: calc(var(--header-h, 76px) + 18px);
+    --section-pb-lg: var(--space-10);
+  }
+
   .contact__layout {
     gap: var(--r-space-5-5);
   }
@@ -174,6 +186,12 @@
 }
 
 @media (min-width: 1024px) {
+  .services-page-hero.section,
+  .portfolio-page-hero.section {
+    --section-pt-lg: calc(var(--header-h, 92px) + 24px);
+    --section-pb-lg: var(--space-11);
+  }
+
   .contact .contact__layout {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);

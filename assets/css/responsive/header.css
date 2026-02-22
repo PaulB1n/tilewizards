@@ -9,7 +9,7 @@
 .header__inner {
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  min-height: 68px;
+  min-height: 64px;
   column-gap: var(--r-space-2);
 }
 
@@ -44,14 +44,29 @@
 }
 
 .burger {
+  width: 42px;
   min-width: 44px;
   min-height: 44px;
+  padding: 0;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
 }
 
 .header__phone {
   align-items: flex-end;
+  justify-content: center;
   min-height: 44px;
-  padding: var(--r-space-1-5, 6px) var(--r-space-2-5);
+  padding: 6px 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--r-radius-sm);
   background: rgba(0, 0, 0, 0.45);
@@ -60,6 +75,8 @@
 .header__contact .phone-number {
   font-size: var(--r-text-xs);
   font-weight: 700;
+  line-height: 1.05;
+  white-space: nowrap;
 }
 
 .header__contact .phone-hours {
@@ -70,7 +87,7 @@
 
 @media (max-width: 360px) {
   .header__inner {
-    min-height: 64px;
+    min-height: 62px;
     column-gap: var(--r-space-1-5, 6px);
   }
 
@@ -85,7 +102,7 @@
   }
 
   .header__phone {
-    padding: var(--r-space-1-5, 6px) var(--r-space-2-5);
+    padding: 6px 9px;
   }
 
   .header__contact .phone-number {
@@ -95,7 +112,7 @@
 
 @media (min-width: 480px) {
   .header__inner {
-    min-height: 72px;
+    min-height: 68px;
     column-gap: var(--r-space-3);
   }
 
@@ -112,7 +129,7 @@
 
 @media (min-width: 768px) {
   .header__inner {
-    min-height: 76px;
+    min-height: 72px;
   }
 
   .header__contact .phone-number {

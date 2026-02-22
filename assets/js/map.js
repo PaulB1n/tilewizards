@@ -70,9 +70,18 @@
     return match && match[1] ? match[1].trim() : "";
   }
 
-  async function loadTokenFromPublicConfig() {
+  function getMapTokenFromMeta() {
+    const tokenMeta = document.querySelector('meta[name="mapbox-token"]');
+    if (!(tokenMeta instanceof HTMLMetaElement)) return "";
+    const token = (tokenMeta.content || "").trim();
+    if (!token) return "";
+    window.MAPBOX_TOKEN = token;
+    return token;
+  }
+
+  async function loadTokenFromConfig(configPath) {
     try {
-      const response = await fetch("assets/js/config.public.js?v=" + Date.now(), { cache: "no-store" });
+      const response = await fetch(configPath + "?v=" + Date.now(), { cache: "no-store" });
       if (!response.ok) return "";
       const sourceText = await response.text();
       const token = parseMapTokenFromScript(sourceText);
@@ -88,7 +97,17 @@
     const currentToken = getMapToken();
     if (currentToken) return currentToken;
 
-    return loadTokenFromPublicConfig();
+    const metaToken = getMapTokenFromMeta();
+    if (metaToken) return metaToken;
+
+    const publicToken = await loadTokenFromConfig("assets/js/config.public.js");
+    if (publicToken) return publicToken;
+
+    const localToken = await loadTokenFromConfig("assets/js/config.local.js");
+    if (localToken) return localToken;
+
+    console.warn("Mapbox token is missing. Configure assets/js/config.public.js or add a mapbox-token meta tag.");
+    return "";
   }
 
   function loadStylesheet(href) {
@@ -361,39 +380,69 @@
 
     const serviceAreaData = await loadServiceAreaData();
 
-    const map = new mapboxgl.Map({
-      container: "serviceMap",
-      style: MAP_CONFIG.style,
-      center: MAP_CONFIG.center,
-      zoom: MAP_CONFIG.zoom,
-      cooperativeGestures: true,
-      attributionControl: true
-    });
+    let map;
+    try {
+      map = new mapboxgl.Map({
+        container: "serviceMap",
+        style: MAP_CONFIG.style,
+        center: MAP_CONFIG.center,
+        zoom: MAP_CONFIG.zoom,
+        cooperativeGestures: true,
+        attributionControl: true
+      });
+    } catch (_error) {
+      activateManualCoverageFallback("Interactive coverage map failed to initialize. Call us to confirm your exact address.");
+      return;
+    }
 
     mapInitialized = true;
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      marker: false,
-      countries: "ca",
-      language: "en",
-      limit: 6,
-      bbox: MAP_CONFIG.searchBounds,
-      proximity: {
-        longitude: MAP_CONFIG.center[0],
-        latitude: MAP_CONFIG.center[1]
-      },
-      placeholder: "Enter your address in Toronto or GTA"
-    });
+    function activateRuntimeFallback(message) {
+      try {
+        if (map && typeof map.remove === "function") {
+          map.remove();
+        }
+      } catch (_error) {
+        // no-op
+      }
+      activateManualCoverageFallback(message);
+    }
 
-    ui.searchContainer.innerHTML = "";
-    ui.searchContainer.appendChild(geocoder.onAdd(map));
+    let geocoder;
+    try {
+      geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: false,
+        countries: "ca",
+        language: "en",
+        limit: 6,
+        bbox: MAP_CONFIG.searchBounds,
+        proximity: {
+          longitude: MAP_CONFIG.center[0],
+          latitude: MAP_CONFIG.center[1]
+        },
+        placeholder: "Enter your address in Toronto or GTA"
+      });
+
+      ui.searchContainer.innerHTML = "";
+      ui.searchContainer.appendChild(geocoder.onAdd(map));
+    } catch (_error) {
+      activateRuntimeFallback("Interactive address search is unavailable right now. Call us to confirm your exact address.");
+      return;
+    }
 
     const marker = new mapboxgl.Marker({ color: MAP_CONFIG.zoneFillColor })
       .setLngLat(MAP_CONFIG.center)
       .addTo(map);
+
+    let mapLoadComplete = false;
+    const mapLoadTimeout = window.setTimeout(function () {
+      if (!mapLoadComplete) {
+        activateRuntimeFallback("Interactive coverage map is unavailable right now. Call us to confirm your exact address.");
+      }
+    }, 20000);
 
     function fitToServiceArea(duration) {
       if (!serviceAreaData || typeof window.turf === "undefined") {
@@ -472,7 +521,16 @@
       }
     }
 
+    map.on("error", function (event) {
+      if (mapLoadComplete) return;
+      const errorMessage = event && event.error && event.error.message ? event.error.message : "Unknown map error";
+      console.warn("Mapbox runtime warning before load:", errorMessage);
+    });
+
     map.on("load", function () {
+      mapLoadComplete = true;
+      window.clearTimeout(mapLoadTimeout);
+
       if (serviceAreaData) {
         map.addSource("service-zone", {
           type: "geojson",

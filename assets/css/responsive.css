@@ -944,6 +944,12 @@ video {
   gap: var(--r-space-4);
 }
 
+.services-page-hero.section,
+.portfolio-page-hero.section {
+  --section-pt-sm: calc(var(--header-h, 72px) + 14px);
+  --section-pb-sm: var(--space-8);
+}
+
 .contact__form {
   order: 1;
 }
@@ -1060,6 +1066,12 @@ video {
 }
 
 @media (min-width: 768px) {
+  .services-page-hero.section,
+  .portfolio-page-hero.section {
+    --section-pt-lg: calc(var(--header-h, 76px) + 18px);
+    --section-pb-lg: var(--space-10);
+  }
+
   .contact__layout {
     gap: var(--r-space-5-5);
   }
@@ -1114,6 +1126,12 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .services-page-hero.section,
+  .portfolio-page-hero.section {
+    --section-pt-lg: calc(var(--header-h, 92px) + 24px);
+    --section-pb-lg: var(--space-11);
+  }
+
   .contact .contact__layout {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -1170,7 +1188,7 @@ video {
 .header__inner {
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  min-height: 68px;
+  min-height: 64px;
   column-gap: var(--r-space-2);
 }
 
@@ -1205,14 +1223,29 @@ video {
 }
 
 .burger {
+  width: 42px;
   min-width: 44px;
   min-height: 44px;
+  padding: 0;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
 }
 
 .header__phone {
   align-items: flex-end;
+  justify-content: center;
   min-height: 44px;
-  padding: var(--r-space-1-5, 6px) var(--r-space-2-5);
+  padding: 6px 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--r-radius-sm);
   background: rgba(0, 0, 0, 0.45);
@@ -1221,6 +1254,8 @@ video {
 .header__contact .phone-number {
   font-size: var(--r-text-xs);
   font-weight: 700;
+  line-height: 1.05;
+  white-space: nowrap;
 }
 
 .header__contact .phone-hours {
@@ -1231,7 +1266,7 @@ video {
 
 @media (max-width: 360px) {
   .header__inner {
-    min-height: 64px;
+    min-height: 62px;
     column-gap: var(--r-space-1-5, 6px);
   }
 
@@ -1246,7 +1281,7 @@ video {
   }
 
   .header__phone {
-    padding: var(--r-space-1-5, 6px) var(--r-space-2-5);
+    padding: 6px 9px;
   }
 
   .header__contact .phone-number {
@@ -1256,7 +1291,7 @@ video {
 
 @media (min-width: 480px) {
   .header__inner {
-    min-height: 72px;
+    min-height: 68px;
     column-gap: var(--r-space-3);
   }
 
@@ -1273,7 +1308,7 @@ video {
 
 @media (min-width: 768px) {
   .header__inner {
-    min-height: 76px;
+    min-height: 72px;
   }
 
   .header__contact .phone-number {

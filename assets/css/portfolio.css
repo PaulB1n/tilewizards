@@ -1,6 +1,6 @@
 ﻿.portfolio-page-hero {
-  padding-top: calc(var(--section-padding-desktop) + var(--space-8));
-  padding-bottom: var(--space-11);
+  padding-top: calc(var(--header-h, 92px) + clamp(20px, 4vw, 52px));
+  padding-bottom: clamp(40px, 7vw, var(--space-11));
   position: relative;
 }
 
@@ -18,10 +18,12 @@
 }
 
 .portfolio-page-hero__inner {
-  max-width: 920px;
+  width: 100%;
+  max-width: 1200px;
   display: grid;
   gap: var(--space-5);
   padding: var(--space-7);
+  margin-inline: auto;
   border-radius: 22px;
   border: 1px solid rgba(255,255,255,0.09);
   background: linear-gradient(
@@ -43,7 +45,7 @@
 }
 
 .portfolio-page-hero__subtitle {
-  max-width: 760px;
+  max-width: 920px;
   color: rgba(255,255,255,0.86);
 }
 
@@ -844,7 +846,8 @@ cursor: pointer;
 
 @media (max-width: 900px) {
   .portfolio-page-hero {
-    padding-top: calc(var(--section-padding-tablet) + var(--space-7));
+    padding-top: calc(var(--header-h, 72px) + var(--space-6));
+    padding-bottom: var(--space-8);
   }
 
   .portfolio-page-hero__inner {
@@ -866,6 +869,19 @@ cursor: pointer;
 }
 
 @media (max-width: 520px) {
+  .portfolio-page-hero {
+    padding-top: calc(var(--header-h, 72px) + var(--space-4));
+    padding-bottom: var(--space-7);
+  }
+
+  .portfolio-page-hero__inner {
+    border-radius: 14px;
+    overflow: clip;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.06),
+      0 18px 36px rgba(0,0,0,0.28);
+  }
+
   .portfolio-page-hero__chips {
     gap: var(--space-2);
   }
