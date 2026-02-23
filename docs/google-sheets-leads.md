@@ -1,102 +1,122 @@
-# Google Sheets Leads Setup
+# Google Sheets CRM Setup
 
-This project sends contact form leads to a Google Apps Script Web App URL stored in:
+This project already sends website leads to Google Apps Script via:
 
 - `window.LEADS_WEBHOOK_URL` (runtime config)
-- GitHub secret: `GOOGLE_SHEETS_WEBHOOK_URL` (for production deploy)
+- frontend payload in `assets/js/main.js` (`name`, `phone`, `project_type`, `project_details`, `source_page`, `submitted_at`, `website`)
 
-## 1. Create a Google Sheet
+This script configures a CRM sheet with statuses, colors, and analytics.
 
-1. Create a new Google Sheet.
+## 1. Create/Open Google Sheet
+
+1. Create a Google Sheet.
 2. Open `Extensions -> Apps Script`.
-3. Replace default code with:
-
+3. Replace code with the script below.
 ```javascript
-const SHEET_NAME = "Leads";
+const SHEET_ID = "1MjFUACV9M9A19uXfI4Mh5gng18PceOaXR5rs4ioLwk8";
+const SHEET_NAME = "Leads_CRM";
+
+const HEADERS = [
+  "Дата",
+  "Ім'я",
+  "Телефон",
+  "Тип проєкту",
+  "Деталі",
+  "Джерело",
+  "Статус",
+  "Відповідальний",
+  "Коментар"
+];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.tryLock(5000);
+  const locked = lock.tryLock(5000);
 
   try {
-    const sheet = getTargetSheet_();
-    const p = e && e.parameter ? e.parameter : {};
+    if (!locked) return jsonResponse_({ ok: false, error: "lock_timeout" });
 
-    const now = new Date();
-    const row = [
-      now.toISOString(),
+    const p = (e && e.parameter) ? e.parameter : {};
+
+    if ((p.company || "").trim() !== "") {
+      return jsonResponse_({ ok: true, skipped: "honeypot" });
+    }
+
+    const sheet = getTargetSheet_();
+    sheet.appendRow([
+      new Date().toISOString(),
       p.name || "",
       p.phone || "",
       p.project_type || "",
       p.project_details || "",
-      p.source_page || "",
-      p.submitted_at || "",
-      p.website || "",
-      Session.getActiveUser().getEmail() || ""
-    ];
+      p.source_page || p.website || "",
+      "Новий",
+      "",
+      ""
+    ]);
 
-    sheet.appendRow(row);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return jsonResponse_({ ok: true });
   } catch (err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: false, error: String(err) }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return jsonResponse_({ ok: false, error: String(err) });
   } finally {
-    lock.releaseLock();
+    if (locked) lock.releaseLock();
   }
 }
 
 function getTargetSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SHEET_ID);
   let sheet = ss.getSheetByName(SHEET_NAME);
 
-  if (!sheet) {
-    sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow([
-      "received_at",
-      "name",
-      "phone",
-      "project_type",
-      "project_details",
-      "source_page",
-      "submitted_at",
-      "website",
-      "script_user"
-    ]);
-  }
+  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
+  if (sheet.getLastRow() === 0) sheet.appendRow(HEADERS);
 
   return sheet;
 }
+
+function jsonResponse_(payload) {
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 ```
 
-## 2. Deploy as Web App
+## 2. Run one-time setup
 
-1. Click `Deploy -> New deployment`.
+1. In Apps Script run `setupCRM` once.
+2. Run `installTriggers` once and confirm permissions.
+
+What this gives automatically:
+- `CRM` columns A:I in required order.
+- `G` status dropdown: `Новий`, `В роботі`, `Очікує відповідь`, `Закрито`, `Відмова`, `Оплачено`.
+- full-row status colors.
+- `Аналітика` sheet with totals, payment conversion, manager/source stats.
+- formula protection on `Аналітика`.
+
+## 3. Deploy as Web App
+
+1. `Deploy -> New deployment`.
 2. Type: `Web app`.
 3. `Execute as`: `Me`.
 4. `Who has access`: `Anyone`.
-5. Deploy and copy the `/exec` URL.
+5. Copy `/exec` URL.
 
-## 3. Configure this repository
+## 4. Connect this repository
 
-For production (GitHub Pages):
-
-1. Add secret `GOOGLE_SHEETS_WEBHOOK_URL` in repository settings.
-2. Re-run deployment workflow.
-
-For local testing:
-
-1. Put the same URL into `assets/js/config.public.js`:
+For local:
 
 ```javascript
+// assets/js/config.public.js
 window.LEADS_WEBHOOK_URL = "https://script.google.com/macros/s/XXXX/exec";
 ```
 
-## Notes
+For production (GitHub Pages):
 
-- The frontend uses `POST` with `application/x-www-form-urlencoded`.
-- Requests are sent in `no-cors` mode (normal for Apps Script webhooks from static sites).
-- Add your own anti-spam logic in Apps Script if needed (IP quotas, token checks, etc.).
+1. Add repo secret `GOOGLE_SHEETS_WEBHOOK_URL`.
+2. Re-run deploy workflow.
+
+## 5. Notes for your current frontend
+
+- Verified with current code in `assets/js/main.js`: request format is `POST application/x-www-form-urlencoded` + `no-cors`.
+- `doPost` works with current payload keys without frontend changes.
+- If you also use Google Form linked to this spreadsheet, `onFormSubmitInstalled` will create leads in the same `CRM` format.
+- For 2-3 users use **Filter views** on `CRM` by column `H` (`Відповідальний`), not shared filter state.
