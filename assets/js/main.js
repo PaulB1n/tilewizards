@@ -147,8 +147,13 @@ function hasAnalyticsConsent() {
 }
 
 function getLeadsWebhookUrl() {
-  if (typeof window.LEADS_WEBHOOK_URL !== "string") return "";
-  return window.LEADS_WEBHOOK_URL.trim();
+  if (typeof window.GAS_WEBHOOK_URL === "string" && window.GAS_WEBHOOK_URL.trim()) {
+    return window.GAS_WEBHOOK_URL.trim();
+  }
+  if (typeof window.LEADS_WEBHOOK_URL === "string") {
+    return window.LEADS_WEBHOOK_URL.trim();
+  }
+  return "";
 }
 
 function getGaMeasurementId() {
@@ -283,7 +288,6 @@ function initContactFormSubmission() {
 
   const submitBtn = form.querySelector('button[type="submit"]');
   const statusNode = form.querySelector("[data-form-status]");
-  const honeypot = form.querySelector('input[name="company"]');
   const defaultSubmitText = submitBtn ? submitBtn.textContent : "";
 
   function setSubmittingState(isSubmitting) {
@@ -306,12 +310,6 @@ function initContactFormSubmission() {
       return;
     }
 
-    if (honeypot instanceof HTMLInputElement && honeypot.value.trim() !== "") {
-      setContactFormStatus(statusNode, "ok", "Thanks. Your request has been received.");
-      form.reset();
-      return;
-    }
-
     if (!form.reportValidity()) {
       return;
     }
@@ -327,28 +325,56 @@ function initContactFormSubmission() {
       return;
     }
 
-    const formData = new FormData(form);
     const payload = new URLSearchParams();
-    formData.forEach((value, key) => {
-      if (key === "company") return;
-      payload.append(key, String(value));
-    });
-    payload.append("source_page", window.location.href);
-    payload.append("submitted_at", new Date().toISOString());
-    payload.append("website", window.location.hostname);
+    const formData = new FormData(form);
+    const name = String(formData.get("name") || "").trim();
+    const phone = String(formData.get("phone") || "").trim();
+    const projectType = String(formData.get("project_type") || "").trim();
+    const projectDetails = String(formData.get("project_details") || "").trim();
+    const company = String(formData.get("company") || "").trim();
+    const sourcePage = window.location.href;
+
+    payload.append("name", name);
+    payload.append("phone", phone);
+    payload.append("project_type", projectType);
+    payload.append("project_details", projectDetails);
+    payload.append("source_page", sourcePage);
+    payload.append("company", company);
 
     setSubmittingState(true);
     setContactFormStatus(statusNode, "info", "");
 
     try {
-      await fetch(endpoint, {
+      const response = await fetch(endpoint, {
         method: "POST",
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
         },
         body: payload.toString()
       });
+
+      const rawResponse = await response.text();
+      let responseJson = null;
+      try {
+        responseJson = JSON.parse(rawResponse);
+      } catch (parseError) {
+        console.error("Lead form response is not valid JSON.", parseError, rawResponse);
+        throw new Error("Invalid JSON response");
+      }
+
+      if (!response.ok) {
+        const serverError = responseJson && typeof responseJson.error === "string"
+          ? responseJson.error
+          : `HTTP ${response.status}`;
+        throw new Error(serverError);
+      }
+
+      if (responseJson && responseJson.ok === false) {
+        const serverError = typeof responseJson.error === "string"
+          ? responseJson.error
+          : "Apps Script returned an error";
+        throw new Error(serverError);
+      }
 
       writeLocalStorageValue(LEADS_RATE_LIMIT_STORAGE_KEY, String(Date.now()));
       setContactFormStatus(
@@ -360,7 +386,8 @@ function initContactFormSubmission() {
         form_name: "contact_estimate_google_sheets"
       });
       form.reset();
-    } catch (_error) {
+    } catch (error) {
+      console.error("Lead form submission failed.", error);
       setContactFormStatus(
         statusNode,
         "error",

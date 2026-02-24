@@ -2,8 +2,8 @@
 
 This project already sends website leads to Google Apps Script via:
 
-- `window.LEADS_WEBHOOK_URL` (runtime config)
-- frontend payload in `assets/js/main.js` (`name`, `phone`, `project_type`, `project_details`, `source_page`, `submitted_at`, `website`)
+- `window.GAS_WEBHOOK_URL` (runtime config)
+- frontend payload in `assets/js/main.js` (`name`, `phone`, `project_type`, `project_details`, `source_page`, `company`)
 
 This script configures a CRM sheet with statuses, colors, and analytics.
 
@@ -106,17 +106,17 @@ For local:
 
 ```javascript
 // assets/js/config.public.js
-window.LEADS_WEBHOOK_URL = "https://script.google.com/macros/s/XXXX/exec";
+window.GAS_WEBHOOK_URL = "https://script.google.com/macros/s/XXXX/exec";
 ```
 
 For production (GitHub Pages):
 
-1. Add repo secret `GOOGLE_SHEETS_WEBHOOK_URL`.
+1. Add repo secret `GAS_WEBHOOK_URL` (or keep `GOOGLE_SHEETS_WEBHOOK_URL` as legacy fallback).
 2. Re-run deploy workflow.
 
 ## 5. Notes for your current frontend
 
-- Verified with current code in `assets/js/main.js`: request format is `POST application/x-www-form-urlencoded` + `no-cors`.
+- Verified with current code in `assets/js/main.js`: request format is `POST application/x-www-form-urlencoded`, response is parsed as JSON.
 - `doPost` works with current payload keys without frontend changes.
 - If you also use Google Form linked to this spreadsheet, `onFormSubmitInstalled` will create leads in the same `CRM` format.
 - For 2-3 users use **Filter views** on `CRM` by column `H` (`Відповідальний`), not shared filter state.

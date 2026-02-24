@@ -151,6 +151,7 @@ jobs:
         env:
           MAPBOX_PUBLIC_TOKEN: ${{ secrets.MAPBOX_PUBLIC_TOKEN }}
           GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
+          GAS_WEBHOOK_URL: ${{ secrets.GAS_WEBHOOK_URL }}
           GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
         run: |
           if [ -z "$MAPBOX_PUBLIC_TOKEN" ]; then
@@ -158,11 +159,14 @@ jobs:
             exit 1
           fi
 
-          printf '%s\n%s\n%s\n%s\n' \
+          WEBHOOK_URL="${GAS_WEBHOOK_URL:-${GOOGLE_SHEETS_WEBHOOK_URL:-}}"
+
+          printf '%s\n%s\n%s\n%s\n%s\n' \
             '// Generated during GitHub Pages deployment.' \
             "window.MAPBOX_TOKEN = \"$MAPBOX_PUBLIC_TOKEN\";" \
             "window.GA_MEASUREMENT_ID = \"${GA_MEASUREMENT_ID:-}\";" \
-            "window.LEADS_WEBHOOK_URL = \"${GOOGLE_SHEETS_WEBHOOK_URL:-}\";" \
+            "window.GAS_WEBHOOK_URL = \"${WEBHOOK_URL}\";" \
+            "window.LEADS_WEBHOOK_URL = \"${WEBHOOK_URL}\";" \
             > assets/js/config.public.js
 
       - name: Apply asset version for cache busting
