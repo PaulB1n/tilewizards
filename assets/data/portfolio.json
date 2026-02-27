@@ -29,6 +29,30 @@
   },
 
   {
+    "id": "bathroom-before-after",
+    "title": "Bathroom Before / After Transformation",
+    "location": "Toronto, ON",
+    "category": "bathroom",
+    "material": "Porcelain tile",
+    "area": "120 sq ft",
+    "summary": "Real before and after bathroom comparison showing clean prep, precise layout, and final finish quality.",
+    "cover": "assets/images/portfolio/before-after/toronto-bathroom-after-01.webp",
+    "stats": [
+      "Real before and after comparison",
+      "Improved leveling and finish quality",
+      "Clean grout lines and edge details"
+    ],
+    "images": [
+      "assets/images/portfolio/before-after/toronto-bathroom-before-01.webp",
+      "assets/images/portfolio/before-after/toronto-bathroom-after-01.webp",
+      "assets/images/portfolio/before-after/toronto-bathroom-before-02.webp",
+      "assets/images/portfolio/before-after/toronto-bathroom-after-02.webp",
+      "assets/images/portfolio/before-after/toronto-bathroom-before-03.webp",
+      "assets/images/portfolio/before-after/toronto-bathroom-after-03.webp"
+    ]
+  },
+
+  {
     "id": "mosaic",
     "title": "Custom Mosaic Tile Work",
     "location": "Etobicoke, ON",

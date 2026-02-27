@@ -187,7 +187,21 @@ cursor: pointer;
 }
 
 .section-title--portfolio {
-  margin-bottom: 48px;
+  margin-bottom: var(--space-3);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.section-title--portfolio .section-eyebrow {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.86);
+}
+
+.section-title--portfolio .section-main-heading {
+  display: block;
 }
 
 .portfolio__filters {
@@ -811,6 +825,324 @@ cursor: pointer;
   gap: var(--space-4);
 }
 
+.portfolio__intro {
+  margin: 0 0 var(--space-6);
+  color: rgba(255,255,255,0.82);
+  max-width: 720px;
+}
+
+.before-after.section {
+  padding-top: var(--space-8);
+}
+
+.before-after__intro {
+  max-width: 760px;
+  margin-bottom: var(--space-7);
+}
+
+.before-after__intro .section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 var(--space-2);
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(212,175,55,0.35);
+  background: rgba(212,175,55,0.1);
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.before-after__intro .section-eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f5c542;
+  box-shadow: 0 0 10px rgba(245,197,66,0.65);
+}
+
+.before-after__intro h2 {
+  position: relative;
+  display: inline-block;
+  margin: 8px 0 14px;
+  padding-bottom: 14px;
+}
+
+.before-after__intro h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 120px;
+  height: 1px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212,175,55,0.5),
+    transparent
+  );
+}
+
+.before-after__intro p {
+  color: rgba(255,255,255,0.82);
+}
+
+.before-after__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+.before-after__case {
+  position: relative;
+  padding: clamp(18px, 2.8vw, 30px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(32,32,32,0.95),
+      rgba(24,24,24,0.95)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 16px 34px rgba(0,0,0,0.34);
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.before-after__case::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-main),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.before-after__case:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212,175,55,0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 20px 42px rgba(0,0,0,0.46),
+    inset 0 0 22px rgba(212,175,55,0.08);
+}
+
+.before-after__case:hover::before {
+  opacity: 1;
+}
+
+.before-after__case h3 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: 0.2px;
+}
+
+.before-after__case-location {
+  margin: 6px 0 0;
+  font-size: 13px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.86);
+}
+
+.before-after__case-specs {
+  margin: 8px 0 var(--space-4);
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+}
+
+.before-after__compare {
+  --position: 50%;
+  position: relative;
+  margin: auto 0 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #111;
+  aspect-ratio: 4 / 4.15;
+  touch-action: pan-y;
+}
+
+.before-after__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.before-after__after {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--position));
+  transition: clip-path .45s cubic-bezier(.2,.8,.2,1);
+}
+
+.before-after__tag {
+  position: absolute;
+  top: 12px;
+  z-index: 4;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.45px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  background: rgba(212,175,55,0.11);
+  border: 1px solid rgba(212,175,55,0.42);
+  pointer-events: none;
+}
+
+.before-after__tag--before {
+  left: 12px;
+}
+
+.before-after__tag--after {
+  right: 12px;
+  color: #111;
+  background: linear-gradient(135deg, #f5c542, #ffdf7e);
+  border-color: rgba(245,197,66,0.85);
+  box-shadow: 0 8px 18px rgba(212,175,55,0.35);
+}
+
+.before-after__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--position);
+  width: 2px;
+  transform: translateX(-1px);
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.24);
+  z-index: 4;
+  pointer-events: none;
+  transition: left .45s cubic-bezier(.2,.8,.2,1);
+}
+
+.before-after__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255,255,255,0.82);
+  background:
+    linear-gradient(140deg, #ffd95a, #fff2b0);
+  box-shadow:
+    0 0 0 1px rgba(255,217,90,0.42),
+    0 10px 22px rgba(0,0,0,0.34),
+    0 0 20px rgba(255,217,90,0.5);
+  animation: beforeAfterKnobPulse 5s ease-in-out infinite;
+}
+
+.before-after__knob::before,
+.before-after__knob::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.before-after__knob::before {
+  width: 14px;
+  height: 16px;
+  border-left: 2px solid rgba(28,23,11,0.72);
+  border-right: 2px solid rgba(28,23,11,0.72);
+  opacity: 0.9;
+}
+
+.before-after__knob::after {
+  width: 2px;
+  height: 16px;
+  background: rgba(28,23,11,0.72);
+  border-radius: 2px;
+}
+
+.before-after__range {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+.before-after__compare.is-dragging .before-after__after,
+.before-after__compare.is-dragging .before-after__divider {
+  transition: none;
+}
+
+.before-after__range::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+.before-after__range::-moz-range-track {
+  height: 100%;
+  background: transparent;
+  border: 0;
+}
+
+.before-after__range::-webkit-slider-thumb {
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  opacity: 0;
+}
+
+.before-after__range::-moz-range-thumb {
+  width: 44px;
+  height: 44px;
+  opacity: 0;
+  border: 0;
+}
+
+.before-after__range:focus-visible {
+  outline: 2px solid rgba(212,175,55,0.9);
+  outline-offset: -2px;
+}
+
+@keyframes beforeAfterKnobPulse {
+  0%,
+  82%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow:
+      0 0 0 1px rgba(255,217,90,0.45),
+      0 12px 28px rgba(0,0,0,0.36),
+      0 0 24px rgba(255,217,90,0.55);
+  }
+  88% {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow:
+      0 0 0 1px rgba(255,217,90,0.58),
+      0 14px 30px rgba(0,0,0,0.4),
+      0 0 34px rgba(255,217,90,0.72);
+  }
+}
+
 .page-portfolio .cta.section {
   padding-top: var(--space-13);
 }
@@ -865,6 +1197,16 @@ cursor: pointer;
 
   .portfolio {
     padding: 80px 0;
+  }
+
+  .before-after__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1320px) and (min-width: 901px) {
+  .before-after__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

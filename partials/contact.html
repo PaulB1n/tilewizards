@@ -106,8 +106,20 @@
         <input id="contact-company" type="text" name="company" autocomplete="off" tabindex="-1" placeholder="Leave this field empty">
       </div>
 
+      <div class="form__group form__group--consent">
+        <label class="contact__consent" for="contact-consent">
+          <input id="contact-consent" type="checkbox" name="privacy_consent" value="accepted" required>
+          <span>
+            I agree to the <a href="privacy.html">Privacy Policy</a> and consent to being contacted about this request.
+          </span>
+        </label>
+      </div>
+
       <button type="submit" class="btn btn--primary btn--lg">Send Request</button>
       <p class="contact__submit-status" id="contactFormStatus" data-form-status role="status" aria-live="polite" hidden></p>
+      <p class="contact__legal">
+        By submitting this form, you allow us to contact you regarding your estimate request.
+      </p>
 
       <div class="contact__next">
         <h3>What Happens Next</h3>

@@ -55,7 +55,42 @@ function initPortfolioGrid() {
         ? allItems
         : allItems.filter(item => item.category === activeFilter);
 
-    const visibleItems = filtered.slice(0, LIMIT);
+    function getItemKey(item) {
+      if (item && typeof item.id === "string" && item.id) return item.id;
+      if (item && typeof item.cover === "string" && item.cover) return item.cover;
+      return JSON.stringify(item);
+    }
+
+    function buildHomeShowcaseItems(items) {
+      const requiredCategories = ["bathroom", "floor", "outdoor"];
+      const selected = [];
+      const usedKeys = new Set();
+
+      requiredCategories.forEach(category => {
+        const match = items.find(item => item && item.category === category && !usedKeys.has(getItemKey(item)));
+        if (!match) return;
+        selected.push(match);
+        usedKeys.add(getItemKey(match));
+      });
+
+      if (selected.length >= LIMIT) {
+        return selected.slice(0, LIMIT);
+      }
+
+      items.forEach(item => {
+        const key = getItemKey(item);
+        if (usedKeys.has(key)) return;
+        selected.push(item);
+        usedKeys.add(key);
+      });
+
+      return selected.slice(0, LIMIT);
+    }
+
+    const visibleItems =
+      isHome && activeFilter === "all"
+        ? buildHomeShowcaseItems(filtered)
+        : filtered.slice(0, LIMIT);
     grid.innerHTML = "";
 
     if (!visibleItems.length) {

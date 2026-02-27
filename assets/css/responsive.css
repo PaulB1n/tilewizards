@@ -1019,7 +1019,7 @@ video {
   padding: 5px 8px;
 }
 
-.contact__form input,
+.contact__form input:not([type="checkbox"]),
 .contact__form textarea,
 .contact__form select {
   min-height: 48px;

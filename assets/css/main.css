@@ -2208,7 +2208,7 @@ body.menu-open {
 
 
 /* Inputs */
-.contact__form input,
+.contact__form input:not([type="checkbox"]),
 .contact__form textarea,
 .contact__form select {
   width: 100%;
@@ -2237,12 +2237,12 @@ body.menu-open {
 
 
 
-.contact__form input::placeholder,
+.contact__form input:not([type="checkbox"])::placeholder,
 .contact__form textarea::placeholder {
   color: rgba(255,255,255,0.35);
 }
 
-.contact__form input:focus,
+.contact__form input:not([type="checkbox"]):focus,
 .contact__form textarea:focus {
   outline: none;
   border-color: var(--accent-main);
@@ -2255,6 +2255,40 @@ body.menu-open {
   min-height: 130px;
   padding: 14px 16px;
   resize: none;
+}
+
+.form__group--consent {
+  gap: 0;
+}
+
+.contact__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.84);
+}
+
+.contact__consent input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 2px;
+  padding: 0;
+  border-radius: 4px;
+  accent-color: var(--accent-main);
+  cursor: pointer;
+}
+
+.contact__consent a {
+  color: var(--accent-main);
+  text-decoration: underline;
+  text-decoration-color: rgba(212,175,55,0.6);
+}
+
+.contact__consent a:hover {
+  text-decoration-color: rgba(212,175,55,0.95);
 }
 
 
@@ -2310,6 +2344,12 @@ body.menu-open {
   font-size: 12px;
   color: rgba(255,255,255,0.5);
   text-align: center;
+}
+
+.contact__legal {
+  font-size: 12px;
+  color: rgba(255,255,255,0.58);
+  margin-top: -8px;
 }
 
 .form__group--hp {

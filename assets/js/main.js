@@ -332,6 +332,7 @@ function initContactFormSubmission() {
     const projectType = String(formData.get("project_type") || "").trim();
     const projectDetails = String(formData.get("project_details") || "").trim();
     const company = String(formData.get("company") || "").trim();
+    const privacyConsent = formData.get("privacy_consent") ? "accepted" : "";
     const sourcePage = window.location.href;
 
     payload.append("name", name);
@@ -340,6 +341,7 @@ function initContactFormSubmission() {
     payload.append("project_details", projectDetails);
     payload.append("source_page", sourcePage);
     payload.append("company", company);
+    payload.append("privacy_consent", privacyConsent);
 
     setSubmittingState(true);
     setContactFormStatus(statusNode, "info", "");
@@ -720,36 +722,66 @@ function closeMobileMenuForAnchorNavigation() {
   document.dispatchEvent(new Event("mobileMenuStateChange"));
 }
 
+function syncHomeAnchorLabel(link, isLocalTarget) {
+  if (!(link instanceof HTMLAnchorElement)) return;
+
+  const localLabel = (link.dataset.localLabel || "").trim();
+  const homeLabel = (link.dataset.homeLabel || "").trim();
+  if (!localLabel || !homeLabel) return;
+
+  const nextLabel = isLocalTarget ? localLabel : homeLabel;
+  const labelNode = link.querySelector("[data-home-anchor-label]");
+  if (labelNode) {
+    labelNode.textContent = nextLabel;
+  } else {
+    link.textContent = nextLabel;
+  }
+  link.setAttribute("aria-label", nextLabel);
+}
+
 function normalizeAnchorLinksForCurrentPage() {
   const currentPath = normalizePathname(window.location.pathname);
   const currentDirPath = normalizePathname(window.location.pathname.replace(/[^/]*$/, ""));
   const currentIndexPath = normalizePathname(window.location.pathname.replace(/[^/]*$/, "index.html"));
 
   document.querySelectorAll('a[href*="#"]').forEach(link => {
-    const rawHref = link.getAttribute("href");
-    if (!isAnchorLinkHref(rawHref)) return;
+    const sourceHref = link.dataset.originalHref || link.getAttribute("href") || "";
+    if (!isAnchorLinkHref(sourceHref)) return;
+
+    if (!link.dataset.originalHref) {
+      link.dataset.originalHref = sourceHref;
+    }
 
     let parsedUrl;
     try {
-      parsedUrl = new URL(rawHref, window.location.href);
+      parsedUrl = new URL(sourceHref, window.location.href);
     } catch (_error) {
       return;
     }
 
-    if (parsedUrl.origin !== window.location.origin || !parsedUrl.hash) return;
+    if (parsedUrl.origin !== window.location.origin || !parsedUrl.hash) {
+      syncHomeAnchorLabel(link, false);
+      return;
+    }
 
     const linkPath = normalizePathname(parsedUrl.pathname);
     const mayPointToCurrentDoc =
       linkPath === currentPath || linkPath === currentDirPath || linkPath === currentIndexPath;
-    if (!mayPointToCurrentDoc) return;
+    if (!mayPointToCurrentDoc) {
+      link.setAttribute("href", sourceHref);
+      syncHomeAnchorLabel(link, false);
+      return;
+    }
 
     const target = getTargetFromHash(parsedUrl.hash);
-    if (!target) return;
-
-    if (!link.dataset.originalHref) {
-      link.dataset.originalHref = rawHref;
+    if (!target) {
+      link.setAttribute("href", sourceHref);
+      syncHomeAnchorLabel(link, false);
+      return;
     }
+
     link.setAttribute("href", parsedUrl.hash);
+    syncHomeAnchorLabel(link, true);
   });
 }
 
@@ -810,6 +842,116 @@ document.addEventListener("partialsLoaded", () => {
     }
   }
 });
+
+let beforeAfterComparisonsInitialized = false;
+
+function initBeforeAfterComparisons() {
+  const widgets = document.querySelectorAll("[data-before-after]");
+  if (!widgets.length) return;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  widgets.forEach((widget, index) => {
+    if (!(widget instanceof HTMLElement)) return;
+    if (widget.dataset.beforeAfterReady === "true") return;
+
+    const range = widget.querySelector(".before-after__range");
+    if (!(range instanceof HTMLInputElement)) return;
+
+    const setPosition = value => {
+      const numeric = Number(value);
+      const safeValue = Math.min(100, Math.max(0, Number.isFinite(numeric) ? numeric : 50));
+      widget.style.setProperty("--position", `${safeValue}%`);
+      range.value = String(safeValue);
+    };
+
+    const setPositionFromPointer = clientX => {
+      const rect = widget.getBoundingClientRect();
+      if (!rect.width) return;
+      const ratio = (clientX - rect.left) / rect.width;
+      setPosition(Math.round(ratio * 100));
+    };
+
+    let isDragging = false;
+
+    widget.addEventListener("pointerdown", e => {
+      if (e.button !== undefined && e.button !== 0) return;
+      isDragging = true;
+      widget.dataset.beforeAfterInteracted = "true";
+      widget.classList.add("is-dragging");
+      if (typeof widget.setPointerCapture === "function") {
+        try {
+          widget.setPointerCapture(e.pointerId);
+        } catch (_error) {
+          // no-op
+        }
+      }
+      setPositionFromPointer(e.clientX);
+    });
+
+    widget.addEventListener("pointermove", e => {
+      if (!isDragging) return;
+      setPositionFromPointer(e.clientX);
+      if (e.pointerType === "touch") {
+        e.preventDefault();
+      }
+    });
+
+    const stopDragging = e => {
+      if (!isDragging) return;
+      isDragging = false;
+      widget.classList.remove("is-dragging");
+      if (typeof widget.releasePointerCapture === "function") {
+        try {
+          widget.releasePointerCapture(e.pointerId);
+        } catch (_error) {
+          // no-op
+        }
+      }
+    };
+
+    widget.addEventListener("pointerup", stopDragging);
+    widget.addEventListener("pointercancel", stopDragging);
+    widget.addEventListener("lostpointercapture", () => {
+      isDragging = false;
+      widget.classList.remove("is-dragging");
+    });
+
+    range.addEventListener("input", () => {
+      widget.dataset.beforeAfterInteracted = "true";
+      setPosition(range.value);
+    });
+
+    if (!prefersReducedMotion) {
+      window.setTimeout(() => {
+        if (widget.dataset.beforeAfterInteracted === "true") return;
+
+        const base = Number(range.value) || 50;
+        const nudged = Math.min(72, base + 14);
+        setPosition(nudged);
+
+        window.setTimeout(() => {
+          if (widget.dataset.beforeAfterInteracted === "true") return;
+          setPosition(base);
+        }, 850);
+      }, 3000 + index * 220);
+    }
+
+    setPosition(range.value);
+    widget.dataset.beforeAfterReady = "true";
+  });
+}
+
+function setupBeforeAfterComparisons() {
+  if (beforeAfterComparisonsInitialized) {
+    initBeforeAfterComparisons();
+    return;
+  }
+  beforeAfterComparisonsInitialized = true;
+  initBeforeAfterComparisons();
+}
+
+document.addEventListener("DOMContentLoaded", setupBeforeAfterComparisons);
+document.addEventListener("partialsLoaded", setupBeforeAfterComparisons);
 
 document.addEventListener("DOMContentLoaded", () => {
   const hero = document.querySelector(".hero--video");
