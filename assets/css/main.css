@@ -2291,6 +2291,18 @@ body.menu-open {
   text-decoration-color: rgba(212,175,55,0.95);
 }
 
+.contact__consent input[aria-invalid="true"] {
+  outline: 2px solid rgba(255, 122, 122, 0.65);
+  outline-offset: 1px;
+}
+
+.contact__consent-error {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #ff9d9d;
+}
+
 
 
 

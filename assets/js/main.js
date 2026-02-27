@@ -288,6 +288,8 @@ function initContactFormSubmission() {
 
   const submitBtn = form.querySelector('button[type="submit"]');
   const statusNode = form.querySelector("[data-form-status]");
+  const consentCheckbox = form.querySelector('input[name="privacy_consent"]');
+  const consentErrorNode = form.querySelector("[data-consent-error]");
   const defaultSubmitText = submitBtn ? submitBtn.textContent : "";
 
   function setSubmittingState(isSubmitting) {
@@ -295,6 +297,29 @@ function initContactFormSubmission() {
     submitBtn.disabled = isSubmitting;
     submitBtn.setAttribute("aria-busy", String(isSubmitting));
     submitBtn.textContent = isSubmitting ? "Sending..." : defaultSubmitText;
+  }
+
+  function setConsentError(message) {
+    if (!consentErrorNode) return;
+    consentErrorNode.hidden = !message;
+    consentErrorNode.textContent = message || "";
+  }
+
+  function validateConsent() {
+    if (!(consentCheckbox instanceof HTMLInputElement)) return true;
+    const isAccepted = consentCheckbox.checked;
+    consentCheckbox.setAttribute("aria-invalid", isAccepted ? "false" : "true");
+    setConsentError(isAccepted ? "" : "Please accept the Privacy Policy to continue.");
+    return isAccepted;
+  }
+
+  if (consentCheckbox instanceof HTMLInputElement) {
+    consentCheckbox.addEventListener("change", () => {
+      if (consentCheckbox.checked) {
+        consentCheckbox.setAttribute("aria-invalid", "false");
+        setConsentError("");
+      }
+    });
   }
 
   form.addEventListener("submit", async e => {
@@ -311,6 +336,13 @@ function initContactFormSubmission() {
     }
 
     if (!form.reportValidity()) {
+      return;
+    }
+
+    if (!validateConsent()) {
+      if (consentCheckbox instanceof HTMLInputElement) {
+        consentCheckbox.focus();
+      }
       return;
     }
 
@@ -388,6 +420,10 @@ function initContactFormSubmission() {
         form_name: "contact_estimate_google_sheets"
       });
       form.reset();
+      if (consentCheckbox instanceof HTMLInputElement) {
+        consentCheckbox.setAttribute("aria-invalid", "false");
+      }
+      setConsentError("");
     } catch (error) {
       console.error("Lead form submission failed.", error);
       setContactFormStatus(
