@@ -759,7 +759,7 @@ p {
 .hero__trust-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-5) var(--space-6);
+  gap: 10px 12px;
   
   padding: 0;
   list-style: none;
@@ -770,14 +770,24 @@ p {
 
 .hero__trust-list li {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 6px;
   line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.28);
+  backdrop-filter: blur(3px);
 }
 
 .hero__trust-list span {
   opacity: 0.8;
   font-size: 13px;
+}
+
+.hero__trust-list strong {
+  font-weight: 700;
+  color: #fff;
 }
 
 /* ===============================
