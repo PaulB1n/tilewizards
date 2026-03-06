@@ -27,7 +27,6 @@
       "assets/images/portfolio/house-10.webp"
     ]
   },
-
   {
     "id": "bathroom-before-after",
     "title": "Bathroom Before / After Transformation",
@@ -51,7 +50,25 @@
       "assets/images/portfolio/before-after/toronto-bathroom-after-03.webp"
     ]
   },
-
+  {
+    "id": "bathroom-modern-refresh",
+    "title": "Modern Bathroom Refresh",
+    "location": "Toronto, ON",
+    "category": "bathroom",
+    "material": "Porcelain tile",
+    "area": "95 sq ft",
+    "summary": "Compact bathroom refresh focused on clean layout, tighter joints, and crisp finishing details.",
+    "cover": "assets/images/portfolio/bathroom-1.webp",
+    "stats": [
+      "Modern bathroom tile refresh",
+      "Improved symmetry and spacing",
+      "Clean grout and edge finishing"
+    ],
+    "images": [
+      "assets/images/portfolio/bathroom-1.webp",
+      "assets/images/portfolio/bathroom-2.webp"
+    ]
+  },
   {
     "id": "mosaic",
     "title": "Custom Mosaic Tile Work",
@@ -74,7 +91,25 @@
       "assets/images/portfolio/mosaic-5.webp"
     ]
   },
-
+  {
+    "id": "mosaic-premium-detail",
+    "title": "Mosaic Premium Detail",
+    "location": "Etobicoke, ON",
+    "category": "bathroom",
+    "material": "Mosaic porcelain",
+    "area": "140 sq ft",
+    "summary": "Accent-focused mosaic installation with precise corner transitions and premium finish quality.",
+    "cover": "assets/images/portfolio/mosaic-6.webp",
+    "stats": [
+      "Accent mosaic detailing",
+      "Tight joint consistency",
+      "Premium visual finish"
+    ],
+    "images": [
+      "assets/images/portfolio/mosaic-6.webp",
+      "assets/images/portfolio/mosaic-7.webp"
+    ]
+  },
   {
     "id": "pool",
     "title": "Pool Tile Installation",
@@ -95,7 +130,24 @@
       "assets/images/portfolio/pool-3.webp"
     ]
   },
-
+  {
+    "id": "pool-waterline-detail",
+    "title": "Pool Waterline Upgrade",
+    "location": "Vaughan, ON",
+    "category": "outdoor",
+    "material": "Pool-rated porcelain",
+    "area": "210 sq ft",
+    "summary": "Outdoor pool waterline update with weather-resistant adhesive systems and clean edge alignment.",
+    "cover": "assets/images/portfolio/pool-4.webp",
+    "stats": [
+      "Pool waterline tile update",
+      "Weather-ready finish",
+      "Clean outdoor detailing"
+    ],
+    "images": [
+      "assets/images/portfolio/pool-4.webp"
+    ]
+  },
   {
     "id": "slabs",
     "title": "Large Format Slabs",
@@ -122,6 +174,25 @@
     ]
   },
   {
+    "id": "slabs-signature",
+    "title": "Signature Slab Feature Walls",
+    "location": "Toronto, ON",
+    "category": "slabs",
+    "material": "Large-format porcelain slabs",
+    "area": "520 sq ft",
+    "summary": "Feature wall slab installation with matched veining, tight lines, and minimal visible joints.",
+    "cover": "assets/images/portfolio/slabs-9.webp",
+    "stats": [
+      "Feature wall slab work",
+      "Matched-pattern alignment",
+      "Low-joint luxury look"
+    ],
+    "images": [
+      "assets/images/portfolio/slabs-9.webp",
+      "assets/images/portfolio/slabs-10.webp"
+    ]
+  },
+  {
     "id": "facade",
     "title": "Facade Tile Installation",
     "location": "Markham, ON",
@@ -139,7 +210,24 @@
       "assets/images/portfolio/facade-1.webp"
     ]
   },
-
+  {
+    "id": "facade-entry-detail",
+    "title": "Facade Entry Detail",
+    "location": "Markham, ON",
+    "category": "outdoor",
+    "material": "Exterior porcelain",
+    "area": "180 sq ft",
+    "summary": "Entry-focused facade tiling with sealed transitions and weather-ready installation details.",
+    "cover": "assets/images/portfolio/facade-2.webp",
+    "stats": [
+      "Entry zone cladding",
+      "Weather-sealed transitions",
+      "Clean facade geometry"
+    ],
+    "images": [
+      "assets/images/portfolio/facade-2.webp"
+    ]
+  },
   {
     "id": "steps",
     "title": "Steps & Staircase Tile",
@@ -163,6 +251,26 @@
       "assets/images/portfolio/steps-6.webp",
       "assets/images/portfolio/steps-7.webp",
       "assets/images/portfolio/steps-8.webp"
+    ]
+  },
+  {
+    "id": "floor-detail-project",
+    "title": "Flooring Detail Project",
+    "location": "Mississauga, ON",
+    "category": "floor",
+    "material": "Porcelain floor tile",
+    "area": "320 sq ft",
+    "summary": "Interior floor tile install with level substrate prep, straight joint lines, and durable finish.",
+    "cover": "assets/images/portfolio/work-1.webp",
+    "stats": [
+      "Interior flooring tile",
+      "Leveling and layout control",
+      "Durable daily-use finish"
+    ],
+    "images": [
+      "assets/images/portfolio/work-1.webp",
+      "assets/images/portfolio/work-2.webp",
+      "assets/images/portfolio/work-3.webp"
     ]
   }
 ]

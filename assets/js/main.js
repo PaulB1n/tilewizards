@@ -2,20 +2,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   /* LOAD PARTIALS */
   const includes = document.querySelectorAll("[data-include]");
+  const allowedPartials = new Set([
+    "partials/header.html",
+    "partials/footer.html",
+    "partials/services.html",
+    "partials/portfolio.html",
+    "partials/faq.html",
+    "partials/contact.html"
+  ]);
+
+  function sanitizePartialMarkup(html) {
+    if (typeof html !== "string") return "";
+    const template = document.createElement("template");
+    template.innerHTML = html;
+
+    // Defense-in-depth: partials should not inject executable or embedded content.
+    template.content.querySelectorAll("script, iframe, object, embed").forEach(node => node.remove());
+    template.content.querySelectorAll("*").forEach(node => {
+      Array.from(node.attributes).forEach(attr => {
+        const attrName = attr.name.toLowerCase();
+        const attrValue = String(attr.value || "");
+
+        if (/^on/i.test(attrName)) {
+          node.removeAttribute(attr.name);
+          return;
+        }
+        if (attrName === "srcdoc") {
+          node.removeAttribute(attr.name);
+          return;
+        }
+        const isUrlAttr =
+          attrName === "href" ||
+          attrName === "src" ||
+          attrName === "xlink:href" ||
+          attrName === "formaction";
+        if (isUrlAttr && /^\s*javascript:/i.test(attrValue)) {
+          node.removeAttribute(attr.name);
+        }
+      });
+    });
+    return template.innerHTML;
+  }
 
   const includeTasks = Array.from(includes).map(async el => {
     const file = el.getAttribute("data-include");
     if (!file) return;
+    const normalizedFile = file.replace(/\\/g, "/");
+
+    if (!allowedPartials.has(normalizedFile)) {
+      console.error(`Blocked partial include outside allowlist: ${file}`);
+      return;
+    }
 
     try {
-      const response = await fetch(file);
+      const response = await fetch(normalizedFile);
       if (!response.ok) {
-        console.error(`Failed to load partial: ${file} (${response.status})`);
+        console.error(`Failed to load partial: ${normalizedFile} (${response.status})`);
         return;
       }
-      el.innerHTML = await response.text();
+      const partialHtml = await response.text();
+      el.innerHTML = sanitizePartialMarkup(partialHtml);
     } catch (error) {
-      console.error(`Failed to load partial: ${file}`, error);
+      console.error(`Failed to load partial: ${normalizedFile}`, error);
     }
   });
   await Promise.all(includeTasks);
@@ -491,13 +539,26 @@ function initMobileStickyCta() {
 
   const mobileMq = window.matchMedia("(max-width: 767.98px)");
   const cookieNotice = document.getElementById("cookieNotice");
+  const panelLinks = Array.from(panel.querySelectorAll("a, button, [tabindex]"));
 
   const contactSection = document.getElementById("contact");
   const footerSection = document.querySelector(".footer");
 
   function setOpen(isOpen) {
-    sticky.classList.toggle("is-open", isOpen);
-    toggle.setAttribute("aria-expanded", String(isOpen));
+    const nextOpen = Boolean(isOpen && !sticky.hidden && !sticky.classList.contains("is-hidden"));
+    sticky.classList.toggle("is-open", nextOpen);
+    toggle.setAttribute("aria-expanded", String(nextOpen));
+    panel.hidden = !nextOpen;
+    panel.setAttribute("aria-hidden", String(!nextOpen));
+    if (nextOpen) {
+      panel.removeAttribute("inert");
+    } else {
+      panel.setAttribute("inert", "");
+    }
+    panelLinks.forEach(link => {
+      if (!(link instanceof HTMLElement)) return;
+      link.tabIndex = nextOpen ? 0 : -1;
+    });
   }
 
   function setHiddenState(isHidden) {
@@ -555,7 +616,8 @@ function initMobileStickyCta() {
     setOpen(!sticky.classList.contains("is-open"));
   });
 
-  panel.querySelectorAll("a").forEach(link => {
+  panelLinks.forEach(link => {
+    if (!(link instanceof HTMLElement)) return;
     link.addEventListener("click", () => {
       setOpen(false);
     });
@@ -999,22 +1061,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const canHover = window.matchMedia("(hover: hover)").matches;
   if (prefersReducedMotion || !canHover) return;
 
-  const tileSize = 90;
+  const MAX_TILE_COUNT = 180;
+  const MIN_TILE_SIZE = 90;
   let cols = 0;
   let rows = 0;
+  let built = false;
+  let resizeRafId = 0;
   let lastIndex = -1;
   let rafId = 0;
   let lastEvent = null;
 
+  function isTilesLayerVisible() {
+    return window.getComputedStyle(tiles).display !== "none";
+  }
+
+  function getAdaptiveTileSize(rect) {
+    const shortestSide = Math.max(320, Math.min(rect.width, rect.height));
+    return Math.max(MIN_TILE_SIZE, Math.round(shortestSide / 6));
+  }
+
+  function computeGrid(rect) {
+    const tileSize = getAdaptiveTileSize(rect);
+    let nextCols = Math.max(1, Math.ceil(rect.width / tileSize));
+    let nextRows = Math.max(1, Math.ceil(rect.height / tileSize));
+
+    while (nextCols * nextRows > MAX_TILE_COUNT) {
+      if (nextCols >= nextRows && nextCols > 1) {
+        nextCols -= 1;
+      } else if (nextRows > 1) {
+        nextRows -= 1;
+      } else {
+        break;
+      }
+    }
+
+    return { nextCols, nextRows };
+  }
+
   function buildTiles() {
+    if (!isTilesLayerVisible()) return;
+
     const rect = hero.getBoundingClientRect();
-    cols = Math.max(1, Math.ceil(rect.width / tileSize));
-    rows = Math.max(1, Math.ceil(rect.height / tileSize));
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    const { nextCols, nextRows } = computeGrid(rect);
+    if (built && cols === nextCols && rows === nextRows) return;
+
+    cols = nextCols;
+    rows = nextRows;
 
     tiles.style.setProperty("--tile-cols", cols);
     tiles.style.setProperty("--tile-rows", rows);
 
-    tiles.innerHTML = "";
     const total = cols * rows;
     const frag = document.createDocumentFragment();
 
@@ -1024,10 +1122,13 @@ document.addEventListener("DOMContentLoaded", () => {
       frag.appendChild(tile);
     }
 
-    tiles.appendChild(frag);
+    tiles.replaceChildren(frag);
+    built = true;
   }
 
   function clearHot() {
+    if (!built) return;
+
     if (lastIndex >= 0 && tiles.children[lastIndex]) {
       tiles.children[lastIndex].classList.remove("is-hot");
     }
@@ -1038,6 +1139,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateFromEvent(e) {
+    if (!built) buildTiles();
+    if (!built || !isTilesLayerVisible()) return;
+
     const rect = hero.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -1084,12 +1188,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  buildTiles();
-  window.addEventListener("resize", () => {
-    buildTiles();
-    clearHot();
-  });
+  function scheduleTilesRebuild() {
+    if (resizeRafId) return;
+    resizeRafId = requestAnimationFrame(() => {
+      resizeRafId = 0;
+      if (!isTilesLayerVisible()) {
+        clearHot();
+        return;
+      }
+      buildTiles();
+      clearHot();
+    });
+  }
 
+  hero.addEventListener("pointerenter", buildTiles);
   hero.addEventListener("pointermove", onPointerMove);
   hero.addEventListener("pointerleave", clearHot);
+  window.addEventListener("resize", scheduleTilesRebuild);
 });

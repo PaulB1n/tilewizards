@@ -3,6 +3,23 @@ document.addEventListener("partialsLoaded", () => {
   initLightbox();
 });
 
+const portfolioItemState = new WeakMap();
+
+function normalizeText(value, fallback = "") {
+  if (typeof value !== "string") return fallback;
+  const trimmed = value.trim();
+  return trimmed || fallback;
+}
+
+function normalizeImagePath(value) {
+  if (typeof value !== "string") return "";
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (/^javascript:/i.test(trimmed)) return "";
+  if (/^data:/i.test(trimmed)) return "";
+  return trimmed;
+}
+
 function initPortfolioGrid() {
   const grid = document.getElementById("portfolioGrid");
   if (!grid) return;
@@ -91,10 +108,22 @@ function initPortfolioGrid() {
       isHome && activeFilter === "all"
         ? buildHomeShowcaseItems(filtered)
         : filtered.slice(0, LIMIT);
-    grid.innerHTML = "";
+
+    function renderGridStatusMessage(message, isError) {
+      grid.textContent = "";
+      const status = document.createElement("p");
+      status.className = isError
+        ? "portfolio__empty portfolio__empty--error"
+        : "portfolio__empty";
+      status.setAttribute("role", "status");
+      status.textContent = message;
+      grid.appendChild(status);
+    }
+
+    grid.textContent = "";
 
     if (!visibleItems.length) {
-      grid.innerHTML = '<p class="portfolio__empty" role="status">No projects found for this filter. Try another category.</p>';
+      renderGridStatusMessage("No projects found for this filter. Try another category.", false);
       return;
     }
 
@@ -103,54 +132,116 @@ function initPortfolioGrid() {
       const isFeatured = isPortfolioPage && (item.featured || index === 0);
       card.className = `portfolio__item portfolio__item--card${isFeatured ? " portfolio__item--featured" : ""}`;
       card.type = "button";
-      card.setAttribute("aria-label", `Open gallery for ${item.title || "project"}`);
+      const title = normalizeText(item && item.title, "Project");
+      card.setAttribute("aria-label", `Open gallery for ${title}`);
 
-      card.dataset.images = JSON.stringify(item.images || []);
-      card.dataset.title = item.title || "Project";
+      const images = Array.isArray(item && item.images)
+        ? item.images.map(normalizeImagePath).filter(Boolean)
+        : [];
+      portfolioItemState.set(card, { images, title });
 
-      const altText = `${item.title} - professional tile installation in Toronto GTA`;
-      const location = item.location || "Toronto, ON";
+      const altText = `${title} - professional tile installation in Toronto GTA`;
+      const location = normalizeText(item && item.location, "Toronto, ON");
       const scope = scopeLabels[item.category] || "Residential";
-      const area = item.area || "Custom scope";
-      const material = item.material || "Porcelain";
-      const summary = item.summary || "Professional tile installation with clean cuts and level finish.";
-      const stats = Array.isArray(item.stats) ? item.stats.slice(0, 2) : [];
+      const area = normalizeText(item && item.area, "Custom scope");
+      const material = normalizeText(item && item.material, "Porcelain");
+      const summary = normalizeText(
+        item && item.summary,
+        "Professional tile installation with clean cuts and level finish."
+      );
+      const stats = Array.isArray(item && item.stats)
+        ? item.stats.map(v => normalizeText(v)).filter(Boolean).slice(0, 2)
+        : [];
+      const cover = normalizeImagePath(item && item.cover) || images[0];
       const imageWidth = Number(item.imageWidth) || 1200;
       const imageHeight = Number(item.imageHeight) || 900;
 
-      card.innerHTML = `
-        <div class="portfolio__media">
-          <img
-            src="${item.cover}"
-            alt="${altText}"
-            width="${imageWidth}"
-            height="${imageHeight}"
-            loading="lazy"
-            decoding="async"
-          >
-        </div>
+      const media = document.createElement("div");
+      media.className = "portfolio__media";
+      if (cover) {
+        const image = document.createElement("img");
+        image.src = cover;
+        image.alt = altText;
+        image.width = imageWidth;
+        image.height = imageHeight;
+        image.loading = "lazy";
+        image.decoding = "async";
+        media.appendChild(image);
+      }
 
-        <div class="portfolio__content">
-          ${isFeatured ? '<span class="portfolio__featured-label">Featured Project</span>' : ""}
-          <div class="portfolio__case-head">
-            <span class="portfolio__badge">Case Study</span>
-            <p class="portfolio__location">${location}</p>
-          </div>
+      const content = document.createElement("div");
+      content.className = "portfolio__content";
 
-          <h3 class="portfolio__title">${item.title}</h3>
-          <p class="portfolio__summary">${summary}</p>
+      if (isFeatured) {
+        const featured = document.createElement("span");
+        featured.className = "portfolio__featured-label";
+        featured.textContent = "Featured Project";
+        content.appendChild(featured);
+      }
 
-          <ul class="portfolio__case-params">
-            <li><span>Scope</span><strong>${scope}</strong></li>
-            <li><span>Area</span><strong>${area}</strong></li>
-            <li><span>Material</span><strong>${material}</strong></li>
-          </ul>
+      const caseHead = document.createElement("div");
+      caseHead.className = "portfolio__case-head";
 
-          <ul class="portfolio__stats portfolio__case-list">
-            ${stats.map(s => `<li>${s}</li>`).join("")}
-          </ul>
-        </div>
-      `;
+      const badge = document.createElement("span");
+      badge.className = "portfolio__badge";
+      badge.textContent = "Case Study";
+      caseHead.appendChild(badge);
+
+      const locationNode = document.createElement("p");
+      locationNode.className = "portfolio__location";
+      locationNode.textContent = location;
+      caseHead.appendChild(locationNode);
+      content.appendChild(caseHead);
+
+      const titleNode = document.createElement("h3");
+      titleNode.className = "portfolio__title";
+      titleNode.textContent = title;
+      content.appendChild(titleNode);
+
+      const summaryNode = document.createElement("p");
+      summaryNode.className = "portfolio__summary";
+      summaryNode.textContent = summary;
+      content.appendChild(summaryNode);
+
+      const params = document.createElement("ul");
+      params.className = "portfolio__case-params";
+
+      const scopeItem = document.createElement("li");
+      const scopeLabel = document.createElement("span");
+      scopeLabel.textContent = "Scope";
+      const scopeValue = document.createElement("strong");
+      scopeValue.textContent = scope;
+      scopeItem.append(scopeLabel, scopeValue);
+      params.appendChild(scopeItem);
+
+      const areaItem = document.createElement("li");
+      const areaLabel = document.createElement("span");
+      areaLabel.textContent = "Area";
+      const areaValue = document.createElement("strong");
+      areaValue.textContent = area;
+      areaItem.append(areaLabel, areaValue);
+      params.appendChild(areaItem);
+
+      const materialItem = document.createElement("li");
+      const materialLabel = document.createElement("span");
+      materialLabel.textContent = "Material";
+      const materialValue = document.createElement("strong");
+      materialValue.textContent = material;
+      materialItem.append(materialLabel, materialValue);
+      params.appendChild(materialItem);
+
+      content.appendChild(params);
+
+      const statsList = document.createElement("ul");
+      statsList.className = "portfolio__stats portfolio__case-list";
+      stats.forEach(stat => {
+        const statItem = document.createElement("li");
+        statItem.textContent = stat;
+        statsList.appendChild(statItem);
+      });
+      content.appendChild(statsList);
+
+      card.append(media, content);
 
       grid.appendChild(card);
     });
@@ -184,7 +275,12 @@ function initPortfolioGrid() {
     })
     .catch(err => {
       console.error("Portfolio load error:", err);
-      grid.innerHTML = '<p class="portfolio__empty portfolio__empty--error" role="status">Failed to load portfolio projects. Please refresh the page.</p>';
+      grid.textContent = "";
+      const status = document.createElement("p");
+      status.className = "portfolio__empty portfolio__empty--error";
+      status.setAttribute("role", "status");
+      status.textContent = "Failed to load portfolio projects. Please refresh the page.";
+      grid.appendChild(status);
     });
 }
 
@@ -295,20 +391,15 @@ function initLightbox() {
   }
 
   function openLightboxFromItem(item) {
-    if (!item || !item.dataset.images) return;
-
-    let images = [];
-    try {
-      images = JSON.parse(item.dataset.images);
-    } catch (_error) {
-      return;
-    }
-
+    if (!item) return;
+    const itemState = portfolioItemState.get(item);
+    if (!itemState) return;
+    const images = itemState.images;
     if (!Array.isArray(images) || !images.length) return;
 
     currentImages = images;
     currentIndex = 0;
-    currentTitle = item.dataset.title || "Project";
+    currentTitle = itemState.title || "Project";
     lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     setLightboxImage(currentIndex);

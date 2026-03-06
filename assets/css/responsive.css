@@ -1575,9 +1575,11 @@ video {
   animation: inherit;
 }
 
-.hero__tiles,
-.hero-effects .hero__tiles {
-  display: none;
+@media (max-width: 1023.98px) {
+  .hero__tiles,
+  .hero-effects .hero__tiles {
+    display: none;
+  }
 }
 
 @media (hover: none) and (pointer: coarse) {

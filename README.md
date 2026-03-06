@@ -1,6 +1,7 @@
 # Tile Wizards Website
 
 Static multi-page marketing website for a tile installation business in Toronto and the GTA.
+Last docs update: 2026-03-01.
 
 ## Key Features
 - Multi-page site: Home, Services, Portfolio, Privacy, 404.
@@ -268,17 +269,30 @@ Trigger:
 
 Pipeline steps:
 1. checkout repository
-2. inject `MAPBOX_PUBLIC_TOKEN` into `assets/js/config.public.js`
-3. upload repository root as Pages artifact
-4. deploy to GitHub Pages
+2. run JS syntax checks, local link checks, accessibility smoke checks, and HTTP smoke checks
+3. inject runtime config into `assets/js/config.public.js`:
+   - `MAPBOX_PUBLIC_TOKEN` (required)
+   - `GA_MEASUREMENT_ID` (optional)
+   - `GAS_WEBHOOK_URL` or `GOOGLE_SHEETS_WEBHOOK_URL` (optional)
+4. replace `__ASSET_VERSION__` placeholders in root HTML files for cache busting
+5. upload repository root as Pages artifact
+6. deploy to GitHub Pages
 
 ### Setup checklist
 1. `Settings -> Pages -> Build and deployment -> Source: GitHub Actions`
-2. Add repository secret `MAPBOX_PUBLIC_TOKEN`
-3. Push to `main`
+2. Add repository secret `MAPBOX_PUBLIC_TOKEN` (required)
+3. Optionally add:
+   - `GA_MEASUREMENT_ID`
+   - `GAS_WEBHOOK_URL` (preferred) or `GOOGLE_SHEETS_WEBHOOK_URL` (legacy fallback)
+4. Push to `main`
 
 ### Other static hosts
 This project can also run on Netlify, Vercel, Cloudflare Pages, or any static server because no build step is required.
+
+### Security headers note
+- GitHub Pages does not support custom response headers at the repository level.
+- CSP is currently enforced via `<meta http-equiv="Content-Security-Policy">` in root pages.
+- If you put a CDN/proxy in front of Pages, move CSP to an HTTP header (see `docs/security-headers.md`).
 
 ## SEO and Structured Data
 - Canonical URLs on key pages.
@@ -297,8 +311,7 @@ This project can also run on Netlify, Vercel, Cloudflare Pages, or any static se
 - `cta_click`
 - `form_submit`
 
-This repository does not include GA/GTM snippet installation itself.  
-Add your analytics provider script in page templates as needed.
+If `window.GA_MEASUREMENT_ID` is configured and cookie consent is accepted, GA4 loader is injected automatically at runtime.
 
 ## Troubleshooting
 
@@ -331,6 +344,6 @@ Fix:
 2. Hard refresh browser cache.
 
 ## Known Limitations
-- No backend form processing is included. The contact form is UI-only by default.
-- No automated test suite/linter pipeline is currently defined.
+- No backend service is included in this repository. Lead delivery depends on an external Apps Script webhook (`GAS_WEBHOOK_URL`).
+- No unit/integration test suite is included. CI currently provides syntax/link/accessibility/smoke checks only.
 - Interactive map script is included on `index.html`; pages that reuse contact markup without `map.js` will not have live map behavior unless you include map scripts there as well.
