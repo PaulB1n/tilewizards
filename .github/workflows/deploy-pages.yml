@@ -154,29 +154,14 @@ jobs:
           GAS_WEBHOOK_URL: ${{ secrets.GAS_WEBHOOK_URL }}
           GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
         run: |
-          if [ -z "$MAPBOX_PUBLIC_TOKEN" ]; then
-            echo "Missing required secret: MAPBOX_PUBLIC_TOKEN"
-            exit 1
-          fi
-
-          WEBHOOK_URL="${GAS_WEBHOOK_URL:-${GOOGLE_SHEETS_WEBHOOK_URL:-}}"
-
-          printf '%s\n%s\n%s\n%s\n%s\n' \
-            '// Generated during GitHub Pages deployment.' \
-            "window.MAPBOX_TOKEN = \"$MAPBOX_PUBLIC_TOKEN\";" \
-            "window.GA_MEASUREMENT_ID = \"${GA_MEASUREMENT_ID:-}\";" \
-            "window.GAS_WEBHOOK_URL = \"${WEBHOOK_URL}\";" \
-            "window.LEADS_WEBHOOK_URL = \"${WEBHOOK_URL}\";" \
-            > assets/js/config.public.js
+          bash scripts/inject-runtime-config.sh
 
       - name: Apply asset version for cache busting
         shell: bash
         env:
           ASSET_VERSION: ${{ github.sha }}
         run: |
-          set -euo pipefail
-          VERSION="${ASSET_VERSION::12}"
-          find . -maxdepth 1 -type f -name "*.html" -print0 | xargs -0 sed -i "s/__ASSET_VERSION__/${VERSION}/g"
+          bash scripts/apply-asset-version.sh
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

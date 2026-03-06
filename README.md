@@ -1,7 +1,7 @@
 # Tile Wizards Website
 
 Static multi-page marketing website for a tile installation business in Toronto and the GTA.
-Last docs update: 2026-03-01.
+Last docs update: 2026-03-06.
 
 ## Key Features
 - Multi-page site: Home, Services, Portfolio, Privacy, 404.
@@ -183,14 +183,14 @@ Contact form submission uses `window.GAS_WEBHOOK_URL` (Google Apps Script Web Ap
 Setup guide:
 - `docs/google-sheets-leads.md`
 
-### GitHub Pages secrets
-For CI deployment, set repo secrets:
+### Deployment secrets / env vars
+For deployment-time runtime config injection, set:
 - `MAPBOX_PUBLIC_TOKEN`
 - `GA_MEASUREMENT_ID` (optional)
 - `GAS_WEBHOOK_URL` (optional, required for live lead capture)
 - `GOOGLE_SHEETS_WEBHOOK_URL` (legacy fallback)
 
-The workflow injects these values into `assets/js/config.public.js` during deployment.
+These values are injected into `assets/js/config.public.js` during deployment.
 
 ## Development Workflow
 
@@ -255,6 +255,8 @@ $out += (($parts | ForEach-Object {
 | `node --check assets/js/main.js` | Syntax-check `main.js`. |
 | `node --check assets/js/gallery.js` | Syntax-check `gallery.js`. |
 | `node --check assets/js/map.js` | Syntax-check `map.js`. |
+| `bash scripts/inject-runtime-config.sh` | Generate `assets/js/config.public.js` from env vars/secrets. |
+| `ASSET_VERSION=<sha> bash scripts/apply-asset-version.sh` | Replace `__ASSET_VERSION__` placeholders in root HTML files. |
 | `rg --files` | Fast repository file listing. |
 | `rg -n "pattern" <paths>` | Fast code/text search. |
 
@@ -270,11 +272,11 @@ Trigger:
 Pipeline steps:
 1. checkout repository
 2. run JS syntax checks, local link checks, accessibility smoke checks, and HTTP smoke checks
-3. inject runtime config into `assets/js/config.public.js`:
+3. run `scripts/inject-runtime-config.sh` to inject runtime config into `assets/js/config.public.js`:
    - `MAPBOX_PUBLIC_TOKEN` (required)
    - `GA_MEASUREMENT_ID` (optional)
    - `GAS_WEBHOOK_URL` or `GOOGLE_SHEETS_WEBHOOK_URL` (optional)
-4. replace `__ASSET_VERSION__` placeholders in root HTML files for cache busting
+4. run `scripts/apply-asset-version.sh` to replace `__ASSET_VERSION__` placeholders in root HTML files for cache busting
 5. upload repository root as Pages artifact
 6. deploy to GitHub Pages
 
@@ -286,8 +288,24 @@ Pipeline steps:
    - `GAS_WEBHOOK_URL` (preferred) or `GOOGLE_SHEETS_WEBHOOK_URL` (legacy fallback)
 4. Push to `main`
 
+### Cloudflare Pages (with secret injection)
+Use a build command so Cloudflare can inject the same runtime config as GitHub Actions.
+
+Setup checklist:
+1. In Cloudflare Pages project settings, set:
+   - Build command:
+     - `bash scripts/inject-runtime-config.sh && ASSET_VERSION="$CF_PAGES_COMMIT_SHA" bash scripts/apply-asset-version.sh`
+   - Build output directory:
+     - `.`
+2. In `Settings -> Variables and Secrets`, add:
+   - `MAPBOX_PUBLIC_TOKEN` (required, secret)
+   - `GA_MEASUREMENT_ID` (optional)
+   - `GAS_WEBHOOK_URL` (optional) or `GOOGLE_SHEETS_WEBHOOK_URL` (legacy fallback)
+3. Deploy.
+
 ### Other static hosts
-This project can also run on Netlify, Vercel, Cloudflare Pages, or any static server because no build step is required.
+This project can also run on Netlify, Vercel, Cloudflare Pages, or any static server.
+If host-side secret injection is required, run `scripts/inject-runtime-config.sh` during the build/deploy step.
 
 ### Security headers note
 - GitHub Pages does not support custom response headers at the repository level.
