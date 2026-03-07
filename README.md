@@ -321,7 +321,7 @@ If host-side secret injection is required, run `scripts/inject-runtime-config.sh
 - Crawl support:
   - `robots.txt`
   - `sitemap.xml`
-/
+//
 ## Tracking and Analytics
 
 `assets/js/main.js` emits events if either `gtag` or `dataLayer` is present:
