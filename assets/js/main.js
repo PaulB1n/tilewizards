@@ -168,10 +168,13 @@ document.dispatchEvent(new Event("partialsLoaded"));
 
 });
 
-const COOKIE_NOTICE_STORAGE_KEY = "tilewizards_cookie_notice_accepted";
+const COOKIE_CONSENT_STORAGE_KEY = "tilewizards_cookie_consent_v1";
+const LEGACY_COOKIE_NOTICE_STORAGE_KEY = "tilewizards_cookie_notice_accepted";
+const COOKIE_CONSENT_DURATION_DAYS = 180;
 const ANALYTICS_BOOTSTRAP_SRC = "https://www.googletagmanager.com/gtag/js?id=";
 const LEADS_RATE_LIMIT_STORAGE_KEY = "tilewizards_last_lead_submit_at";
 const LEADS_MIN_INTERVAL_MS = 15000;
+let cookieConsentSessionState = null;
 
 function readLocalStorageValue(key) {
   try {
@@ -190,8 +193,102 @@ function writeLocalStorageValue(key, value) {
   }
 }
 
+function removeLocalStorageValue(key) {
+  try {
+    window.localStorage.removeItem(key);
+    return true;
+  } catch (_error) {
+    return false;
+  }
+}
+
+function createCookieConsentState({ analytics = false, marketing = false, source = "custom" } = {}) {
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + COOKIE_CONSENT_DURATION_DAYS * 24 * 60 * 60 * 1000);
+  return {
+    version: 1,
+    source,
+    necessary: true,
+    analytics: Boolean(analytics),
+    marketing: Boolean(marketing),
+    updatedAt: now.toISOString(),
+    expiresAt: expiresAt.toISOString()
+  };
+}
+
+function normalizeCookieConsentState(value) {
+  if (!value || typeof value !== "object") return null;
+
+  const expiresAtMs = Date.parse(typeof value.expiresAt === "string" ? value.expiresAt : "");
+  if (!Number.isFinite(expiresAtMs) || expiresAtMs <= Date.now()) return null;
+
+  return {
+    version: 1,
+    source: typeof value.source === "string" ? value.source : "custom",
+    necessary: true,
+    analytics: Boolean(value.analytics),
+    marketing: Boolean(value.marketing),
+    updatedAt:
+      typeof value.updatedAt === "string" && Number.isFinite(Date.parse(value.updatedAt))
+        ? value.updatedAt
+        : new Date().toISOString(),
+    expiresAt: new Date(expiresAtMs).toISOString()
+  };
+}
+
+function writeCookieConsentState(consentState) {
+  const normalizedState = normalizeCookieConsentState(consentState);
+  if (!normalizedState) return false;
+
+  cookieConsentSessionState = normalizedState;
+  removeLocalStorageValue(LEGACY_COOKIE_NOTICE_STORAGE_KEY);
+  return writeLocalStorageValue(COOKIE_CONSENT_STORAGE_KEY, JSON.stringify(normalizedState));
+}
+
+function readCookieConsentState() {
+  if (cookieConsentSessionState) {
+    const normalizedSessionState = normalizeCookieConsentState(cookieConsentSessionState);
+    if (normalizedSessionState) {
+      cookieConsentSessionState = normalizedSessionState;
+      return normalizedSessionState;
+    }
+    cookieConsentSessionState = null;
+  }
+
+  const rawState = readLocalStorageValue(COOKIE_CONSENT_STORAGE_KEY);
+  if (rawState) {
+    try {
+      const parsedState = JSON.parse(rawState);
+      const normalizedState = normalizeCookieConsentState(parsedState);
+      if (normalizedState) {
+        cookieConsentSessionState = normalizedState;
+        return normalizedState;
+      }
+    } catch (_error) {
+      // Ignore invalid JSON and clear below.
+    }
+    removeLocalStorageValue(COOKIE_CONSENT_STORAGE_KEY);
+  }
+
+  const legacyAccepted = readLocalStorageValue(LEGACY_COOKIE_NOTICE_STORAGE_KEY);
+  if (legacyAccepted === "true" || legacyAccepted === "false") {
+    const isAccepted = legacyAccepted === "true";
+    const migratedState = createCookieConsentState({
+      analytics: isAccepted,
+      marketing: isAccepted,
+      source: "legacy_migration"
+    });
+    writeCookieConsentState(migratedState);
+    removeLocalStorageValue(LEGACY_COOKIE_NOTICE_STORAGE_KEY);
+    return migratedState;
+  }
+
+  return null;
+}
+
 function hasAnalyticsConsent() {
-  return readLocalStorageValue(COOKIE_NOTICE_STORAGE_KEY) === "true";
+  const consentState = readCookieConsentState();
+  return Boolean(consentState && consentState.analytics);
 }
 
 function getLeadsWebhookUrl() {
@@ -498,27 +595,172 @@ function initCookieNotice() {
   if (cookieNoticeInitialized) return;
 
   const notice = document.getElementById("cookieNotice");
-  const acceptBtn = document.getElementById("cookieNoticeAccept");
-  if (!notice || !acceptBtn) return;
+  const acceptAllBtn = document.getElementById("cookieNoticeAcceptAll");
+  const rejectBtn = document.getElementById("cookieNoticeRejectNonEssential");
+  const manageBtn = document.getElementById("cookieNoticeManage");
+  const closeBtn = document.getElementById("cookieNoticeClose");
+  const preferencesModal = document.getElementById("cookiePreferencesModal");
+  const modalDialog = preferencesModal
+    ? preferencesModal.querySelector(".cookie-modal__dialog")
+    : null;
+  const modalCloseTriggers = preferencesModal
+    ? Array.from(preferencesModal.querySelectorAll("[data-cookie-modal-close]"))
+    : [];
+  const analyticsCheckbox = document.getElementById("cookieCategoryAnalytics");
+  const marketingCheckbox = document.getElementById("cookieCategoryMarketing");
+  const savePreferencesBtn = document.getElementById("cookiePreferencesSave");
+  const modalRejectBtn = document.getElementById("cookiePreferencesReject");
+  const cookieSettingsTriggers = Array.from(document.querySelectorAll("[data-open-cookie-settings]"));
+
+  if (
+    !notice ||
+    !acceptAllBtn ||
+    !rejectBtn ||
+    !manageBtn ||
+    !closeBtn ||
+    !preferencesModal ||
+    !(modalDialog instanceof HTMLElement) ||
+    !(analyticsCheckbox instanceof HTMLInputElement) ||
+    !(marketingCheckbox instanceof HTMLInputElement) ||
+    !savePreferencesBtn ||
+    !modalRejectBtn
+  ) {
+    return;
+  }
 
   cookieNoticeInitialized = true;
+  let lastFocusedElement = null;
+  const noticeVisibleClassName = "cookie-notice--visible";
 
-  const alreadyAccepted = hasAnalyticsConsent();
   const emitNoticeStateChange = () => {
     document.dispatchEvent(new Event("cookieNoticeStateChange"));
   };
 
-  if (!alreadyAccepted) {
+  const showNotice = () => {
     notice.hidden = false;
-  }
-  initAnalytics();
-  emitNoticeStateChange();
+    notice.classList.remove(noticeVisibleClassName);
+    requestAnimationFrame(() => {
+      notice.classList.add(noticeVisibleClassName);
+    });
+    emitNoticeStateChange();
+  };
 
-  acceptBtn.addEventListener("click", () => {
-    writeLocalStorageValue(COOKIE_NOTICE_STORAGE_KEY, "true");
-    initAnalytics();
+  const hideNotice = () => {
+    notice.classList.remove(noticeVisibleClassName);
     notice.hidden = true;
     emitNoticeStateChange();
+  };
+
+  function closePreferencesModal({ restoreFocus = true } = {}) {
+    if (preferencesModal.hidden) return;
+    preferencesModal.hidden = true;
+    document.body.classList.remove("cookie-modal-open");
+    if (restoreFocus && lastFocusedElement instanceof HTMLElement) {
+      lastFocusedElement.focus();
+    }
+  }
+
+  function syncModalCheckboxes(consentState) {
+    analyticsCheckbox.checked = Boolean(consentState && consentState.analytics);
+    marketingCheckbox.checked = Boolean(consentState && consentState.marketing);
+  }
+
+  function openPreferencesModal(triggerElement = null) {
+    const consentState = readCookieConsentState();
+    syncModalCheckboxes(consentState);
+    lastFocusedElement = triggerElement instanceof HTMLElement ? triggerElement : document.activeElement;
+    preferencesModal.hidden = false;
+    document.body.classList.add("cookie-modal-open");
+    requestAnimationFrame(() => {
+      modalDialog.focus();
+    });
+  }
+
+  function saveConsentChoice({ analytics, marketing, source }) {
+    writeCookieConsentState(
+      createCookieConsentState({
+        analytics,
+        marketing,
+        source
+      })
+    );
+    if (analytics) {
+      initAnalytics();
+    }
+    hideNotice();
+    closePreferencesModal({ restoreFocus: false });
+  }
+
+  const existingConsent = readCookieConsentState();
+  if (!existingConsent) {
+    showNotice();
+  } else {
+    hideNotice();
+    syncModalCheckboxes(existingConsent);
+  }
+  initAnalytics();
+
+  acceptAllBtn.addEventListener("click", () => {
+    saveConsentChoice({
+      analytics: true,
+      marketing: true,
+      source: "accept_all"
+    });
+  });
+
+  rejectBtn.addEventListener("click", () => {
+    saveConsentChoice({
+      analytics: false,
+      marketing: false,
+      source: "reject_non_essential"
+    });
+  });
+
+  closeBtn.addEventListener("click", () => {
+    saveConsentChoice({
+      analytics: false,
+      marketing: false,
+      source: "dismissed"
+    });
+  });
+
+  manageBtn.addEventListener("click", () => {
+    openPreferencesModal(manageBtn);
+  });
+
+  cookieSettingsTriggers.forEach(trigger => {
+    trigger.addEventListener("click", e => {
+      e.preventDefault();
+      openPreferencesModal(trigger);
+    });
+  });
+
+  savePreferencesBtn.addEventListener("click", () => {
+    saveConsentChoice({
+      analytics: analyticsCheckbox.checked,
+      marketing: marketingCheckbox.checked,
+      source: "custom_preferences"
+    });
+  });
+
+  modalRejectBtn.addEventListener("click", () => {
+    saveConsentChoice({
+      analytics: false,
+      marketing: false,
+      source: "reject_non_essential"
+    });
+  });
+
+  modalCloseTriggers.forEach(trigger => {
+    trigger.addEventListener("click", () => {
+      closePreferencesModal();
+    });
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !preferencesModal.hidden) {
+      closePreferencesModal();
+    }
   });
 }
 

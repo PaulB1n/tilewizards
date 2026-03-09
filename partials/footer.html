@@ -55,17 +55,87 @@
     </small>
     <small class="footer__legal">
       <a href="privacy.html">Privacy Policy</a>
+      <span class="footer__legal-divider" aria-hidden="true">|</span>
+      <button type="button" class="footer__cookie-settings" data-open-cookie-settings>Cookie Settings</button>
     </small>
   </div>
 
 </footer>
 
 <div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie and analytics notice" hidden>
+  <button type="button" class="cookie-notice__close" id="cookieNoticeClose" aria-label="Dismiss cookie banner">&times;</button>
   <p class="cookie-notice__text">
-    We use analytics cookies to measure site performance and improve your experience.
-    See our <a href="privacy.html">Privacy Policy</a>.
+    We use cookies to improve your experience and analyze site traffic.
+    Some cookies are necessary for the website to function.
+    You can accept all cookies, reject non-essential cookies, or manage your preferences.
   </p>
-  <button type="button" class="btn btn--secondary cookie-notice__btn" id="cookieNoticeAccept">Accept</button>
+  <p class="cookie-notice__legal" aria-label="Legal links">
+    <a href="privacy.html">Privacy Policy</a>
+    <span aria-hidden="true">|</span>
+    <a href="privacy.html#cookie-policy">Cookie Policy</a>
+  </p>
+  <div class="cookie-notice__actions" role="group" aria-label="Cookie consent actions">
+    <button type="button" class="btn btn--primary cookie-notice__action cookie-notice__action--primary" id="cookieNoticeAcceptAll">Accept All</button>
+    <button type="button" class="btn btn--secondary cookie-notice__action cookie-notice__action--secondary" id="cookieNoticeRejectNonEssential">Reject Non-Essential</button>
+    <button type="button" class="cookie-notice__action cookie-notice__action--ghost" id="cookieNoticeManage">Manage Preferences</button>
+  </div>
+</div>
+
+<div class="cookie-modal" id="cookiePreferencesModal" hidden>
+  <div class="cookie-modal__backdrop" data-cookie-modal-close aria-hidden="true"></div>
+  <div
+    class="cookie-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cookiePreferencesTitle"
+    aria-describedby="cookiePreferencesDescription"
+    tabindex="-1"
+  >
+    <button type="button" class="cookie-modal__close" id="cookiePreferencesClose" data-cookie-modal-close aria-label="Close cookie preferences">&times;</button>
+    <h3 id="cookiePreferencesTitle">Cookie Preferences</h3>
+    <p id="cookiePreferencesDescription">
+      Necessary cookies are always active. Use the toggles below for optional cookies.
+    </p>
+
+    <div class="cookie-modal__categories">
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Necessary Cookies</strong>
+          <small>Always active</small>
+        </span>
+        <span class="cookie-category__always">&#10003; Always active</span>
+      </div>
+
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Analytics Cookies</strong>
+          <small>Used to analyze site traffic and improve performance.</small>
+        </span>
+        <label class="cookie-toggle" for="cookieCategoryAnalytics">
+          <span class="visually-hidden">Toggle analytics cookies</span>
+          <input id="cookieCategoryAnalytics" class="cookie-toggle__input" type="checkbox">
+          <span class="cookie-toggle__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Marketing Cookies</strong>
+          <small>Used for campaign measurement and remarketing.</small>
+        </span>
+        <label class="cookie-toggle" for="cookieCategoryMarketing">
+          <span class="visually-hidden">Toggle marketing cookies</span>
+          <input id="cookieCategoryMarketing" class="cookie-toggle__input" type="checkbox">
+          <span class="cookie-toggle__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="cookie-modal__actions">
+      <button type="button" class="btn btn--secondary cookie-modal__action" id="cookiePreferencesReject">Reject Non-Essential</button>
+      <button type="button" class="btn btn--primary cookie-modal__action" id="cookiePreferencesSave">Save Preferences</button>
+    </div>
+  </div>
 </div>
 
 <div class="mobile-sticky-cta is-hidden" id="mobileStickyCta" aria-hidden="true" hidden>
