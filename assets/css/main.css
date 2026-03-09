@@ -3441,8 +3441,11 @@ body.menu-open .menu-screen-inner {
 .footer__legal {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
+  width: fit-content;
+  margin-inline: auto;
 }
 
 .footer__legal-divider {
