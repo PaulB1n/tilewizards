@@ -8,19 +8,13 @@
     <nav class="nav nav--desktop" aria-label="Primary navigation">
       <ul>
         <li><a href="services.html">Services</a></li>
+        <li><a href="areas.html">Areas</a></li>
         <li><a href="portfolio.html">Portfolio</a></li>
-        <li>
-          <a
-            href="index.html#faq"
-            data-local-label="FAQ"
-            data-home-label="FAQ (Home)"
-          ><span data-home-anchor-label>FAQ</span></a>
-        </li>
         <li>
           <a
             href="index.html#contact"
             data-local-label="Contact"
-            data-home-label="Contact (Home)"
+            data-home-label="Contact"
           ><span data-home-anchor-label>Contact</span></a>
         </li>
       </ul>
@@ -52,7 +46,11 @@
   <nav class="nav nav--mobile" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true" hidden>
     <div class="menu-top">
       <a href="tel:+14372998387" class="menu-phone">
-        <span class="phone-icon" aria-hidden="true">CALL</span>
+        <span class="phone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.11.37 2.29.56 3.5.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.73 21 3 13.27 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.21.19 2.39.56 3.5a1 1 0 0 1-.24 1.02l-2.2 2.27Z" fill="currentColor"/>
+          </svg>
+        </span>
         <span class="phone-text">
           <span class="phone-label">Call us</span>
           <span class="phone-number">+1 (437) 299-8387</span>
@@ -69,14 +67,39 @@
       <ul class="menu-cards" aria-label="Mobile navigation">
         <li>
           <a href="services.html" class="menu-card">
-            <span class="menu-icon" aria-hidden="true">SERV</span>
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="5" y="5" width="6" height="6" rx="1.5"/>
+                <rect x="13" y="5" width="6" height="6" rx="1.5"/>
+                <rect x="5" y="13" width="6" height="6" rx="1.5"/>
+                <rect x="13" y="13" width="6" height="6" rx="1.5"/>
+              </svg>
+            </span>
             <span class="menu-title">Services</span>
           </a>
         </li>
 
         <li>
+          <a href="areas.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 21s-5-4.74-5-9.17A5 5 0 1 1 17 11.83C17 16.26 12 21 12 21Z"/>
+                <circle cx="12" cy="11.5" r="1.9"/>
+              </svg>
+            </span>
+            <span class="menu-title">Areas</span>
+          </a>
+        </li>
+
+        <li>
           <a href="portfolio.html" class="menu-card">
-            <span class="menu-icon" aria-hidden="true">WORK</span>
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="4.5" y="6" width="15" height="12" rx="2"/>
+                <circle cx="9" cy="10" r="1.25"/>
+                <path d="m7.5 16 3.1-3.2a1 1 0 0 1 1.43 0L14 14.76l1.37-1.43a1 1 0 0 1 1.45 0L19 15.5"/>
+              </svg>
+            </span>
             <span class="menu-title">Portfolio</span>
           </a>
         </li>
@@ -86,9 +109,15 @@
             href="index.html#faq"
             class="menu-card"
             data-local-label="FAQ"
-            data-home-label="FAQ (Home)"
+            data-home-label="FAQ"
           >
-            <span class="menu-icon" aria-hidden="true">FAQ</span>
+            <span class="menu-icon menu-icon--faq" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M8 7h8a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2.4L12 17.5 10.4 15H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/>
+                <path d="M12 8.55c-1.55 0-2.7 1.02-2.77 2.46h1.46c.05-.67.55-1.08 1.31-1.08.73 0 1.24.43 1.24 1.09 0 .5-.28.82-.95 1.28-.91.63-1.45 1.23-1.45 2.35v.23h1.41v-.18c0-.68.25-1 .99-1.53.78-.56 1.41-1.17 1.41-2.24 0-1.45-1.16-2.38-2.65-2.38Z" fill="currentColor" stroke="none"/>
+                <circle cx="12" cy="14.9" r=".7" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
             <span class="menu-title" data-home-anchor-label>FAQ</span>
           </a>
         </li>
@@ -98,9 +127,14 @@
             href="index.html#contact"
             class="menu-card"
             data-local-label="Contact"
-            data-home-label="Contact (Home)"
+            data-home-label="Contact"
           >
-            <span class="menu-icon" aria-hidden="true">BASE</span>
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="4.5" y="7" width="15" height="10" rx="2"/>
+                <path d="m5.5 8 5.83 4.37a1.15 1.15 0 0 0 1.34 0L18.5 8"/>
+              </svg>
+            </span>
             <span class="menu-title" data-home-anchor-label>Contact</span>
           </a>
         </li>
@@ -112,14 +146,19 @@
       <a
         href="index.html#contact"
         class="menu-cta"
-        data-local-label="Request a Free Quote"
-        data-home-label="Request a Free Quote (Home)"
+        data-local-label="Contact Us"
+        data-home-label="Contact Us"
       >
-        <span data-home-anchor-label>Request a Free Quote</span>
+        <span data-home-anchor-label>Contact Us</span>
       </a>
 
       <div class="menu-location">
-        <span class="pin" aria-hidden="true">BASE</span>
+        <span class="pin" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 21s-5-4.74-5-9.17A5 5 0 1 1 17 11.83C17 16.26 12 21 12 21Z"/>
+            <circle cx="12" cy="11.5" r="1.9"/>
+          </svg>
+        </span>
         <span class="location-text">Toronto & GTA</span>
       </div>
     </div>

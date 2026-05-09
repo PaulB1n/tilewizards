@@ -1,10 +1,16 @@
 # Security Headers
 
+Last reviewed: 2026-05-08.
+
 ## Current Hosting Constraint
 
 The site is deployed to GitHub Pages via `.github/workflows/deploy-pages.yml`.
 GitHub Pages does not provide repository-level custom HTTP response headers.
 Because of that, CSP is currently enforced via `<meta http-equiv="Content-Security-Policy">` in root HTML pages.
+
+All public root HTML pages currently use the same CSP meta policy. If inline scripts,
+JSON-LD blocks, third-party assets, or runtime endpoints change, update the meta CSP
+and the production header example below together.
 
 ## Recommended Production Setup
 

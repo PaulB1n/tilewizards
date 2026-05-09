@@ -1,4 +1,4 @@
-﻿.portfolio-page-hero {
+.portfolio-page-hero {
   padding-top: calc(var(--header-h, 92px) + clamp(20px, 4vw, 52px));
   padding-bottom: clamp(40px, 7vw, var(--space-11));
   position: relative;
@@ -131,7 +131,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-  
+
 }
 
 .portfolio__item {
@@ -139,7 +139,7 @@
   border-radius: 20px;
   overflow: hidden;
   background: #0b0b0b;
-cursor: pointer;  
+cursor: pointer;
   border: none;
   box-shadow:
     0 10px 30px rgba(0,0,0,0.6);
@@ -291,7 +291,7 @@ cursor: pointer;
 
 
 .portfolio__overlay h3 {
-   font-size: 18px;        
+   font-size: 18px;
   font-weight: 500;
   margin: 0;
 }
@@ -475,7 +475,7 @@ cursor: pointer;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   z-index: 10003;
-} 
+}
 
 .lightbox__content {
   position: relative;
@@ -921,6 +921,41 @@ cursor: pointer;
   align-items: stretch;
 }
 
+.before-after__grid--featured {
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.85fr);
+  grid-auto-flow: dense;
+}
+
+.before-after__case--featured {
+  grid-row: span 2;
+}
+
+.before-after__case--featured .before-after__compare {
+  aspect-ratio: 12 / 11;
+}
+
+.before-after__case--compact {
+  padding: 20px;
+}
+
+.before-after__case--compact .before-after__compare {
+  aspect-ratio: 16 / 10;
+}
+
+.before-after__case--compact h3 {
+  font-size: 17px;
+}
+
+.before-after__case--compact .before-after__case-specs {
+  margin-bottom: 14px;
+}
+
+.before-after__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-6);
+}
+
 .before-after__case {
   position: relative;
   padding: clamp(18px, 2.8vw, 30px);
@@ -989,17 +1024,33 @@ cursor: pointer;
   color: rgba(255,255,255,0.82);
 }
 
-.before-after__compare {
+/* .before-after__compare {
   --position: 50%;
   position: relative;
-  margin: auto 0 0;
+  margin: 0 auto;
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.12);
   background: #111;
   aspect-ratio: 4 / 4.15;
   touch-action: pan-y;
+
+} */
+.before-after__compare {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  margin: 0 auto;
+
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #111;
+
+  touch-action: pan-y;
 }
+
 
 .before-after__img {
   display: block;
@@ -1224,11 +1275,19 @@ cursor: pointer;
   .before-after__grid {
     grid-template-columns: 1fr;
   }
+
+  .before-after__case--featured {
+    grid-row: auto;
+  }
 }
 
 @media (max-width: 1320px) and (min-width: 901px) {
-  .before-after__grid {
+  .before-after__grid:not(.before-after__grid--featured) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .before-after__grid--featured {
+    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
   }
 }
 
@@ -1274,7 +1333,7 @@ cursor: pointer;
     width: 36px;
     height: 36px;
     opacity: 1;
-    
+
   }
 
   .lightbox__hint {

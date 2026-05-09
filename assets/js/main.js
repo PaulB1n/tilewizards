@@ -71,6 +71,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 /*  */
 document.dispatchEvent(new Event("partialsLoaded"));
 
+  function initCurrentNavigationState() {
+    const body = document.body;
+    if (!body) return;
+
+    let currentNavHref = "";
+
+    if (body.classList.contains("page-areas") || body.classList.contains("page-area-location")) {
+      currentNavHref = "areas.html";
+    } else if (body.classList.contains("page-portfolio")) {
+      currentNavHref = "portfolio.html";
+    } else if (body.classList.contains("page-services") || body.classList.contains("page-service-detail")) {
+      currentNavHref = "services.html";
+    }
+
+    if (!currentNavHref) return;
+
+    document.querySelectorAll(".header nav a[aria-current=\"page\"]").forEach(link => {
+      link.removeAttribute("aria-current");
+    });
+
+    document.querySelectorAll(`.header nav a[href="${currentNavHref}"]`).forEach(link => {
+      link.setAttribute("aria-current", "page");
+    });
+  }
+
+  initCurrentNavigationState();
+
 
   /* HEADER SCROLL */
   const header = document.querySelector(".header");

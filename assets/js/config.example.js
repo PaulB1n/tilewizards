@@ -2,3 +2,4 @@
 window.MAPBOX_TOKEN = "pk.your-mapbox-public-token";
 window.GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
 window.GAS_WEBHOOK_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+window.LEADS_WEBHOOK_URL = window.GAS_WEBHOOK_URL;

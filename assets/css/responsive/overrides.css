@@ -1,0 +1,214 @@
+/* Final responsive hardening layer.
+   Keep these rules structural and low-specificity so page/component files stay reusable. */
+
+:where(.services__grid, .portfolio__grid, .portfolio-kpis__grid, .before-after__grid, .reviews__grid, .privacy-content__grid) {
+  width: 100%;
+  min-width: 0;
+}
+
+:where(.services article, .portfolio__item, .portfolio__item--card, .before-after__case, .review, .privacy-card) {
+  min-width: 0;
+}
+
+:where(.service__media, .portfolio__media, .before-after__compare, .hero__compare) {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.services__actions,
+.portfolio__actions,
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--r-space-3);
+}
+
+.services__actions .btn,
+.portfolio__actions .btn,
+.cta__actions .btn {
+  min-width: 0;
+}
+
+.contact__form :where(input, select, textarea),
+.contact-map__search :where(input, button) {
+  width: 100%;
+}
+
+.contact__item,
+.footer__contact a,
+.footer__link-group a {
+  min-width: 0;
+}
+
+.contact__value,
+.footer__value {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.before-after__compare {
+  aspect-ratio: 4 / 3;
+  height: auto;
+  flex: none;
+}
+
+.before-after__img {
+  position: absolute;
+  inset: 0;
+}
+
+.before-after__after {
+  position: absolute;
+  inset: 0;
+}
+
+.lightbox__content,
+.lightbox__figure {
+  max-width: calc(100vw - 24px - var(--safe-left) - var(--safe-right));
+}
+
+@media (max-width: 767.98px) {
+  .header__inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .header__contact {
+    min-width: 0;
+  }
+
+  .header__phone {
+    max-width: 44vw;
+  }
+
+  .header__contact .phone-number {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hero__response {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .services__actions,
+  .portfolio__actions,
+  .cta__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .services__actions .btn,
+  .portfolio__actions .btn,
+  .cta__actions .btn,
+  .contact__form .btn {
+    width: 100%;
+  }
+
+  .before-after__grid,
+  .before-after__grid--featured {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--r-space-4);
+  }
+
+  .before-after__case,
+  .before-after__case--compact {
+    padding: var(--r-space-4);
+    border-radius: var(--r-radius-md);
+  }
+
+  .before-after__case--featured {
+    grid-row: auto;
+  }
+
+  .before-after__case--featured .before-after__compare,
+  .before-after__case--compact .before-after__compare {
+    aspect-ratio: 4 / 3;
+  }
+
+  .before-after__tag {
+    max-width: calc(50% - 18px);
+    padding: 5px 8px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .before-after__knob,
+  .before-after__range::-webkit-slider-thumb,
+  .before-after__range::-moz-range-thumb {
+    width: 38px;
+    height: 38px;
+  }
+
+  .portfolio__content,
+  .page-portfolio .portfolio__item--featured .portfolio__content {
+    position: static;
+    padding: var(--r-space-4);
+    background: linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(12, 12, 12, 0.98));
+  }
+
+  .portfolio__item:hover,
+  .portfolio__item:hover img {
+    transform: none;
+  }
+
+  .contact__consent {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    padding-inline: max(12px, var(--safe-left)) max(12px, var(--safe-right));
+  }
+
+  .header__phone {
+    max-width: 40vw;
+    padding-inline: 8px;
+  }
+
+  .header__contact .phone-number {
+    font-size: 11px;
+  }
+
+  .portfolio__filters {
+    margin-inline: calc(var(--container-inline) * -1);
+    padding-inline: var(--container-inline);
+  }
+
+  .contact__areas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .services__actions,
+  .portfolio__actions,
+  .cta__actions {
+    align-items: center;
+  }
+
+  .before-after__compare {
+    aspect-ratio: 16 / 11;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-home .hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(420px, 0.92fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
+
+  .page-home .hero__showcase {
+    justify-self: end;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-home .hero__inner {
+    grid-template-columns: minmax(0, 1.12fr) minmax(480px, 0.88fr);
+  }
+}

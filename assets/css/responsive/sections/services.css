@@ -25,8 +25,12 @@
 
 .services article {
   min-height: 0;
-  padding: var(--r-space-6-5);
+  padding: var(--r-space-4-5);
   gap: var(--r-space-4);
+}
+
+.service__media {
+  margin-bottom: 2px;
 }
 
 .services article h3 {
@@ -73,6 +77,9 @@
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding: 10px 16px;
 }
 
 @media (min-width: 480px) {
@@ -107,7 +114,7 @@
   }
 
   .services article {
-    padding: var(--r-space-7-5);
+    padding: var(--r-space-5);
   }
 
   .services article h3 {
@@ -162,6 +169,7 @@
   .service__cta {
     color: #f5c542;
     font-weight: 600;
+    width: auto;
   }
 
   .services article:active {
@@ -178,8 +186,8 @@
   }
 
   .services article {
-    min-height: 420px;
-    padding: 36px;
+    min-height: 0;
+    padding: 18px 18px 24px;
     gap: var(--r-space-4-5);
   }
 
@@ -212,8 +220,8 @@
 
   .service__cta {
     margin-top: auto;
-    display: inline-block;
-    min-height: 0;
+    display: inline-flex;
+    min-height: 42px;
     font-size: 15px;
     line-height: 1.35;
   }

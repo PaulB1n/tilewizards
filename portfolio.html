@@ -13,14 +13,14 @@
   <meta property="og:title" content="Portfolio | Tile Wizards Toronto">
   <meta property="og:description" content="Browse recent tile installation projects by Tile Wizards across Toronto and GTA, including bathrooms, floors, outdoor spaces, and slab work.">
   <meta property="og:url" content="https://tilewizards.ca/portfolio.html">
-  <meta property="og:image" content="assets/images/og-cover-1200x630.jpg">
+  <meta property="og:image" content="https://tilewizards.ca/assets/images/og-cover-1200x630.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Tile Wizards - Before/After tile installation in Toronto, call +1 (437) 299-8387">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Portfolio | Tile Wizards Toronto">
   <meta name="twitter:description" content="Browse recent tile installation projects by Tile Wizards across Toronto and GTA, including bathrooms, floors, outdoor spaces, and slab work.">
-  <meta name="twitter:image" content="assets/images/og-cover-1200x630.jpg">
+  <meta name="twitter:image" content="https://tilewizards.ca/assets/images/og-cover-1200x630.jpg">
 
   <link rel="stylesheet" href="assets/css/main.css?v=__ASSET_VERSION__">
   <link rel="stylesheet" href="assets/css/portfolio.css?v=__ASSET_VERSION__">
@@ -32,7 +32,173 @@
 <body class="page-portfolio">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <div data-include="partials/header.html"></div>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="logo" aria-label="Tile Wizards home">
+      <img src="assets/images/logo.png" alt="Tile Installation Logo" width="269" height="286" decoding="async">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <nav class="nav nav--desktop" aria-label="Primary navigation">
+      <ul>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="areas.html">Areas</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li>
+          <a
+            href="index.html#contact"
+            data-local-label="Contact"
+            data-home-label="Contact"
+          ><span data-home-anchor-label>Contact</span></a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header__contact">
+      <a href="tel:+14372998387" class="header__phone">
+        <span class="phone-number">+1 (437) 299-8387</span>
+        <span class="phone-hours">Mon-Fri &middot; 8:30 AM-5:30 PM</span>
+      </a>
+    </div>
+
+    <!-- BURGER -->
+    <button
+      class="burger"
+      id="burger"
+      type="button"
+      aria-label="Open menu"
+      aria-controls="mobileMenu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="nav nav--mobile" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true" hidden>
+    <div class="menu-top">
+      <a href="tel:+14372998387" class="menu-phone">
+        <span class="phone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.11.37 2.29.56 3.5.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.73 21 3 13.27 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.21.19 2.39.56 3.5a1 1 0 0 1-.24 1.02l-2.2 2.27Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="phone-text">
+          <span class="phone-label">Call us</span>
+          <span class="phone-number">+1 (437) 299-8387</span>
+        </span>
+      </a>
+
+      <button class="menu-close" id="menuClose" type="button" aria-label="Close menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="menu-screen-inner">
+      <ul class="menu-cards" aria-label="Mobile navigation">
+        <li>
+          <a href="services.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="5" y="5" width="6" height="6" rx="1.5"/>
+                <rect x="13" y="5" width="6" height="6" rx="1.5"/>
+                <rect x="5" y="13" width="6" height="6" rx="1.5"/>
+                <rect x="13" y="13" width="6" height="6" rx="1.5"/>
+              </svg>
+            </span>
+            <span class="menu-title">Services</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="areas.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 21s-5-4.74-5-9.17A5 5 0 1 1 17 11.83C17 16.26 12 21 12 21Z"/>
+                <circle cx="12" cy="11.5" r="1.9"/>
+              </svg>
+            </span>
+            <span class="menu-title">Areas</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="portfolio.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="4.5" y="6" width="15" height="12" rx="2"/>
+                <circle cx="9" cy="10" r="1.25"/>
+                <path d="m7.5 16 3.1-3.2a1 1 0 0 1 1.43 0L14 14.76l1.37-1.43a1 1 0 0 1 1.45 0L19 15.5"/>
+              </svg>
+            </span>
+            <span class="menu-title">Portfolio</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="index.html#faq"
+            class="menu-card"
+            data-local-label="FAQ"
+            data-home-label="FAQ"
+          >
+            <span class="menu-icon menu-icon--faq" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M8 7h8a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2.4L12 17.5 10.4 15H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/>
+                <path d="M12 8.55c-1.55 0-2.7 1.02-2.77 2.46h1.46c.05-.67.55-1.08 1.31-1.08.73 0 1.24.43 1.24 1.09 0 .5-.28.82-.95 1.28-.91.63-1.45 1.23-1.45 2.35v.23h1.41v-.18c0-.68.25-1 .99-1.53.78-.56 1.41-1.17 1.41-2.24 0-1.45-1.16-2.38-2.65-2.38Z" fill="currentColor" stroke="none"/>
+                <circle cx="12" cy="14.9" r=".7" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <span class="menu-title" data-home-anchor-label>FAQ</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="index.html#contact"
+            class="menu-card"
+            data-local-label="Contact"
+            data-home-label="Contact"
+          >
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="4.5" y="7" width="15" height="10" rx="2"/>
+                <path d="m5.5 8 5.83 4.37a1.15 1.15 0 0 0 1.34 0L18.5 8"/>
+              </svg>
+            </span>
+            <span class="menu-title" data-home-anchor-label>Contact</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CTA -->
+    <div class="menu-footer">
+      <a
+        href="index.html#contact"
+        class="menu-cta"
+        data-local-label="Contact Us"
+        data-home-label="Contact Us"
+      >
+        <span data-home-anchor-label>Contact Us</span>
+      </a>
+
+      <div class="menu-location">
+        <span class="pin" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 21s-5-4.74-5-9.17A5 5 0 1 1 17 11.83C17 16.26 12 21 12 21Z"/>
+            <circle cx="12" cy="11.5" r="1.9"/>
+          </svg>
+        </span>
+        <span class="location-text">Toronto & GTA</span>
+      </div>
+    </div>
+  </nav>
+</header>
+
 
   <main id="main-content">
     <section class="portfolio-page-hero section">
@@ -51,7 +217,7 @@
             <li>Large Format Slabs</li>
           </ul>
           <div class="portfolio-page-hero__actions">
-            <a href="index.html#contact" class="btn btn--primary">Get Free Estimate</a>
+            <a href="index.html#contact" class="btn btn--primary">Book Consultation</a>
             <a href="services.html" class="btn btn--secondary">Explore Services</a>
           </div>
         </div>
@@ -75,20 +241,393 @@
       </div>
     </section>
 
-    <div data-include="partials/portfolio.html"></div>
+    <section class="portfolio section section--spacious" id="portfolio">
+  <div class="container">
+
+    <h2 class="section-title section-title--portfolio">
+      <span class="section-eyebrow">Real Tile Installation Projects</span>
+      <span class="section-main-heading">Across Toronto & GTA</span>
+    </h2>
+    <p class="portfolio__intro">
+      Including new before and after bathroom transformations from recent Toronto projects.
+    </p>
+
+    <div class="portfolio__filters" id="portfolioFilters">
+      <button type="button" class="portfolio__filter is-active" data-filter="all">All</button>
+      <button type="button" class="portfolio__filter" data-filter="bathroom">Bathrooms</button>
+      <button type="button" class="portfolio__filter" data-filter="floor">Floors</button>
+      <button type="button" class="portfolio__filter" data-filter="outdoor">Outdoor</button>
+      <button type="button" class="portfolio__filter" data-filter="slabs">Slabs</button>
+    </div>
+
+    <div class="portfolio__grid" id="portfolioGrid">
+      <article class="portfolio__item portfolio__item--card" id="portfolio-house-package">
+        <div class="portfolio__media">
+          <img src="assets/images/portfolio/house-1.webp" alt="Residential bathroom and floor tile installation in Toronto by Tile Wizards" width="1200" height="900" loading="lazy" decoding="async">
+        </div>
+        <div class="portfolio__content">
+          <div class="portfolio__case-head">
+            <span class="portfolio__badge">Case Study</span>
+            <p class="portfolio__location">Toronto, ON</p>
+          </div>
+          <h3 class="portfolio__title">Residential House Tile Package</h3>
+          <p class="portfolio__summary">Bathrooms, backsplash, and floor tile installation with detailed leveling and clean finishing.</p>
+          <ul class="portfolio__stats portfolio__case-list">
+            <li>Bathrooms, kitchens, and floors</li>
+            <li>Precision leveling and trim work</li>
+          </ul>
+          <a href="portfolio.html" class="service__cta">Open Full Project Gallery</a>
+        </div>
+      </article>
+
+      <article class="portfolio__item portfolio__item--card" id="portfolio-bathroom-transformation">
+        <div class="portfolio__media">
+          <img src="assets/images/portfolio/before-after/toronto-bathroom-after-01.webp" alt="Bathroom tile before and after transformation in Toronto" width="1200" height="900" loading="lazy" decoding="async">
+        </div>
+        <div class="portfolio__content">
+          <div class="portfolio__case-head">
+            <span class="portfolio__badge">Before / After</span>
+            <p class="portfolio__location">Etobicoke, ON</p>
+          </div>
+          <h3 class="portfolio__title">Bathroom Renovation Transformation</h3>
+          <p class="portfolio__summary">Waterproof shower system, clean grout lines, and corrected slopes for long-term moisture safety.</p>
+          <ul class="portfolio__stats portfolio__case-list">
+            <li>Custom niche and tile layout</li>
+            <li>Upgraded waterproofing system</li>
+          </ul>
+          <a href="bathroom-tile-installation-toronto.html" class="service__cta">Bathroom Installation Details</a>
+        </div>
+      </article>
+
+      <article class="portfolio__item portfolio__item--card">
+        <div class="portfolio__media">
+          <img src="assets/images/portfolio/slabs-1.webp" alt="Large-format slab tile installation in Toronto feature wall project" width="1200" height="900" loading="lazy" decoding="async">
+        </div>
+        <div class="portfolio__content">
+          <div class="portfolio__case-head">
+            <span class="portfolio__badge">Premium Slabs</span>
+            <p class="portfolio__location">Toronto, ON</p>
+          </div>
+          <h3 class="portfolio__title">Large Format Slab Feature Work</h3>
+          <p class="portfolio__summary">Matched-vein slab placement with minimal joints and alignment control for a luxury finish.</p>
+          <ul class="portfolio__stats portfolio__case-list">
+            <li>Large-format porcelain handling</li>
+            <li>Low-joint, high-end look</li>
+          </ul>
+          <a href="large-format-slab-installation-toronto.html" class="service__cta">Slab Installation Details</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="portfolio__actions portfolio__actions--home">
+      <a href="portfolio.html" class="btn btn--secondary">
+        View Full Portfolio
+      </a>
+      <a href="services.html#service-pages" class="btn btn--secondary">
+        View Service Pages
+      </a>
+    </div>
+
+    <div class="portfolio__conversion">
+      <h3>Need a Similar Result?</h3>
+      <p>Tell us your project goals and we will help plan the right next step for your installation.</p>
+      <div class="portfolio__conversion-actions">
+        <a href="index.html#contact" class="btn btn--primary">Book Consultation</a>
+        <a href="tel:+14372998387" class="btn btn--secondary">Call Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="cta section section--compact section--alt">
+
+  <div class="container cta__inner">
+
+    <div class="cta__content">
+      <h2>Ready to Start Your Project?</h2>
+
+      <p>
+        Get professional tile installation with clean lines,
+        perfect leveling, and long-lasting results.
+      </p>
+
+      <ul class="cta__points">
+        <li>&#10003; Project consultation</li>
+        <li>&#10003; Clear scope planning</li>
+        <li>&#10003; Serving Toronto & GTA</li>
+      </ul>
+    </div>
+
+    <div class="cta__actions">
+      <a href="index.html#contact" class="btn btn--primary">
+        Contact Us
+      </a>
+
+      <a href="tel:+14372998387" class="cta__phone">
+        or call <strong>+1 (437) 299-8387</strong>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- reviews -->
+<section class="reviews section section--compact">
+
+  <div class="container">
+
+    <div class="reviews__badge ">
+      <span class="reviews__google">Google</span>
+      <span class="reviews__rating">4.9</span>
+      <span class="reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span class="reviews__count">40+ reviews &middot; Updated regularly</span>
+    </div>
+
+    <h3 class="reviews__title">What Our Clients Say</h3>
+    <p class="reviews__subtitle">
+      Trusted by homeowners and builders across Toronto & GTA.
+    </p>
+    <p class="reviews__swipe-hint" aria-hidden="true">Swipe to view more reviews &rarr;</p>
+
+    <div class="reviews__grid">
+
+      <div class="review js-reveal">
+        <div class="review__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review__text">
+          &ldquo;Absolutely one of the best tiling companies in Toronto. Very clean,
+          precise work and excellent communication throughout the project.&rdquo;
+        </p>
+        <div class="review__author">
+          <strong>Majed R.</strong>
+          <span>Toronto, ON &middot; Residential Project</span>
+        </div>
+      </div>
+
+      <div class="review js-reveal">
+        <div class="review__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review__text">
+          &ldquo;Tile Wizards completed the entire tiling for our new build.
+          High-end craftsmanship and attention to detail. Highly recommended.&rdquo;
+        </p>
+        <div class="review__author">
+          <strong>Darrell V.</strong>
+          <span>GTA, ON &middot; New Build</span>
+        </div>
+      </div>
+
+      <div class="review js-reveal">
+        <div class="review__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review__text">
+          &ldquo;Very professional, punctual, and the results were flawless.
+          Couldn&rsquo;t be happier with our renovation.&rdquo;
+        </p>
+        <div class="review__author">
+          <strong>Dannia K.</strong>
+          <span>Toronto, ON &middot; Renovation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
   </main>
 
-  <div data-include="partials/footer.html"></div>
+  <footer class="footer">
+  <div class="container footer__grid">
+
+    <!-- Brand -->
+    <div class="footer__brand">
+      <div class="footer__brand-head">
+        <img src="assets/images/logo.png" alt="Tile Wizards logo" class="footer__logo" width="269" height="286" loading="lazy" decoding="async">
+        <strong>Tile Wizards</strong>
+      </div>
+      <p>Professional tile installation in Toronto & GTA</p>
+      <p class="footer__why">Why Choose Us: Precise leveling, clean finishes, and reliable timelines.</p>
+    </div>
+
+    <!-- Contact -->
+    <address class="footer__contact">
+      <a href="https://maps.google.com/?q=Toronto,ON" target="_blank" rel="noopener noreferrer">
+        <span class="footer__label">Location</span>
+        <span class="footer__value">Toronto, ON</span>
+      </a>
+
+      <a href="tel:+14372998387" class="footer__phone">
+        <span class="footer__label">Phone</span>
+        <strong class="footer__value">+1 (437) 299-8387</strong>
+      </a>
+
+      <a href="mailto:romanboholiub@yahoo.com">
+        <span class="footer__label">Email</span>
+        <span class="footer__value">romanboholiub@yahoo.com</span>
+      </a>
+    </address>
+
+    <!-- SEO links -->
+    <nav class="footer__links" aria-label="Service and area links">
+      <div class="footer__link-group">
+    <p class="footer__label">Tile Services</p>
+    <a href="bathroom-tile-installation-toronto.html">Bathroom Tile Installation Toronto</a>
+    <a href="kitchen-backsplash-installation-toronto.html">Kitchen Backsplash Installation</a>
+    <a href="floor-tile-installation-toronto.html">Floor Tile Installation</a>
+    <a href="large-format-slab-installation-toronto.html">Large Format Slab Installation</a>
+    <a href="services.html">All Services</a>
+  </div>
+
+  <!-- AREAS -->
+  <div class="footer__link-group">
+    <p class="footer__label">Areas We Serve</p>
+    <a href="tile-installation-mississauga.html">Tile Installation Mississauga</a>
+    <a href="tile-installation-vaughan.html">Tile Installation Vaughan</a>
+    <a href="tile-installation-markham.html">Tile Installation Markham</a>
+    <a href="tile-installation-brampton.html">Tile Installation Brampton</a>
+    <a href="areas.html">All Areas</a>
+  </div>
+    </nav>
+
+    <!-- CTA -->
+    <div class="footer__cta">
+      <div class="footer__cta-card">
+        <p>Start your project with a consultation and site review.</p>
+        <a href="index.html#contact" class="btn btn--secondary">
+          Contact Us
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEO TEXT -->
+  <p class="footer__seo">
+    Tile Wizards offers professional tile installation services across Toronto and the
+    Greater Toronto Area, including Mississauga, Vaughan, Markham, and Richmond Hill.
+    We specialize in bathroom renovations, kitchen backsplashes, and floor tile installation,
+    delivering clean finishes and long-lasting results using premium materials.
+  </p>
+
+  <div class="footer__bottom">
+    <small>
+      &copy; 2026 Tile Wizards | Licensed & Insured | Toronto & GTA
+    </small>
+    <small class="footer__legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <span class="footer__legal-divider" aria-hidden="true">|</span>
+      <button type="button" class="footer__cookie-settings" data-open-cookie-settings>Cookie Settings</button>
+    </small>
+  </div>
+
+</footer>
+
+<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie and analytics notice" hidden>
+  <button type="button" class="cookie-notice__close" id="cookieNoticeClose" aria-label="Dismiss cookie banner">&times;</button>
+  <p class="cookie-notice__text">
+    We use cookies to improve your experience and analyze site traffic.
+    Some cookies are necessary for the website to function.
+    You can accept all cookies, reject non-essential cookies, or manage your preferences.
+  </p>
+  <p class="cookie-notice__legal" aria-label="Legal links">
+    <a href="privacy.html">Privacy Policy</a>
+    <span aria-hidden="true">|</span>
+    <a href="privacy.html#cookie-policy">Cookie Policy</a>
+  </p>
+  <div class="cookie-notice__actions" role="group" aria-label="Cookie consent actions">
+    <button type="button" class="btn btn--primary cookie-notice__action cookie-notice__action--primary" id="cookieNoticeAcceptAll">Accept All</button>
+    <button type="button" class="btn btn--secondary cookie-notice__action cookie-notice__action--secondary" id="cookieNoticeRejectNonEssential">Reject Non-Essential</button>
+    <button type="button" class="cookie-notice__action cookie-notice__action--ghost" id="cookieNoticeManage">Manage Preferences</button>
+  </div>
+</div>
+
+<div class="cookie-modal" id="cookiePreferencesModal" hidden>
+  <div class="cookie-modal__backdrop" data-cookie-modal-close aria-hidden="true"></div>
+  <div
+    class="cookie-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cookiePreferencesTitle"
+    aria-describedby="cookiePreferencesDescription"
+    tabindex="-1"
+  >
+    <button type="button" class="cookie-modal__close" id="cookiePreferencesClose" data-cookie-modal-close aria-label="Close cookie preferences">&times;</button>
+    <h3 id="cookiePreferencesTitle">Cookie Preferences</h3>
+    <p id="cookiePreferencesDescription">
+      Necessary cookies are always active. Use the toggles below for optional cookies.
+    </p>
+
+    <div class="cookie-modal__categories">
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Necessary Cookies</strong>
+          <small>Always active</small>
+        </span>
+        <span class="cookie-category__always">&#10003; Always active</span>
+      </div>
+
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Analytics Cookies</strong>
+          <small>Used to analyze site traffic and improve performance.</small>
+        </span>
+        <label class="cookie-toggle" for="cookieCategoryAnalytics">
+          <span class="visually-hidden">Toggle analytics cookies</span>
+          <input id="cookieCategoryAnalytics" class="cookie-toggle__input" type="checkbox">
+          <span class="cookie-toggle__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Marketing Cookies</strong>
+          <small>Used for campaign measurement and remarketing.</small>
+        </span>
+        <label class="cookie-toggle" for="cookieCategoryMarketing">
+          <span class="visually-hidden">Toggle marketing cookies</span>
+          <input id="cookieCategoryMarketing" class="cookie-toggle__input" type="checkbox">
+          <span class="cookie-toggle__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="cookie-modal__actions">
+      <button type="button" class="btn btn--secondary cookie-modal__action" id="cookiePreferencesReject">Reject Non-Essential</button>
+      <button type="button" class="btn btn--primary cookie-modal__action" id="cookiePreferencesSave">Save Preferences</button>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-sticky-cta is-hidden" id="mobileStickyCta" aria-hidden="true" hidden>
+  <button
+    type="button"
+    class="mobile-sticky-cta__toggle"
+    id="mobileStickyCtaToggle"
+    aria-controls="mobileStickyCtaPanel"
+    aria-expanded="false"
+  >
+    Quick Actions
+  </button>
+  <div class="mobile-sticky-cta__panel" id="mobileStickyCtaPanel" role="group" aria-label="Quick actions" aria-hidden="true" hidden inert>
+    <a href="tel:+14372998387" class="btn btn--secondary">Call Now</a>
+    <a href="index.html#contact" class="btn btn--primary">Contact Us</a>
+  </div>
+</div>
+
 
   <!-- LIGHTBOX -->
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Project image gallery" aria-hidden="true">
-    <button class="lightbox__close" aria-label="Close"></button>
+    <button type="button" class="lightbox__close" aria-label="Close"></button>
 
     <div class="lightbox__content">
   <div class="lightbox__media">
-    <button class="lightbox__prev" aria-label="Previous image"></button>
+    <button type="button" class="lightbox__prev" aria-label="Previous image"></button>
     <img src="" alt="Full size portfolio image" width="1200" height="900" loading="lazy" decoding="async">
-    <button class="lightbox__next" aria-label="Next image"></button>
+    <button type="button" class="lightbox__next" aria-label="Next image"></button>
   </div>
 </div>
 
@@ -139,7 +678,56 @@
       "closes": "17:30"
     }
   ],
-  "priceRange": "$$"
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "40"
+  }
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://tilewizards.ca/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Portfolio",
+      "item": "https://tilewizards.ca/portfolio.html"
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Tile Installation Project Portfolio",
+  "serviceType": "Tile installation case studies and gallery",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Tile Wizards",
+    "url": "https://tilewizards.ca/",
+    "telephone": "+1-437-299-8387"
+  },
+  "areaServed": [
+    "Toronto",
+    "Mississauga",
+    "Vaughan",
+    "Markham",
+    "Brampton",
+    "GTA"
+  ],
+  "url": "https://tilewizards.ca/portfolio.html"
 }
   </script>
 

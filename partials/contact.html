@@ -71,10 +71,10 @@
     </div>
 
     <form class="contact__form contact__form--ads" id="contact-form" action="" method="post">
-      <h2>Get a Free Tile Installation Estimate</h2>
+      <h2>Discuss Your Tile Project</h2>
 
       <p class="contact__form-subtitle">
-        Free on-site estimate - No hidden fees - Fast response
+        Share your project details and we will get back to you with the next steps.
       </p>
 
       <div class="form__group">
@@ -108,8 +108,9 @@
 
       <div class="form__group form__group--consent">
         <label class="contact__consent" for="contact-consent">
-          <input id="contact-consent" type="checkbox" name="privacy_consent" value="accepted" aria-describedby="contactConsentError">
-          <span>
+          <input class="contact__consent-input" id="contact-consent" type="checkbox" name="privacy_consent" value="accepted" aria-describedby="contactConsentError">
+          <span class="contact__consent-box" aria-hidden="true"></span>
+          <span class="contact__consent-text">
             I agree to the <a href="privacy.html">Privacy Policy</a> and consent to being contacted about this request.
           </span>
         </label>
@@ -121,14 +122,14 @@
       <button type="submit" class="btn btn--primary btn--lg">Send Request</button>
       <p class="contact__submit-status" id="contactFormStatus" data-form-status role="status" aria-live="polite" hidden></p>
       <p class="contact__legal">
-        By submitting this form, you allow us to contact you regarding your estimate request.
+        By submitting this form, you allow us to contact you regarding your project inquiry.
       </p>
 
       <div class="contact__next">
         <h3>What Happens Next</h3>
         <ul class="contact__next-list">
           <li>We call you within 24h</li>
-          <li>On-site estimate and clear quote</li>
+          <li>Project review and next-step planning</li>
           <li>Start date and material plan confirmation</li>
         </ul>
       </div>
@@ -160,7 +161,7 @@
 
       <div class="contact-map__actions" id="zoneCheckActions">
         <a class="btn btn--primary contact-map__cta" id="zoneMatchCta" href="#contact-form" hidden>
-          Start My Estimate
+          Continue to Contact Form
         </a>
         <a class="btn btn--secondary contact-map__cta" id="zoneManualCta" href="tel:+14372998387" hidden>
           Call to Confirm Coverage

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'wasm-unsafe-eval' 'sha256-ilcAScfv+8b6iQvCt3uvouq9rDX5wOLa8rlELsEkIn8=' 'sha256-lNsv1zHa2IOhDPGp02BqjqjKzw6g303r0ZTBaq/yWjs=' 'sha256-KdT7H/t1j/yxiwUekOnYoIEEIeFO+MPzlnlawxuQfXY=' 'sha256-FIrJyJ+RvCb7X7DBpkrRpABuRIsPoVWVECC+Zb9vSH4=' https://www.googletagmanager.com https://api.mapbox.com https://unpkg.com https://cdn.jsdelivr.net; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://api.mapbox.com; img-src 'self' data: blob: https:; font-src 'self' data: https://api.mapbox.com; connect-src 'self' https://*.mapbox.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://script.google.com https://script.googleusercontent.com; frame-src 'self' https://www.openstreetmap.org; child-src 'self' blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'self'; upgrade-insecure-requests">
+  <title>Service Areas | Tile Wizards Toronto & GTA</title>
+  <meta name="description" content="Explore Tile Wizards service areas across Toronto and the GTA for bathroom, floor, backsplash, and slab tile installation.">
+  <link rel="canonical" href="https://tilewizards.ca/areas.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tile Wizards">
+  <meta property="og:title" content="Service Areas | Tile Wizards Toronto & GTA">
+  <meta property="og:description" content="Tile installation service areas across Toronto, Mississauga, Vaughan, Markham, Brampton, and nearby GTA locations.">
+  <meta property="og:url" content="https://tilewizards.ca/areas.html">
+  <meta property="og:image" content="https://tilewizards.ca/assets/images/og-cover-1200x630.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tile Wizards professional tile installation in Toronto and GTA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Service Areas | Tile Wizards Toronto & GTA">
+  <meta name="twitter:description" content="Find your city and contact Tile Wizards for tile installation planning across Toronto and the GTA.">
+  <meta name="twitter:image" content="https://tilewizards.ca/assets/images/og-cover-1200x630.jpg">
+
+  <link rel="stylesheet" href="assets/css/main.css?v=__ASSET_VERSION__">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=__ASSET_VERSION__">
+  <link rel="icon" type="image/png" href="assets/images/favicon-32.png">
+</head>
+<body class="page-areas">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="index.html" class="logo" aria-label="Tile Wizards home">
+      <img src="assets/images/logo.png" alt="Tile Installation Logo" width="269" height="286" decoding="async">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <nav class="nav nav--desktop" aria-label="Primary navigation">
+      <ul>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="areas.html">Areas</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li>
+          <a
+            href="#page-contact"
+            data-local-label="Contact"
+            data-home-label="Contact"
+          ><span data-home-anchor-label>Contact</span></a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header__contact">
+      <a href="tel:+14372998387" class="header__phone">
+        <span class="phone-number">+1 (437) 299-8387</span>
+        <span class="phone-hours">Mon-Fri &middot; 8:30 AM-5:30 PM</span>
+      </a>
+    </div>
+
+    <!-- BURGER -->
+    <button
+      class="burger"
+      id="burger"
+      type="button"
+      aria-label="Open menu"
+      aria-controls="mobileMenu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="nav nav--mobile" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true" hidden>
+    <div class="menu-top">
+      <a href="tel:+14372998387" class="menu-phone">
+        <span class="phone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.11.37 2.29.56 3.5.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.73 21 3 13.27 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.21.19 2.39.56 3.5a1 1 0 0 1-.24 1.02l-2.2 2.27Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="phone-text">
+          <span class="phone-label">Call us</span>
+          <span class="phone-number">+1 (437) 299-8387</span>
+        </span>
+      </a>
+
+      <button class="menu-close" id="menuClose" type="button" aria-label="Close menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="menu-screen-inner">
+      <ul class="menu-cards" aria-label="Mobile navigation">
+        <li>
+          <a href="services.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="5" y="5" width="6" height="6" rx="1.5"/>
+                <rect x="13" y="5" width="6" height="6" rx="1.5"/>
+                <rect x="5" y="13" width="6" height="6" rx="1.5"/>
+                <rect x="13" y="13" width="6" height="6" rx="1.5"/>
+              </svg>
+            </span>
+            <span class="menu-title">Services</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="areas.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 21s-5-4.74-5-9.17A5 5 0 1 1 17 11.83C17 16.26 12 21 12 21Z"/>
+                <circle cx="12" cy="11.5" r="1.9"/>
+              </svg>
+            </span>
+            <span class="menu-title">Areas</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="portfolio.html" class="menu-card">
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="4.5" y="6" width="15" height="12" rx="2"/>
+                <circle cx="9" cy="10" r="1.25"/>
+                <path d="m7.5 16 3.1-3.2a1 1 0 0 1 1.43 0L14 14.76l1.37-1.43a1 1 0 0 1 1.45 0L19 15.5"/>
+              </svg>
+            </span>
+            <span class="menu-title">Portfolio</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#areas-faq"
+            class="menu-card"
+            data-local-label="FAQ"
+            data-home-label="FAQ"
+          >
+            <span class="menu-icon menu-icon--faq" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M8 7h8a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2.4L12 17.5 10.4 15H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/>
+                <path d="M12 8.55c-1.55 0-2.7 1.02-2.77 2.46h1.46c.05-.67.55-1.08 1.31-1.08.73 0 1.24.43 1.24 1.09 0 .5-.28.82-.95 1.28-.91.63-1.45 1.23-1.45 2.35v.23h1.41v-.18c0-.68.25-1 .99-1.53.78-.56 1.41-1.17 1.41-2.24 0-1.45-1.16-2.38-2.65-2.38Z" fill="currentColor" stroke="none"/>
+                <circle cx="12" cy="14.9" r=".7" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <span class="menu-title" data-home-anchor-label>FAQ</span>
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#page-contact"
+            class="menu-card"
+            data-local-label="Contact"
+            data-home-label="Contact"
+          >
+            <span class="menu-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="4.5" y="7" width="15" height="10" rx="2"/>
+                <path d="m5.5 8 5.83 4.37a1.15 1.15 0 0 0 1.34 0L18.5 8"/>
+              </svg>
+            </span>
+            <span class="menu-title" data-home-anchor-label>Contact</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CTA -->
+    <div class="menu-footer">
+      <a
+        href="#page-contact"
+        class="menu-cta"
+        data-local-label="Contact Us"
+        data-home-label="Contact Us"
+      >
+        <span data-home-anchor-label>Contact Us</span>
+      </a>
+
+      <div class="menu-location">
+        <span class="pin" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 21s-5-4.74-5-9.17A5 5 0 1 1 17 11.83C17 16.26 12 21 12 21Z"/>
+            <circle cx="12" cy="11.5" r="1.9"/>
+          </svg>
+        </span>
+        <span class="location-text">Toronto & GTA</span>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+  <main id="main-content">
+    <section class="services-page-hero section">
+      <div class="container">
+        <div class="services-page-hero__inner">
+          <p class="services-page-hero__eyebrow">Tile Wizards Coverage</p>
+          <h1>Tile Installation Service Areas in Toronto &amp; GTA</h1>
+          <p class="services-page-hero__subtitle">
+            We install tile for bathrooms, kitchens, floors, outdoor areas, and large-format slab projects across Toronto and surrounding GTA cities.
+            If your property is near our listed zones, we can typically schedule a site review or consultation within a few business days.
+          </p>
+          <ul class="services-page-hero__chips">
+            <li>Residential &amp; Commercial</li>
+            <li>Licensed &amp; Insured</li>
+            <li>Clear Scope and Timeline</li>
+          </ul>
+          <div class="services-page-hero__actions">
+            <a href="services.html#service-area-check" class="btn btn--primary">Check My Address</a>
+            <a href="services.html" class="btn btn--secondary">View Services</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="services section section--compact" id="service-areas">
+      <div class="container">
+        <div class="services__intro services__intro--sales">
+          <div class="services__intro-copy">
+            <p class="services__eyebrow">Coverage planning across Toronto and GTA</p>
+            <h2>Choose Your City and Move Straight to the Right Contact Path</h2>
+            <p class="services__subtitle">Use the city pages below to review local coverage, project fit, and the fastest path to a tile consultation. Toronto is our main base, with active scheduling across Mississauga, Vaughan, Markham, and Brampton.</p>
+            <ul class="services__intro-highlights" aria-label="Coverage planning highlights">
+              <li>
+                <strong>5 direct contact paths</strong>
+                <span>Toronto plus active GTA service routes</span>
+              </li>
+              <li>
+                <strong>Coverage-first planning</strong>
+                <span>Scope and route reviewed before site review and scheduling</span>
+              </li>
+              <li>
+                <strong>3-step planning flow</strong>
+                <span>Send address, confirm route, then book the right next step</span>
+              </li>
+            </ul>
+            <div class="services__lead-actions">
+              <a href="#page-contact" class="btn btn--primary">Contact Tile Wizards</a>
+              <a href="tel:+14372998387" class="btn btn--secondary">Call +1 (437) 299-8387</a>
+            </div>
+          </div>
+
+          <aside class="services__lead-card" aria-label="Why homeowners choose Tile Wizards">
+            <p class="services__lead-label">Best way to start</p>
+            <p class="services__lead-title">Confirm the address before you lock delivery dates or renovation sequencing.</p>
+            <ul class="services__lead-list">
+              <li><strong>Send the address</strong><span>We confirm if the property fits our active route and scheduling window.</span></li>
+              <li><strong>Describe the tile scope</strong><span>Bathroom, backsplash, floor, slab, or multi-room work.</span></li>
+              <li><strong>Book the next step</strong><span>Once route fit is confirmed, we move straight to the right consultation or site review.</span></li>
+            </ul>
+          </aside>
+        </div>
+
+        <div class="services__grid services__grid--areas">
+          <article class="service-area-card service-area-card--featured">
+            <p class="service-area-card__kicker">Main service area</p>
+            <h3>Toronto</h3>
+            <p class="service-area-card__lead">Best fit for condo renovations, downtown bathrooms, house upgrades, and custom tile layouts across the city.</p>
+            <ul class="service-area-card__tags" aria-label="Toronto project types">
+              <li>Bathrooms</li>
+              <li>Backsplashes</li>
+              <li>Floors</li>
+            </ul>
+            <ul class="service__list">
+              <li>Downtown, Etobicoke, North York, York, East York, and Scarborough coverage</li>
+              <li>Waterproofing, prep correction, and clean finish sequencing</li>
+              <li>Residential, condo, and custom home tile scope</li>
+            </ul>
+            <a href="#page-contact" class="service__cta">Contact Toronto Team</a>
+          </article>
+
+          <article class="service-area-card">
+            <p class="service-area-card__kicker">Popular GTA area</p>
+            <h3>Mississauga</h3>
+            <p class="service-area-card__lead">Strong option for townhouse, detached home, and renovation-contractor tile work with clear scheduling expectations.</p>
+            <ul class="service-area-card__tags" aria-label="Mississauga project types">
+              <li>Townhomes</li>
+              <li>Bathrooms</li>
+              <li>Floors</li>
+            </ul>
+            <ul class="service__list">
+              <li>Floor leveling and long-lasting tile placement</li>
+              <li>Backsplash, shower wall, and interior floor systems</li>
+              <li>Planning that keeps renovation downtime under control</li>
+            </ul>
+            <a href="tile-installation-mississauga.html" class="service__cta">Explore Mississauga Service</a>
+          </article>
+
+          <article class="service-area-card">
+            <p class="service-area-card__kicker">Larger-home projects</p>
+            <h3>Vaughan</h3>
+            <p class="service-area-card__lead">Good match for larger residential projects where slab handling, access planning, and finish consistency matter.</p>
+            <ul class="service-area-card__tags" aria-label="Vaughan project types">
+              <li>Ensuites</li>
+              <li>Large-format</li>
+              <li>Custom homes</li>
+            </ul>
+            <ul class="service__list">
+              <li>Bathroom, floor, and slab tile project support</li>
+              <li>Planning around access, material handling, and schedule</li>
+              <li>Coverage confirmed before project booking</li>
+            </ul>
+            <a href="tile-installation-vaughan.html" class="service__cta">Explore Vaughan Service</a>
+          </article>
+
+          <article class="service-area-card">
+            <p class="service-area-card__kicker">Renovation-focused</p>
+            <h3>Markham</h3>
+            <p class="service-area-card__lead">Useful when tile timing has to match delivery windows, prep completion, and a more structured renovation schedule.</p>
+            <ul class="service-area-card__tags" aria-label="Markham project types">
+              <li>Renovations</li>
+              <li>New builds</li>
+              <li>Multi-room</li>
+            </ul>
+            <ul class="service__list">
+              <li>Bathroom, backsplash, and floor tile work</li>
+              <li>Clear prep expectations before installation starts</li>
+              <li>Suitable for renovation and selected new-build projects</li>
+            </ul>
+            <a href="tile-installation-markham.html" class="service__cta">Explore Markham Service</a>
+          </article>
+
+          <article class="service-area-card">
+            <p class="service-area-card__kicker">Schedule-based coverage</p>
+            <h3>Brampton</h3>
+            <p class="service-area-card__lead">Best when project scope, travel timing, and access are defined early so the installation window can be confirmed quickly.</p>
+            <ul class="service-area-card__tags" aria-label="Brampton project types">
+              <li>Indoor tile</li>
+              <li>Selected outdoor</li>
+              <li>Fast checks</li>
+            </ul>
+            <ul class="service__list">
+              <li>Indoor tile and selected outdoor scope</li>
+              <li>Practical material, access, and timeline planning</li>
+              <li>Fast coverage confirmation before scheduling</li>
+            </ul>
+            <a href="tile-installation-brampton.html" class="service__cta">Explore Brampton Service</a>
+          </article>
+        </div>
+
+        <div class="services__coverage-cta">
+          <div class="services__coverage-copy">
+            <p class="services__coverage-label">Not sure if your address fits our current route?</p>
+            <h3>Send the postal code and project type first.</h3>
+            <p>We can confirm whether your property fits our active Toronto and GTA service schedule before you commit to tile delivery or renovation timing.</p>
+          </div>
+          <div class="services__coverage-actions">
+            <a href="#page-contact" class="btn btn--primary">Check My Coverage</a>
+            <a href="tel:+14372998387" class="btn btn--secondary">Call for Coverage</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="privacy-content section">
+      <div class="container privacy-content__grid">
+        <article class="privacy-card">
+          <h2>How to Confirm Coverage Fast</h2>
+          <p>
+            The fastest way to confirm service coverage is to share your full project address through our contact form or by phone.
+            We review the location together with project type, expected tile area, and access details so we can provide a realistic planning timeline.
+            If your location is inside our active route schedule, we typically arrange the right next step quickly and confirm scope details before work begins.
+          </p>
+          <p>
+            When travel distance is higher, we still take projects if the scope and logistics fit. In those cases, we may group visits by zone and propose
+            a schedule window that keeps your renovation progress predictable. This approach helps avoid rushed starts and keeps material planning aligned with the
+            installation sequence.
+          </p>
+        </article>
+
+        <article class="privacy-card">
+          <h2>What We Need Before Scheduling</h2>
+          <p>
+            To prepare an accurate tile installation plan, we ask for project type, approximate area, preferred material, and target completion timeline.
+            Photos or short videos of the current condition help us identify prep requirements such as waterproofing, leveling, crack isolation, and trim transitions.
+            This reduces guesswork and allows us to set expectations before site work begins.
+          </p>
+          <p>
+            For condo projects, include elevator booking rules and work-hour restrictions. For detached homes, note parking and material access.
+            These details save time on installation days and improve schedule accuracy, especially for multi-day bathroom or floor projects.
+          </p>
+        </article>
+
+        <article class="privacy-card">
+          <h2>Internal Links for Faster Navigation</h2>
+          <p>
+            If you are choosing a specific project type, start with our dedicated service pages. Each page includes workflow details, material guidance,
+            and practical considerations for planning renovation budgets and timelines.
+          </p>
+          <ul class="contact__areas" aria-label="Service navigation links">
+            <li><a href="areas.html">All GTA Service Areas</a></li>
+            <li><a href="tile-installation-mississauga.html">Tile Installation Mississauga</a></li>
+            <li><a href="tile-installation-vaughan.html">Tile Installation Vaughan</a></li>
+            <li><a href="tile-installation-markham.html">Tile Installation Markham</a></li>
+            <li><a href="tile-installation-brampton.html">Tile Installation Brampton</a></li>
+            <li><a href="services.html">All Tile Installation Services</a></li>
+            <li><a href="portfolio.html">Real Project Portfolio</a></li>
+            <li><a href="bathroom-tile-installation-toronto.html">Bathroom Tile Installation Toronto</a></li>
+            <li><a href="kitchen-backsplash-installation-toronto.html">Kitchen Backsplash Installation Toronto</a></li>
+            <li><a href="floor-tile-installation-toronto.html">Floor Tile Installation Toronto</a></li>
+            <li><a href="large-format-slab-installation-toronto.html">Large Format Slab Installation Toronto</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="faq section section--compact" id="areas-faq">
+      <div class="container">
+        <h2 class="faq__title">Service Area FAQ</h2>
+        <p class="faq__subtitle">Quick answers before you request a coverage check or site review.</p>
+        <div class="faq__list">
+          <div class="faq__item">
+            <button type="button" class="faq__question">How do I confirm if my address is in your active route?<span class="faq__icon"></span></button>
+            <div class="faq__answer"><p>Send your full address, project type, and approximate tile area. We review route fit, access, and scheduling before confirming the next step.</p></div>
+          </div>
+          <div class="faq__item">
+            <button type="button" class="faq__question">What should I include with my coverage request?<span class="faq__icon"></span></button>
+            <div class="faq__answer"><p>The most useful details are postal code, room type, rough square footage, preferred material, and your target start timeline. Photos help us assess prep needs faster.</p></div>
+          </div>
+          <div class="faq__item">
+            <button type="button" class="faq__question">Do you handle condos and detached homes across the GTA?<span class="faq__icon"></span></button>
+            <div class="faq__answer"><p>Yes. We review condo access rules, elevator booking windows, parking, and material access for each property before confirming scheduling.</p></div>
+          </div>
+          <div class="faq__item">
+            <button type="button" class="faq__question">What if my address is outside your main Toronto route?<span class="faq__icon"></span></button>
+            <div class="faq__answer"><p>We still take selected projects outside our closest zones when the scope and logistics fit. In those cases, we confirm availability before you commit to delivery or renovation timing.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta section section--compact section--alt">
+      <div class="container cta__inner">
+        <div class="cta__content">
+          <h2>Not Sure If We Cover Your Street?</h2>
+          <p>Send your address and project scope. We will confirm coverage, timeline, and next steps before booking.</p>
+          <ul class="cta__points">
+            <li>&#10003; Fast coverage check</li>
+            <li>&#10003; Clear next-step planning</li>
+            <li>&#10003; Transparent scheduling</li>
+          </ul>
+        </div>
+        <div class="cta__actions">
+          <a href="services.html#service-area-check" class="btn btn--primary">Request Coverage Check</a>
+          <a href="tel:+14372998387" class="cta__phone">or call <strong>+1 (437) 299-8387</strong></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<footer class="footer" id="page-contact">
+  <div class="container footer__grid">
+
+    <!-- Brand -->
+    <div class="footer__brand">
+      <div class="footer__brand-head">
+        <img src="assets/images/logo.png" alt="Tile Wizards logo" class="footer__logo" width="269" height="286" loading="lazy" decoding="async">
+        <strong>Tile Wizards</strong>
+      </div>
+      <p>Professional tile installation in Toronto & GTA</p>
+      <p class="footer__why">Why Choose Us: Precise leveling, clean finishes, and reliable timelines.</p>
+    </div>
+
+    <!-- Contact -->
+    <address class="footer__contact">
+      <a href="https://maps.google.com/?q=Toronto,ON" target="_blank" rel="noopener noreferrer">
+        <span class="footer__label">Location</span>
+        <span class="footer__value">Toronto, ON</span>
+      </a>
+
+      <a href="tel:+14372998387" class="footer__phone">
+        <span class="footer__label">Phone</span>
+        <strong class="footer__value">+1 (437) 299-8387</strong>
+      </a>
+
+      <a href="mailto:romanboholiub@yahoo.com">
+        <span class="footer__label">Email</span>
+        <span class="footer__value">romanboholiub@yahoo.com</span>
+      </a>
+    </address>
+
+    <!-- SEO links -->
+    <nav class="footer__links" aria-label="Service and area links">
+      <div class="footer__link-group">
+    <p class="footer__label">Tile Services</p>
+    <a href="bathroom-tile-installation-toronto.html">Bathroom Tile Installation Toronto</a>
+    <a href="kitchen-backsplash-installation-toronto.html">Kitchen Backsplash Installation</a>
+    <a href="floor-tile-installation-toronto.html">Floor Tile Installation</a>
+    <a href="large-format-slab-installation-toronto.html">Large Format Slab Installation</a>
+    <a href="services.html">All Services</a>
+  </div>
+
+  <!-- AREAS -->
+  <div class="footer__link-group">
+    <p class="footer__label">Areas We Serve</p>
+    <a href="tile-installation-mississauga.html">Tile Installation Mississauga</a>
+    <a href="tile-installation-vaughan.html">Tile Installation Vaughan</a>
+    <a href="tile-installation-markham.html">Tile Installation Markham</a>
+    <a href="tile-installation-brampton.html">Tile Installation Brampton</a>
+    <a href="areas.html">All Areas</a>
+  </div>
+    </nav>
+
+    <!-- CTA -->
+    <div class="footer__cta">
+      <div class="footer__cta-card">
+        <p>Start your project with a consultation and site review.</p>
+        <a href="#page-contact" class="btn btn--secondary">
+          Contact Us
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEO TEXT -->
+  <p class="footer__seo">
+    Tile Wizards offers professional tile installation services across Toronto and the
+    Greater Toronto Area, including Mississauga, Vaughan, Markham, and Richmond Hill.
+    We specialize in bathroom renovations, kitchen backsplashes, and floor tile installation,
+    delivering clean finishes and long-lasting results using premium materials.
+  </p>
+
+  <div class="footer__bottom">
+    <small>
+      &copy; 2026 Tile Wizards | Licensed & Insured | Toronto & GTA
+    </small>
+    <small class="footer__legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <span class="footer__legal-divider" aria-hidden="true">|</span>
+      <button type="button" class="footer__cookie-settings" data-open-cookie-settings>Cookie Settings</button>
+    </small>
+  </div>
+
+</footer>
+
+<div class="cookie-notice" id="cookieNotice" role="region" aria-label="Cookie and analytics notice" hidden>
+  <button type="button" class="cookie-notice__close" id="cookieNoticeClose" aria-label="Dismiss cookie banner">&times;</button>
+  <p class="cookie-notice__text">
+    We use cookies to improve your experience and analyze site traffic.
+    Some cookies are necessary for the website to function.
+    You can accept all cookies, reject non-essential cookies, or manage your preferences.
+  </p>
+  <p class="cookie-notice__legal" aria-label="Legal links">
+    <a href="privacy.html">Privacy Policy</a>
+    <span aria-hidden="true">|</span>
+    <a href="privacy.html#cookie-policy">Cookie Policy</a>
+  </p>
+  <div class="cookie-notice__actions" role="group" aria-label="Cookie consent actions">
+    <button type="button" class="btn btn--primary cookie-notice__action cookie-notice__action--primary" id="cookieNoticeAcceptAll">Accept All</button>
+    <button type="button" class="btn btn--secondary cookie-notice__action cookie-notice__action--secondary" id="cookieNoticeRejectNonEssential">Reject Non-Essential</button>
+    <button type="button" class="cookie-notice__action cookie-notice__action--ghost" id="cookieNoticeManage">Manage Preferences</button>
+  </div>
+</div>
+
+<div class="cookie-modal" id="cookiePreferencesModal" hidden>
+  <div class="cookie-modal__backdrop" data-cookie-modal-close aria-hidden="true"></div>
+  <div
+    class="cookie-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cookiePreferencesTitle"
+    aria-describedby="cookiePreferencesDescription"
+    tabindex="-1"
+  >
+    <button type="button" class="cookie-modal__close" id="cookiePreferencesClose" data-cookie-modal-close aria-label="Close cookie preferences">&times;</button>
+    <h3 id="cookiePreferencesTitle">Cookie Preferences</h3>
+    <p id="cookiePreferencesDescription">
+      Necessary cookies are always active. Use the toggles below for optional cookies.
+    </p>
+
+    <div class="cookie-modal__categories">
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Necessary Cookies</strong>
+          <small>Always active</small>
+        </span>
+        <span class="cookie-category__always">&#10003; Always active</span>
+      </div>
+
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Analytics Cookies</strong>
+          <small>Used to analyze site traffic and improve performance.</small>
+        </span>
+        <label class="cookie-toggle" for="cookieCategoryAnalytics">
+          <span class="visually-hidden">Toggle analytics cookies</span>
+          <input id="cookieCategoryAnalytics" class="cookie-toggle__input" type="checkbox">
+          <span class="cookie-toggle__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="cookie-category">
+        <span class="cookie-category__text">
+          <strong>Marketing Cookies</strong>
+          <small>Used for campaign measurement and remarketing.</small>
+        </span>
+        <label class="cookie-toggle" for="cookieCategoryMarketing">
+          <span class="visually-hidden">Toggle marketing cookies</span>
+          <input id="cookieCategoryMarketing" class="cookie-toggle__input" type="checkbox">
+          <span class="cookie-toggle__slider" aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="cookie-modal__actions">
+      <button type="button" class="btn btn--secondary cookie-modal__action" id="cookiePreferencesReject">Reject Non-Essential</button>
+      <button type="button" class="btn btn--primary cookie-modal__action" id="cookiePreferencesSave">Save Preferences</button>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-sticky-cta is-hidden" id="mobileStickyCta" aria-hidden="true" hidden>
+  <button
+    type="button"
+    class="mobile-sticky-cta__toggle"
+    id="mobileStickyCtaToggle"
+    aria-controls="mobileStickyCtaPanel"
+    aria-expanded="false"
+  >
+    Quick Actions
+  </button>
+  <div class="mobile-sticky-cta__panel" id="mobileStickyCtaPanel" role="group" aria-label="Quick actions" aria-hidden="true" hidden inert>
+    <a href="tel:+14372998387" class="btn btn--secondary">Call Now</a>
+    <a href="services.html#service-area-check" class="btn btn--primary">Check Coverage</a>
+  </div>
+</div>
+
+
+  <script src="assets/js/config.public.js?v=__ASSET_VERSION__"></script>
+  <script src="assets/js/main.js?v=__ASSET_VERSION__"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tilewizards.ca/"},
+          {"@type": "ListItem", "position": 2, "name": "Service Areas", "item": "https://tilewizards.ca/areas.html"}
+        ]
+      },
+      {
+        "@type": "Service",
+        "name": "Tile Installation Service Areas in Toronto and GTA",
+        "serviceType": "Tile installation in Toronto and GTA service areas",
+        "areaServed": ["Toronto", "Mississauga", "Vaughan", "Markham", "Brampton", "Etobicoke", "GTA"],
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "Tile Wizards",
+          "url": "https://tilewizards.ca/",
+          "telephone": "+1-437-299-8387"
+        },
+        "url": "https://tilewizards.ca/areas.html"
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "Tile Wizards",
+        "image": "https://tilewizards.ca/assets/images/logo.png",
+        "url": "https://tilewizards.ca/areas.html",
+        "telephone": "+1-437-299-8387",
+        "email": "romanboholiub@yahoo.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "38 Annie Craig Dr",
+          "addressLocality": "Etobicoke",
+          "addressRegion": "ON",
+          "postalCode": "M8V 0G9",
+          "addressCountry": "CA"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "40"
+        },
+        "areaServed": ["Toronto", "Mississauga", "Vaughan", "Markham", "Brampton", "GTA"],
+      }
+    ]
+  }
+  </script>
+</body>
+</html>

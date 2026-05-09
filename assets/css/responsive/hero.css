@@ -22,6 +22,11 @@
   overflow: visible;
 }
 
+.page-home .hero__inner {
+  flex-direction: column;
+  gap: var(--r-space-5);
+}
+
 /* hero-media */
 :where(.hero__video, .hero-media .hero__video) {
   display: none;
@@ -80,14 +85,16 @@
 }
 
 :where(.hero__benefits, .hero-content .hero__benefits) {
-  max-width: 34ch;
+  grid-template-columns: 1fr;
+  max-width: none;
   gap: var(--r-space-2);
 }
 
 :where(.hero__benefits li, .hero-content .hero__benefits li) {
   font-size: 15px;
   line-height: 1.45;
-  padding-left: 24px;
+  min-height: 0;
+  padding-left: 28px;
 }
 
 :where(.hero__actions, .hero-content .hero__actions) {
@@ -120,6 +127,33 @@
   font-size: 0.92em;
 }
 
+.hero__showcase {
+  display: none;
+}
+
+.hero__proof-list {
+  right: 12px;
+  bottom: 12px;
+  width: min(220px, 42%);
+  padding: 12px 14px;
+}
+
+.hero__proof-list {
+  display: none;
+}
+
+.hero__showcase-caption {
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  width: auto;
+  padding: 12px;
+}
+
+.hero__showcase-caption strong {
+  font-size: 14px;
+}
+
 @media (max-width: 430px) {
   :where(.hero__inner, .hero-layout .hero__inner) {
     padding-top: calc(var(--header-h, 72px) + 10px + var(--safe-top));
@@ -146,11 +180,16 @@
 
   :where(.hero__benefits, .hero-content .hero__benefits),
   :where(.hero__trust-list, .hero-content .hero__trust-list) {
-    max-width: 32ch;
+    max-width: none;
   }
 }
 
 @media (max-width: 767.98px) {
+  .hero__rating {
+    font-size: 11px;
+    white-space: normal;
+  }
+
   .hero__bg::before,
   .hero-effects .hero__bg::before {
     animation: none;
@@ -258,6 +297,7 @@
   }
 
   :where(.hero__benefits, .hero-content .hero__benefits) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: 58ch;
     gap: var(--r-space-3);
   }
@@ -281,6 +321,17 @@
 
   :where(.hero__trust-list li span, .hero-content .hero__trust-list li span) {
     opacity: 0.82;
+  }
+
+  .hero__showcase {
+    display: block;
+    width: min(100%, 520px);
+    min-height: clamp(360px, 54vw, 480px);
+    margin-inline: auto;
+  }
+
+  .hero__proof-list {
+    display: grid;
   }
 
   .hero__title-short {
@@ -317,6 +368,10 @@
     padding: calc(var(--header-h, 92px) + 20px) 0 96px;
   }
 
+  .page-home .hero__inner {
+    flex-direction: column;
+  }
+
   :where(.hero__content, .hero-content) {
     max-width: min(94vw, 980px);
     margin-inline: 0;
@@ -326,6 +381,19 @@
   :where(.hero__content, .hero-content) > h1 {
     font-size: clamp(42px, 4vw, 62px);
     max-width: 19.5ch;
+  }
+
+  .page-home .hero__content {
+    max-width: min(94vw, 720px);
+  }
+
+  .page-home .hero__content > h1 {
+    max-width: 23ch;
+  }
+
+  .page-home .hero__subtitle,
+  .page-home .hero__benefits {
+    max-width: 680px;
   }
 
   :where(.hero__subtitle, .hero-content .hero__subtitle) {
@@ -359,6 +427,13 @@
     margin-left: 0;
     opacity: 1;
   }
+
+  .hero__showcase {
+    width: min(100%, 620px);
+    min-height: clamp(420px, 46vw, 540px);
+    margin-inline: 0;
+  }
+
 }
 
 @media (min-width: 1280px) {

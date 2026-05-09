@@ -131,7 +131,8 @@ jobs:
           trap "kill ${SERVER_PID}" EXIT
           sleep 2
 
-          for page in index.html services.html portfolio.html privacy.html 404.html robots.txt sitemap.xml; do
+          pages=$(find . -maxdepth 1 -type f \( -name "*.html" -o -name "robots.txt" -o -name "sitemap.xml" \) -printf "%f\n" | sort)
+          for page in ${pages}; do
             code=$(curl -s -o /tmp/page.out -w "%{http_code}" "http://127.0.0.1:4173/${page}")
             if [ "${code}" != "200" ]; then
               echo "Smoke check failed for ${page}: HTTP ${code}"
@@ -139,7 +140,8 @@ jobs:
             fi
           done
 
-          for page in index.html services.html portfolio.html privacy.html 404.html; do
+          html_pages=$(find . -maxdepth 1 -type f -name "*.html" -printf "%f\n" | sort)
+          for page in ${html_pages}; do
             curl -s "http://127.0.0.1:4173/${page}" | grep -qi "<title>" || {
               echo "Smoke check failed for ${page}: missing <title>"
               exit 1

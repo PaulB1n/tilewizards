@@ -1,31 +1,39 @@
-# Google Sheets CRM Setup
+# Google Sheets Lead Capture Setup
 
-This project already sends website leads to Google Apps Script via:
+The contact forms can send leads to a Google Apps Script Web App through:
 
-- `window.GAS_WEBHOOK_URL` (runtime config)
-- frontend payload in `assets/js/main.js` (`name`, `phone`, `project_type`, `project_details`, `source_page`, `company`)
+- `window.GAS_WEBHOOK_URL`
+- `window.LEADS_WEBHOOK_URL` legacy alias
 
-This script configures a CRM sheet with statuses, colors, and analytics.
+The frontend submits `POST application/x-www-form-urlencoded` with:
 
-## 1. Create/Open Google Sheet
+- `name`
+- `phone`
+- `project_type`
+- `project_details`
+- `source_page`
+- `company` honeypot field
+- `privacy_consent`
+
+## 1. Create the Sheet
 
 1. Create a Google Sheet.
 2. Open `Extensions -> Apps Script`.
-3. Replace code with the script below.
+3. Replace the Apps Script code with:
+
 ```javascript
-const SHEET_ID = "1MjFUACV9M9A19uXfI4Mh5gng18PceOaXR5rs4ioLwk8";
-const SHEET_NAME = "Leads_CRM";
+const SHEET_NAME = "Leads";
 
 const HEADERS = [
-  "Дата",
-  "Ім'я",
-  "Телефон",
-  "Тип проєкту",
-  "Деталі",
-  "Джерело",
-  "Статус",
-  "Відповідальний",
-  "Коментар"
+  "Date",
+  "Name",
+  "Phone",
+  "Project Type",
+  "Details",
+  "Source Page",
+  "Privacy Consent",
+  "Status",
+  "Notes"
 ];
 
 function doPost(e) {
@@ -35,7 +43,7 @@ function doPost(e) {
   try {
     if (!locked) return jsonResponse_({ ok: false, error: "lock_timeout" });
 
-    const p = (e && e.parameter) ? e.parameter : {};
+    const p = e && e.parameter ? e.parameter : {};
 
     if ((p.company || "").trim() !== "") {
       return jsonResponse_({ ok: true, skipped: "honeypot" });
@@ -48,9 +56,9 @@ function doPost(e) {
       p.phone || "",
       p.project_type || "",
       p.project_details || "",
-      p.source_page || p.website || "",
-      "Новий",
-      "",
+      p.source_page || "",
+      p.privacy_consent || "",
+      "New",
       ""
     ]);
 
@@ -63,7 +71,7 @@ function doPost(e) {
 }
 
 function getTargetSheet_() {
-  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
 
   if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
@@ -77,46 +85,34 @@ function jsonResponse_(payload) {
     .createTextOutput(JSON.stringify(payload))
     .setMimeType(ContentService.MimeType.JSON);
 }
-
 ```
 
-## 2. Run one-time setup
+## 2. Deploy as Web App
 
-1. In Apps Script run `setupCRM` once.
-2. Run `installTriggers` once and confirm permissions.
-
-What this gives automatically:
-- `CRM` columns A:I in required order.
-- `G` status dropdown: `Новий`, `В роботі`, `Очікує відповідь`, `Закрито`, `Відмова`, `Оплачено`.
-- full-row status colors.
-- `Аналітика` sheet with totals, payment conversion, manager/source stats.
-- formula protection on `Аналітика`.
-
-## 3. Deploy as Web App
-
-1. `Deploy -> New deployment`.
+1. In Apps Script, choose `Deploy -> New deployment`.
 2. Type: `Web app`.
-3. `Execute as`: `Me`.
-4. `Who has access`: `Anyone`.
-5. Copy `/exec` URL.
+3. Execute as: `Me`.
+4. Who has access: `Anyone`.
+5. Copy the `/exec` URL.
 
-## 4. Connect this repository
+## 3. Connect the Website
 
-For local:
+For local development, set:
 
 ```javascript
 // assets/js/config.public.js
 window.GAS_WEBHOOK_URL = "https://script.google.com/macros/s/XXXX/exec";
+window.LEADS_WEBHOOK_URL = window.GAS_WEBHOOK_URL;
 ```
 
-For production (GitHub Pages):
+For production, add a repository secret:
 
-1. Add repo secret `GAS_WEBHOOK_URL` (or keep `GOOGLE_SHEETS_WEBHOOK_URL` as legacy fallback).
-2. Re-run deploy workflow.
+- `GAS_WEBHOOK_URL`
 
-## 5. Notes for your current frontend
+Then rerun the GitHub Pages deploy workflow.
 
-- Verified with current code in `assets/js/main.js`: request format is `POST application/x-www-form-urlencoded`, response is parsed as JSON.
-- `doPost` works with current payload keys without frontend changes.
-- If you also use Google Form linked to this spreadsheet, `onFormSubmitInstalled` will create leads in the same `CRM` format.
-- For 2-3 users use **Filter views** on `CRM` by column `H` (`Відповідальний`), not shared filter state.
+## Notes
+
+- The current frontend expects a JSON response with `{ "ok": true }` on success.
+- The `company` field is a honeypot. If it is filled, the Apps Script should skip the submission.
+- The frontend rate-limits repeated submissions in localStorage.
