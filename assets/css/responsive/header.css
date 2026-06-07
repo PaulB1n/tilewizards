@@ -32,8 +32,8 @@
 }
 
 .nav--mobile {
-  display: none;
-  visibility: hidden;
+  display: flex;
+  visibility: visible;
   pointer-events: none;
 }
 

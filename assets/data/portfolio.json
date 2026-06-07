@@ -111,6 +111,50 @@
     ]
   },
   {
+    "id": "pool-patio-pavers",
+    "title": "Pool Patio Paver Installation",
+    "location": "Toronto, ON",
+    "category": "outdoor",
+    "material": "Outdoor porcelain pavers",
+    "area": "Full pool surround",
+    "summary": "Backyard pool surround finished with outdoor pavers, clean border detailing, and durable wet-area planning.",
+    "cover": "assets/images/portfolio/pool-patio-4.jpg",
+    "imageWidth": 1280,
+    "imageHeight": 591,
+    "stats": [
+      "Pool patio paver installation",
+      "Clean pool edge and border work",
+      "Outdoor wet-area surface planning"
+    ],
+    "images": [
+      "assets/images/portfolio/pool-patio-1.jpg",
+      "assets/images/portfolio/pool-patio-2.jpg",
+      "assets/images/portfolio/pool-patio-3.jpg",
+      "assets/images/portfolio/pool-patio-4.jpg"
+    ]
+  },
+  {
+    "id": "retaining-wall-cladding",
+    "title": "Exterior Retaining Wall Cladding",
+    "location": "Toronto, ON",
+    "category": "outdoor",
+    "material": "Exterior porcelain slabs",
+    "area": "Custom entry wall",
+    "summary": "Modern front entry retaining wall finished with dark large-format porcelain and weather-ready detailing.",
+    "cover": "assets/images/portfolio/retaining-wall-4.webp",
+    "stats": [
+      "Outdoor retaining wall cladding",
+      "Large-format porcelain finish",
+      "Clean entry and landscape transitions"
+    ],
+    "images": [
+      "assets/images/portfolio/retaining-wall-4.webp",
+      "assets/images/portfolio/retaining-wall-3.webp",
+      "assets/images/portfolio/retaining-wall-1.webp",
+      "assets/images/portfolio/retaining-wall-2.webp"
+    ]
+  },
+  {
     "id": "pool",
     "title": "Pool Tile Installation",
     "location": "Vaughan, ON",
